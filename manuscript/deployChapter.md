@@ -1,31 +1,31 @@
-# Final Steps to Production
+# Заключительные шаги к продакшену
 
-The last chapters will show you how to deploy your application to production. You will use the free hosting service Heroku. On the way to deploy your application, you will learn more about *create-react-app*.
+В последних главах будет показано, как развернуть приложение в продакшене. Вы будете использовать бесплатный хостинг Heroku. По пути развертывания (деплоя) вашего приложения вы узнаете больше о *create-react-app*.
 
-## Eject
+## Команда eject
 
-The following step and knowledge is **not necessary** to deploy your application to production. Still, I want to explain it to you. *create-react-app* comes with one feature to keep it extendable but also to prevent a vendor lock-in. A vendor lock-in usually happens when you buy into a technology but there is no escape hatch of using it in the future. Fortunately in *create-react-app* you have such an escape hatch with "eject".
+Следующий шаг и знание **не требуются** для деплоя приложения на продакшен. Тем не менее, я хочу объяснить про это. *create-react-app* поставляется с одной возможностью, чтобы оставаться расширяемым, но и также предотвращать привязку к поставщику (vendor lock-in). Привязка к поставщику обычно происходит, когда вы покупаете технологию, но без лёгкой замены её использования в будущем. К счастью, в *create-react-app* у есть такая возможность, называемая «eject».
 
-In your *package.json* you will find the scripts to *start*, *test* and *build* your application. The last script is *eject*. You could try it, but there is no way back. **It is a one-way operation. Once you eject, you can't go back!** If you just started to learn React, it makes no sense to leave the convenient environment of *create-react-app*.
+В вашем *package.json* вы найдете скрипты для запуска (*start*), выполнения тестов (*test*) и сборки (*build*) приложения. Но ещё последний скрипт — *eject*. Вы можете попробовать, но обратного пути уже не будет. **Это односторонняя операция. Как только вы выполните eject, пути назад не будет!** Если вы только начали изучать React, нет смысла оставлять удобное окружение, предоставляемое *create-react-app*, т.к. выполнение данной команды раскроет все зависимости и конфигурационные файлы, созданные и используемые утилитой *create-react-app*.
 
-If you would run `npm run eject`, the command would copy all the configuration and dependencies to your *package.json* and a new *config/* folder. You would convert the whole project into a custom setup with tooling that includes Babel and Webpack. After all, you would have full control over all these tools.
+Если вы запустите `npm run eject`, команда скопирует всю конфигурацию в новый каталог *config/*, а зависимости в файл *package.json*. Таким образом вы сконвертируете весь проект в собственную настройку для сборки вашего приложения со всеми используемыми инструментами, включая Babel и Webpack. После этого у вас будет полный контроль над всеми этими инструментами и будете точно знать, что использовалось под капотом *create-react-app* при сборки вашего приложения.
 
-The official documentation says that *create-react-app* is suitable for small to mid size projects. You shouldn't feel obligated to use the "eject" command.
+В официальной документации говорится, что *create-react-app* подходит для малых и средних проектов. Вы считайте, что вы обязаны использовать команду «eject».
 
 ### Exercises:
 
 * read more about [eject](https://github.com/facebookincubator/create-react-app#converting-to-a-custom-setup)
 
-## Deploy your App
+## Деплой приложения
 
-In the end, no application should stay on localhost. You want to go live. Heroku is a platform as a service where you can host your application. They offer a seamless integration with React. To be more specific: It's possible to deploy a *create-react-app* in minutes. It is a zero-configuration deployment which follows the philosophy of *create-react-app*.
+В конце концов, ни одно приложение не должно оставаться на localhost. Ты хотите продолжать жить дальше. Heroku — это платформа как услуга (Platform as a Service, PaaS), где вы можете разместить ваше приложение. Они предлагают безболезненную интеграцию с React. В частности, приложение, созданное с помощью *create-react-app*, можно развернуть за считанные минуты. Это деплой приложения без всякой конфигурации, что следует философии *create-react-app*.
 
-You need to fulfill two requirements before you can deploy your application to Heroku:
+Перед деплоем приложения в Heroku необходимо выполнить два требования:
 
-* install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-command-line)
-* create a [free Heroku account](https://www.heroku.com/)
+* установить [CLI Heroku](https://devcenter.heroku.com/articles/heroku-command-line)
+* создать [бесплатный аккаунт в Heroku](https://www.heroku.com/)
 
-If you have installed Homebrew, you can install the Heroku CLI from command line:
+Если у вас установлен Homebrew, вы можете установить CLI Heroku из командной строки:
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
@@ -33,7 +33,7 @@ brew update
 brew install heroku-toolbelt
 ~~~~~~~~
 
-Now you can use git and Heroku CLI to deploy your application.
+Теперь можно воспользоваться git и CLI Heroku для деплоя вашего приложения.
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
@@ -45,7 +45,7 @@ git push heroku master
 heroku open
 ~~~~~~~~
 
-That's it. I hope your application is up and running now. If you run into problems you can check the following resources:
+Вот и всё. Я надеюсь, что ваше приложение запущено и работает. При возникновении проблем можно ознакомиться со следующими ресурсами:
 
 * [Git and GitHub Essentials](https://www.robinwieruch.de/git-essential-commands/)
 * [Deploying React with Zero Configuration](https://blog.heroku.com/deploying-react-with-zero-configuration)
