@@ -1,12 +1,12 @@
-# Basics in React
+# Основы React
 
-The chapter will guide you through the basics of React. It covers state and interactions in components, because static components are a bit dull, aren't they? Additionally, you will learn about the different ways to declare a component and how to keep components composable and reusable. Be prepared to breathe life into your components.
+В этой главе вы познакомитесь с основами React. Он охватывает состояние и взаимодействие в компонентах, потому что статические компоненты немного скучны, не так ли? Кроме того, вы узнаете о различных способах объявления компонента и как сохранять компоненты компонуемыми и повторно используемыми.
 
-## Internal Component State
+## Состояние внутреннего компонента
 
-Internal component state, also known as local state, allows you to save, modify and delete properties that are stored in your component. The ES6 class component can use a constructor to initialize internal component state later on. The constructor is called only once when the component initializes.
+Внутреннее состояние компонента, также известное как локальное состояние, позволяет сохранять, изменять и удалять свойства, хранящиеся в вашем компоненте. Компонент класса ES6 может использовать конструктор для инициализации внутреннего состояния компонента позже. Конструктор вызывается только один раз, когда компонент инициализируется. 
 
-Let's introduce a class constructor.
+Давайте представим конструктор класса.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -23,11 +23,11 @@ class App extends Component {
 }
 ~~~~~~~~
 
-When having a constructor in your ES6 class component, it is mandatory to call `super();` because the App component is a subclass of `Component`. Hence the `extends Component` in your App component declaration. You will learn more about ES6 class components later on.
+Компонент App - это подкласс `Component`, следовательно, `extends Component` в объявлении компонента приложения. В дальнейшем вы узнаете больше о компонентах класса ES6.
 
-You can call `super(props);` as well. It sets `this.props` in your constructor in case you want to access them in the constructor. Otherwise, when accessing `this.props` in your constructor, they would be `undefined`. You will learn more about the props of a React component later on.
+Обязательно вызывать `super();`: он устанавливает `this.props` в конструкторе на случай, если вы хотите получить доступ к ним в конструкторе. В противном случае при доступе к `this.props` в конструкторе он будут иметь значение `undefined`. В дальнейшем вы узнаете больше о свойствах React.
 
-Now, in your case, the initial state in your component should be the sample list of items.
+Теперь в вашем случае первоначальным состоянием в вашем компоненте будет список элементом с демоданными.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -60,7 +60,7 @@ class App extends Component {
 }
 ~~~~~~~~
 
-The state is bound to the class by using the `this` object. Thus you can access the local state in your whole component. For instance, it can be used in the `render()` method. Previously you have mapped a static list of items in your `render()` method that was defined outside of your component. Now you are about to use the list from your local state in your component.
+Состояние связано с классом с использованием объекта `this`. Таким образом, вы можете получить доступ к локальному состоянию во всём компоненте. Например, его можно использовать в методе `render()`. Ранее мы использовали функцию `map` со статическом списком в методе `render()`, который был определён вне вашего компонента. Теперь мы собираемся использовать этот список из локального состояния компонента.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -89,20 +89,20 @@ class App extends Component {
 }
 ~~~~~~~~
 
-The list is part of the component now. It resides in the internal component state. You could add items, change items or remove items in and from your list. Every time you change your component state, the `render()` method of your component will run again. That's how you can simply change your internal component state and be sure that the component re-renders and displays the correct data that comes from the local state.
+Список теперь является частью компонента. Он находится во внутреннем состоянии компонента. Вы можете добавлять, изменять или удалять элементы в вашем списке. Каждый раз, когда изменяете состояние вашего компонента, метод `render()` вашего компонента будет снова запускаться. Вот как вы просто можете изменить состояние и убедиться, что компонент повторно отрисовывается и отображает корректные данные из локального состояния.
 
-But be careful. Don't mutate the state directly. You have to use a method called `setState()` to modify your state. You will get to know it in a following chapter.
+Но будьте осторожны. Не изменяйте состояние напрямую. Вы должны использовать метод `setState()` для изменения состояния. Вы узнаете об этом в следующей главе.
 
-### Exercises:
+### Упражнения:
 
-* experiment with the local state
-  * define more initial state in the constructor
-  * use and access the state in your `render()` method
-* read more about [the ES6 class constructor](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Classes#Constructor)
+* поэкспериментируйте с локальным состоянием
+  * определить больше данных в начальном состоянии в вашем конструкторе
+  * использовать состоянеие в методе `render()`
+* узнать подробнее о [конструкторе класса ES6](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Classes#Constructor)
 
-## ES6 Object Initializer
+## Инициализация объектов ES6
 
-In JavaScript ES6, you can use a shorthand property syntax to initialize your objects more concisely. Imagine the following object initialization:
+В JavaScript ES6 вы можете использовать сокращённый синтаксис для более короткой инициализации свойств ваших объектов. Представьте себе следующую инициализацию объекта:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -113,7 +113,7 @@ const user = {
 };
 ~~~~~~~~
 
-When the property name in your object is the same as your variable name, you can do the following:
+Когда имя свойства в объекте совпадает с именем переменной, вы можете использовать следующее:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -124,7 +124,7 @@ const user = {
 };
 ~~~~~~~~
 
-In your application, you can do the same. The list variable name and the state property name share the same name.
+В вашем приложении вы можете сделать то же самое. Имя переменной списка и имя свойства состояния используют одинаковое имя.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -139,7 +139,7 @@ this.state = {
 };
 ~~~~~~~~
 
-Another neat helper are shorthand method names. In JavaScript ES6, you can initialize methods in an object more concisely.
+Другим классным помощником являются сокращённые имя методов. В JavaScript ES6 вы можете определять методы в объекте в более лаконичной форме.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -158,7 +158,7 @@ const userService = {
 };
 ~~~~~~~~
 
-Last but not least, you are allowed to use computed property names in JavaScript ES6.
+И последнее, но не менее важное: вы можете использовать вычисляемые имена свойств в JavaScript ES6.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -174,18 +174,18 @@ const user = {
 };
 ~~~~~~~~
 
-Perhaps computed property names make no sense for you yet. Why should you need them? In a later chapter, you will come to a point where you can use them to allocate values by key in a dynamic way in an object. It's neat to generate lookup tables in JavaScript.
+Возможно, вычисляемые имена свойства пока не имеют для вас никакого смысла. Зачем они нужны? В следующей главе вы перейдете к этапу, где вы можете использовать их для перераспределения значений по ключу динамическим способом в объекте. Это здорово для генерации таблиц поиска в JavaScript.
 
 ### Exercises:
 
-* experiment with ES6 object initializer
-* read more about [ES6 object initializer](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Object_initializer)
+* поэкспериментируйте с инициализацией объекта в ES6
+* узнать подробнее о [инициализации объектов в ES6](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Object_initializer)
 
-## Unidirectional Data Flow
+## Однонаправленный поток данных
 
-Now you have some internal state in your App component. However, you have not manipulated the local state yet. The state is static and thus is the component. A good way to experience state manipulation is to have some component interaction.
+Теперь у нас есть внутреннее состояние в компоненте App. Однако вы ещё не манипулировали локальным состоянием. Состояние является статическим, и следовательно, является компонентом. Хороший способ познакомиться с манипуляциями с состоянием заключается во взаимодействии компонентов.
 
-Let's add a button for each item in the displayed list. The button says "Dismiss" and is going to remove the item from the list. It could be useful eventually when you only want to keep a list of unread items and dismiss the items that you are not interested in.
+Давайте добавить кнопку добавления для каждого элемента в отображаемом списке. Кнопка назовём "Отбросить" и будет удалять элемент из списка. Это может быть полезно в конце концов, когда вы иметь список непрочитанных элементов и отклонить те элементы, которые вас не интересуют. 
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -210,7 +210,7 @@ class App extends Component {
                 onClick={() => this.onDismiss(item.objectID)}
                 type="button"
               >
-                Dismiss
+                Отбросить
               </button>
             </span>
 # leanpub-end-insert
@@ -222,11 +222,11 @@ class App extends Component {
 }
 ~~~~~~~~
 
-The `onDismiss()` class method is not defined yet. We will do it in a moment, but for now the focus should be on the `onClick` handler of the button element. As you can see, the `onDismiss()` method in the `onClick` handler is enclosed by another function. It is an arrow function. That way, you can sneak in the `objectID` property of the `item` object to identify the item that will be dismissed. An alternative way would be to define the function outside of the `onClick` handler and only pass the defined function to the handler. A later chapter will explain the topic of handlers in elements in more detail.
+Метод класса `onDismiss()` ещё не определён. Мы сделаем это чуть позже, а пока сфокусируемся на обработчике `onClick` элемента кнопки. Как вы можете видеть, метод `onDismiss()` в обработчике `onClick` заключён в другую функцию. Это стрелочная функция. Таким образом, вам доступно свойство `objectID` объекта `item` для идентификации элемента, который будет отброшен. Альтернативным способом было бы определить функцию вне обработчика `onClick` и передавать только определённую функцию обработчику. В более поздней главе будет дано подробное объяснение теме обработчиков элементов. 
 
-Did you notice the multilines for the button element? Note that elements with multiple attributes get messy as one line at some point. That's why the button element is used with multilines and indentations to keep it readable. But it is not mandatory. It is only a code style recommendation that I highly recommend.
+Вы заметили использование несколько строк для элемента кнопки? Обратите внимание: элементы с несколькими атрибутами в один момент становятся сложными для чтения, если записывать их в одну строку. Вот почему элемент кнопки записан в несколько строк и с добавлением отступов для сохранения читаемости кода. Но это не обязательно. Это только рекомендация по стилю кода, которую я настоятельно рекомендую.
 
-Now you have to implement the `onDismiss()` functionality. It takes an id to identify the item to dismiss. The function is bound to the class and thus becomes a class method. That's why you access it with `this.onDismiss()` and not `onDismiss()`. The `this` object is your class instance. In order to define the `onDismiss()` as class method, you have to bind it in the constructor. Bindings will be explained in another chapter later on.
+Теперь нам нужно реализовать функциональность метода `onDismiss()`. Он принимает идентификатор для идентификации элемента для отклонения элемента. Функция привязывается к классу и, таким образом, становится методом класса. Вот почему вы получаете доступ к ней с помощью `this.onDismiss()`, а не `onDismiss()`. `this` - ваш экземпляр класса. Чтобы определить метод класс `onDismiss()`, вы должны связать его в конструкторе. Привязки (bindings) будут объяснены в другой главе позже.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -250,7 +250,7 @@ class App extends Component {
 }
 ~~~~~~~~
 
-In the next step, you have to define its functionality, the business logic, in your class. Class methods can be defined the following way.
+Следующим шагом нам нужно определить функциональность, бизнес-логику, в вашем классе. Методы класса определяются следующим образом.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -278,9 +278,9 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Now you are able to define what happens inside of the class method. Basically you want to remove the item identified by the id from the list and store an updated list to your local state. Afterward, the updated list will be used in the re-running `render()` method to display it. The removed item shouldn't appear anymore.
+Теперь вы определить, что происходит внутри метода класса. В основном вы хотите удалить элемент с определённым идентификатором из списка и сохранить обновлённый список в вашем локальном состоянии. После этого обновлённый список запустит повторный вызов метода `render()` для его отображения. Удалённый элемент больше не должен появляться. 
 
-You can remove an item from a list by using the JavaScript built-in filter functionality. The filter function takes a function as input. The function has access to each value in the list, because it iterates over the list. That way, you can evaluate each item in the list based on a filter condition. If the evaluation for an item is true, the item stays in the list. Otherwise it will be filtered from the list. Additionally, it is good to know that the function returns a new list and doesn't mutate the old list. It supports the convention in React of having immutable data structures.
+Вы можете удалить элемент из списка с помощью встроенной функциональности фильтрации в JavaScript. Функция фильтра принимает функция в качестве входного параметра. Эта функция имеет доступ к каждому значению в списке, потому что выполняет итерацию по списку. Таким образом, вы можете проверить каждый элемент списка, основываясь на условии фильтрации. Если проверка вычисляется как true, то элемент остаётся в списке. В противном случае он будет исключён из результата. Кроме того, хорошо знать, что эта функция возвращает новый список и не изменяет старый список. Она поддерживает соглашение React о наличии неизменяемых структур данных.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -293,7 +293,7 @@ onDismiss(id) {
 }
 ~~~~~~~~
 
-In the next step, you can extract the function and pass it to the filter function.
+На следующем шаге вы можете извлечь функцию и передать её функции фильтрации.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -308,7 +308,7 @@ onDismiss(id) {
 }
 ~~~~~~~~
 
-In addition, you can do it more concisely by using a JavaScript ES6 arrow function again.
+Кроме того, вы можете сделать это более кратко, используя снова стрелочные функции из JavaScript ES6.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -320,7 +320,7 @@ onDismiss(id) {
 }
 ~~~~~~~~
 
-You could even inline it again, like you did in the `onClick` handler of the button, but it might get less readable.
+Вы могли бы даже снова встроить выражение, по аналогии с обработчиком `onClick` кнопки, но это может стать менее читабельно.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -331,7 +331,7 @@ onDismiss(id) {
 }
 ~~~~~~~~
 
-The list removes the clicked item now. However the state isn't updated yet. Therefore you can finally use the `setState()` class method to update the list in the internal component state.
+Сейчас нажатие на кнопку удаляет содержащий её элемент. Однако состояние ещё не обновлено. Поэтому вы можете, наконец, использовать метод класс `setState()` для обновления списка во внутреннем состоянии компонента.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -344,15 +344,15 @@ onDismiss(id) {
 }
 ~~~~~~~~
 
-Now run again your application and try the "Dismiss" button. It should work. What you experience now is the **unidirectional data flow** in React. You trigger an action in your view with `onClick()`, a function or class method modifies the internal component state and the `render()` method of the component runs again to update the view.
+Теперь снова запустите своё приложение и попробуйте нажать на кнопку "Отбросить". Это должно работать. Теперь вы испытали что такое *однонаправленный поток данных* в React. Вы активируете действие в своём представлении с помощью `onClick()`, функция или метод класса изменяет внутреннее состояние компонента и метод `render()` компонента снова вызывается для обновления представления.
 
-### Exercises:
+### Упражнения:
 
-* read more about [the state and lifecycle in React](https://reactjs.org/docs/state-and-lifecycle.html)
+* узнать больше о [состоянии и жизненном цикле в React](https://reactjs.org/docs/state-and-lifecycle.html)
 
-## Bindings
+## Привязки
 
-It is important to learn about bindings in JavaScript classes when using React ES6 class components. In the previous chapter, you have bound your class method `onDismiss()` in the constructor.
+При использовании компонентов класса React ES6 важно изучить привязки в JavaScript-классах. В предыдущей главе вы связали метод класса `onDismiss()` в конструкторе.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -371,7 +371,7 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Why would you do that in the first place? The binding step is necessary, because class methods don't automatically bind `this` to the class instance. Let's demonstrate it with the help of the following ES6 class component.
+Зачем вам это делать в первую очередь? Этап привязки необходим, потому что методы класса автоматически не привязывают `this` к экземпляру класса. Давайте продемонстрируем это с помощью следующего компонента класса ES6.
 
 {title="Code Playground",lang=javascript}
 ~~~~~~~~
@@ -386,16 +386,16 @@ class ExplainBindingsComponent extends Component {
         onClick={this.onClickMe}
         type="button"
       >
-        Click Me
+        Нажми на меня
       </button>
     );
   }
 }
 ~~~~~~~~
 
-The component renders just fine, but when you click the button, you will get `undefined` in your developer console log. That's a main source of bugs when using React, because if you want to access `this.state` in your class method, it cannot be retrieved because `this` is `undefined`. So in order to make `this` accessible in your class methods, you have to bind the class methods to `this`.
+Компонент отрисовывается просто отлично, но при нажатии на кнопку, вы получите `undefined` в консоле разработчика. Это основной источник багов при использовании React, потому что если вы хотите получить доступ к `this.state` в своём методе класса, его нельзя получить, поскольку `this` неопределён. Поэтому для того, чтобы сделать `this` доступным в методах класса, вам нужно привязать их к `this`.
 
-In the following class component the class method is properly bound in the class constructor.
+В следующем классе компонента метод класса правильно привязан в конструкторе класса.
 
 {title="Code Playground",lang=javascript}
 ~~~~~~~~
@@ -418,16 +418,16 @@ class ExplainBindingsComponent extends Component {
         onClick={this.onClickMe}
         type="button"
       >
-        Click Me
+        Нажми на меня
       </button>
     );
   }
 }
 ~~~~~~~~
 
-When trying the button again, the `this` object, to be more specific the class instance, should be defined and you would be able to access `this.state`, or as you will later learn `this.props`, now.
+Если попробовать нажать на кнопку ещё один раз, объект `this` должен быть определён конкретным экземпляром класса, и теперь вы сможете получить доступ к `this.state` или `this.props`, о котором вы узнаете позже.
 
-The class method binding can happen somewhere else too. For instance, it can happen in the `render()` class method.
+Привязка метода класса может также произойти в другом месте. Например, это может быть в методе `render()`.
 
 {title="Code Playground",lang=javascript}
 ~~~~~~~~
@@ -444,16 +444,16 @@ class ExplainBindingsComponent extends Component {
 # leanpub-end-insert
         type="button"
       >
-        Click Me
+        Нажми на меня
       </button>
     );
   }
 }
 ~~~~~~~~
 
-But you should avoid it, because it would bind the class method every time when the `render()` method runs. Basically it runs every time your component updates which leads to performance implications. When binding the class method in the constructor, you bind it only once in the beginning when the component is instantiated. That's a better approach to do it.
+Но вам не следует так так, потому что при таком подходе будет метод будет привязываться каждый раз при выполнении метода `render()`. По сути, он выполняется каждый раз при обновлении компонентов, что приводит к последствиям с производительностью. При привязке метода класса в конструкторе, вы привязываете метод только один раз в самом начале создания компонента. Это лучший подход для привязки.
 
-Another thing people sometimes come up with is defining the business logic of their class methods in the constructor.
+И ещё кое-что, что люди иногда придумывают - определение бизнес-логики методов класса в конструкторе.
 
 {title="Code Playground",lang=javascript}
 ~~~~~~~~
@@ -474,14 +474,14 @@ class ExplainBindingsComponent extends Component {
         onClick={this.onClickMe}
         type="button"
       >
-        Click Me
+        Нажми на меня
       </button>
     );
   }
 }
 ~~~~~~~~
 
-You should avoid it too, because it will clutter your constructor over time. The constructor is only there to instantiate your class with all its properties. That's why the business logic of class methods should be defined outside of the constructor.
+Вы также не должны делать этого, потому что со временем эти методы будут загромождать конструктор. Конструктор должен служить для создания экземпляра класса со всеми его свойствами. Вот именно по этой причине следует определять вне конструкторе.
 
 {title="Code Playground",lang=javascript}
 ~~~~~~~~
@@ -494,18 +494,18 @@ class ExplainBindingsComponent extends Component {
   }
 
   doSomething() {
-    // do something
+    // сделать что-то
   }
 
   doSomethingElse() {
-    // do something else
+    // сделать что-то ещё
   }
 
   ...
 }
 ~~~~~~~~
 
-Last but not least, it is worth to mention that class methods can be autobound automatically without binding them explicitly by using JavaScript ES6 arrow functions.
+И последнее, но немаловажное о чём стоит упомянуть, так это, что методы класса могут автоматически привязываться, без явной привязки с использованием стрелочных функций в JavaScript ES6.
 
 {title="Code Playground",lang=javascript}
 ~~~~~~~~
@@ -520,22 +520,22 @@ class ExplainBindingsComponent extends Component {
         onClick={this.onClickMe}
         type="button"
       >
-        Click Me
+        Нажми на меня
       </button>
     );
   }
 }
 ~~~~~~~~
 
-If the repetitive binding in the constructor annoys you, you can go ahead with this approach instead. The official React documentation sticks to the class method bindings in the constructor. That's why the book will stick to those as well.
+Если повторное связывание в конструкторе вас раздражает, вы можете использовать этот способ. Поскольку официальная документация React придерживается использование привязок метода в конструкторе, эта книга также последует этому. 
 
-### Exercises:
+### Упражнения:
 
-* try the different approaches of bindings and console log the `this` object
+* попробуйте различные подходы к привязкам и выведите на консоль объект `this`, используя console.log.
 
-## Event Handler
+## Обработчик событий
 
-The chapter should give you a deeper understanding of event handlers in elements. In your application, you are using the following button element to dismiss an item from the list.
+Данная глава должна дать вам более глубокое понимание обработчиков событий в элементах. В вашем приложении вы используете следующий элемент кнопки для удаления элемента из списка.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -545,13 +545,13 @@ The chapter should give you a deeper understanding of event handlers in elements
   onClick={() => this.onDismiss(item.objectID)}
   type="button"
 >
-  Dismiss
+  Отбросить
 </button>
 
 ...
 ~~~~~~~~
 
-That's already a complex use case, because you have to pass a value to the class method and thus you have to wrap it into another (arrow) function. So basically, it has to be a function that is passed to the event handler. The following code wouldn't work, because the class method would be executed immediately when you open the application in the browser.
+Это уже сложный вариант использования, потому что вам нужно передать значение методу класса, и, таким образом, вам нужно обернуть её в другую (стрелочную) функцию. Поэтому в основном это должна быть функция, которая передаётся обработчику события. Следующий код не будет работать, поскольку метод выполняется сразу же при открытии приложения в браузере.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -561,15 +561,15 @@ That's already a complex use case, because you have to pass a value to the class
   onClick={this.onDismiss(item.objectID)}
   type="button"
 >
-  Dismiss
+  Отбросить
 </button>
 
 ...
 ~~~~~~~~
 
-When using `onClick={doSomething()}`, the `doSomething()` function would execute immediately when you open the application in your browser. The expression in the handler is evaluated. Since the returned value of the function isn't a function anymore, nothing would happen when you click the button. But when using `onClick={doSomething}` whereas `doSomething` is a function, it would be executed when clicking the button. The same rules apply for the `onDismiss()` class method that is used in your application.
+При использовании `onClick={doSomething()}` функция `doSomething()` будет выполняться немедленно при открытии приложения в вашем браузере. Выполняется выражение в обработчике и поскольку возвращаемое значение больше не будет функцией, ничего не произойдёт при повторном нажатии кнопки в дальнейшем. Но при использовании `onClick={doSomething}` поскольку `doSomething` - функция, она будет выполняться только при нажатии на кнопку. Те же правила применяются к используемому в вашем приложении методу `onDismiss()`.
 
-However, using `onClick={this.onDismiss}` wouldn't suffice, because somehow the `item.objectID` property needs to be passed to the class method to identify the item that is going to be dismissed. That's why it can be wrapped into another function to sneak in the property. The concept is called higher-order functions in JavaScript and will be explained briefly later on.
+Однако, `onClick={this.onDismiss}` использование недостаточно, потому что каким-то образом свойство `item.objectID`  нужно передать методу класса для идентификации элемента, который будет отброшен. Вот почему она может быть завернута в другую функцию, чтобы проникнуть в свойство. Данная концепция называется функциями высокого порядка в JavaScript и будет объяснена вкратце позже.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -579,13 +579,13 @@ However, using `onClick={this.onDismiss}` wouldn't suffice, because somehow the 
   onClick={() => this.onDismiss(item.objectID)}
   type="button"
 >
-  Dismiss
+  Отбросить
 </button>
 
 ...
 ~~~~~~~~
 
-A workaround would be to define the wrapping function somewhere outside and only pass the defined function to the handler. Since it needs access to the individual item, it has to live in the inside of the map function block.
+Обходным путём было определить функцию-обёртку где-то снаружи и передать только определённую функцию обработчику. Поскольку для этого требуется доступ к отдельному элементу, она должна находится внутри блока функции map.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -617,7 +617,7 @@ class App extends Component {
 # leanpub-end-insert
                   type="button"
                 >
-                  Dismiss
+                  Отбросить
                 </button>
               </span>
             </div>
@@ -630,7 +630,7 @@ class App extends Component {
 }
 ~~~~~~~~
 
-After all, it has to be a function that is passed to the element's handler. As an example, try this code instead:
+В конце концов, эта должна быть функция, которая передаётся обработчику элемента. В качестве примера попробуйте использовать следующий код:
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -650,7 +650,7 @@ class App extends Component {
 # leanpub-end-insert
                 type="button"
               >
-                Dismiss
+                Отбросить
               </button>
             </span>
           </div>
@@ -661,7 +661,7 @@ class App extends Component {
 }
 ~~~~~~~~
 
-It will run when you open the application in the browser but not when you click the button. Whereas the following code would only run when you click the button. It is a function that is executed when you trigger the handler.
+Она будет выполнена при открытии приложения в браузере, но не при нажатии кнопки. В то время как следующий код запускается только при нажатии кнопки. Эта функция выполняется при запуске обработчика.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -675,13 +675,13 @@ It will run when you open the application in the browser but not when you click 
 # leanpub-end-insert
   type="button"
 >
-  Dismiss
+  Отбросить
 </button>
 
 ...
 ~~~~~~~~
 
-In order to keep it concise, you can transform it into a JavaScript ES6 arrow function again. That's what we did with the `onDismiss()` class method too.
+В целях сделать этот обработчик сделать короче, вы можете снова преобразовать его в стрелочную функцию из JavaScript ES6. Это то, что мы сделали с методом `onDismiss()` тоже.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -699,7 +699,7 @@ In order to keep it concise, you can transform it into a JavaScript ES6 arrow fu
 ...
 ~~~~~~~~
 
-Often newcomers to React have difficulties with the topic of using functions in event handlers. That's why I tried to explain it in more detail here. In the end, you should end up with the following code in your button to have a concisely inlined JavaScript ES6 arrow function that has access to the `objectID` property of the `item` object.
+Часто новички в React испытывают трудности с темой использования функций в обработчиках событий. Вот почему я попытался объяснить это более подробно. В итоге вы закончите следующим кодом для вашей кнопки, состоящий из краткой однострочной стрелочной функции JavaScript ES6 и который имеет доступ к свойству `objectID` объекта `item`.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -730,17 +730,17 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Another performance relevant topic, that is often mentioned, are the implications of using arrow functions in event handlers. For instance, the `onClick` handler for the `onDismiss()` method is wrapping the method in another arrow function to be able to pass the item identifier. So every time the `render()` method runs, the handler instantiates the higher-order arrow function. It *can* have an impact on your application performance, but in most cases you will not notice it. Imagine you have a huge table of data with 1000 items and each row or column has such an arrow function in an event handler. Then it is worth to think about the performance implications and therefore you could implement a dedicated Button component to bind the method in the constructor. But before that happens it is premature optimization. It is more valuable to focus on learning React itself.
+Другая довольно актуальная тема, связанная с производительностью - это последствия использования стрелочных функций в обработчиках событий. Например, обработчик `onClick` для метода `onDismiss()` оборачивает метод в другую стрелочную функции для передачи идентификатора элемента. Поэтому каждый раз при выполнении метода `render()`, обработчик создаёт экземпляр стрелочной функции высокого порядка и запускает его. Это *может* влиять на производительность приложения, но в большинстве случаев вы не заметите разницы. Представьте, что у вас есть огромная таблица с 1000 элементами, и у каждой строки или столбца есть такая стрелочная функция как обработчик событий. Здесь стоит думать о последствиях производительности, и поэтому вы можете реализовать отдельный компонент Button для привязки метода в конструкторе. Но прежде чем это произойдёт, но будет преждевременная оптимизация. Целесообразнее сосредоточиться на изучении React.
 
-### Exercises:
+### Упражнения:
 
-* try the different approaches of using functions in the `onClick` handler of your button
+* попробовать различные подходы использования функций в обработчике `onClick` вашей кнопки
 
-## Interactions with Forms and Events
+## Взаимодействия с формой и событиями
 
-Let's add another interaction for the application to experience forms and events in React. The interaction is a search functionality. The input of the search field should be used to temporarily filter your list based on the title property of an item.
+Давайте добавим ещё одно взаимодействие в приложение для получения опыта с формами и событиями в React. Такое взаимодействие - это функциональность поиска. Поле для поиска будет использоваться для временной фильтрации списка на основе свойства title в элементе.
 
-In the first step, you are going to define a form with an input field in your JSX.
+На первом этапе нужно определить форму с полем для ввода в JSX.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -765,9 +765,9 @@ class App extends Component {
 }
 ~~~~~~~~
 
-In the following scenario you will type into the input field and filter the list temporarily by the search term that is used in the input field. To be able to filter the list based on the value of the input field, you need to store the value of the input field in your local state. But how do you access the value? You can use **synthetic events** in React to access the event payload.
+В следующем сценарии вы вводите в поле ввода и список будет временно фильтроваться по искомой строке, введённой в поле ввода. Для возможности фильтровать список на основе значения из поля ввода, нужно сохранить значение в локальном состоянии. Но как получить доступ к значению? Вы можете использовать *синтетические события (synthetic events)* в React для доступа к данным (payload) события.
 
-Let's define a `onChange` handler for the input field.
+Давайте определим обработчик `onChange` для поля ввода.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -793,7 +793,7 @@ class App extends Component {
 }
 ~~~~~~~~
 
-The function is bound to the component and thus a class method again. You have to bind and define the method.
+Функция привязана к компоненту и, следовательно, к методу класса снова. Теперь вам нужно  определить и привязать этот метод.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -822,7 +822,7 @@ class App extends Component {
 }
 ~~~~~~~~
 
-When using a handler in your element, you get access to the synthetic React event in your callback function's signature.
+При использовании обработчика в элементе вы получаете доступ к синтетическому событию React в объявлении колбэка.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -840,7 +840,7 @@ class App extends Component {
 }
 ~~~~~~~~
 
-The event has the value of the input field in its target object. Hence you are able to update the local state with the search term by using `this.setState()` again.
+У события есть значение поле ввода в его объекте target. Следовательно, вы можете обновить локальное состояние с помощью поисковой строки, снова используя `this.setState()`.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -858,7 +858,7 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Additionally, you shouldn't forget to define the initial state for the `searchTerm` property in the constructor. The input field should be empty in the beginning and thus the value should be an empty string.
+Кроме того, вы не должны забыть определить начальное состояние для свойства `searchTerm` в конструкторе. Поле ввода должно быть пустым в начале, и поэтому значение будет пустым.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -882,11 +882,11 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Now you store the input value to your internal component state every time the value in the input field changes.
+Теперь вы сохраняете входное значение во внутреннем состоянии компонента каждый раз при изменении поля ввода.
 
-A brief note about updating the local state in a React component. It would be fair to assume that when updating the `searchTerm` with `this.setState()` the list needs to be passed as well to preserve it. But that isn't the case. React's `this.setState()` is a shallow merge. It preserves the sibling properties in the state object when updating one sole property in it. Thus the list state, even though you have already dismissed an item from it, would stay the same when updating the `searchTerm` property.
+Краткая заметка об обновлении локального состояния в компоненте React. Было бы справедливо предположить, что при обновлении `searchTerm` с использованием `this.setState()`, необходимо также передать список для сохранения его. Но это не совсем так. `this.setState()` в React выполняет поверхностное (неглубокое) слияние объектов (shallow merge). Он сохраняет свойства на одном уровне в объекте состояния при обновлении одного-единственного свойства в нём. Таким образом, состояние списка, даже если вы отбросили элемент из него, останется таким же при обновлении свойства `searchTerm`.
 
-Let's get back to your application. The list isn't filtered yet based on the input field value that is stored in the local state. Basically you have to filter the list temporarily based on the `searchTerm`. You have everything you need to filter it. So how to filter it temporarily now? In your `render()` method, before you map over the list, you can apply a filter on it. The filter would only evaluate if the `searchTerm` matches title property of the item. You have already used the built-in JavaScript filter functionality, so let's do it again. You can sneak in the filter function before the map function, because the filter function returns a new array and thus the map function can be used on it in such a convenient way.
+Давайте вернёмся к нашему приложению. Список ещё не фильтрируется на основе значения из поля ввода, хранящегося в локальном состоянии. По сути вам нужно временно фильтровать список, основываясь на `searchTerm`. У вас есть всё необходимое для этого. Итак, а как временно фильтровать список? В методе `render()` перед использованием map на списке можно применить к нему фильтр. Фильтрация будет проходить только в случае, если `searchTerm` соответствует свойству title элемента. Ранее вы использовали встроенную функциональность фильтра в JavaScript, поэтому давайте применим её ещё раз. Можно использовать функцию фильтрации перед функцией map, потому что она возвращает новый массив, и тем самым функция map может использоваться таким удобным способом.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -914,18 +914,18 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Let's approach the filter function in a different way this time. We want to define the filter argument, the function that is passed to the filter function, outside of the ES6 class component. There we don't have access to the state of the component and thus we have no access to the `searchTerm` property to evaluate the filter condition. We have to pass the `searchTerm` to the filter function and have to return a new function to evaluate the condition. That's called a higher-order function.
+Давайте на этот раз применим функцию фильтрации по-другому. Мы хотим определить вне класса компонента аргумент фильтра и функцию, которая передаётся функции фильтрации. Вне компонента у нас нет доступа к его состоянию и поэтому у нас нет доступа к свойству `searchTerm` для выполнения условия фильтра. Мы должны передать `searchTerm` в функцию фильтра и должны вернуть новую функцию для проверки условия. Это называется функцией высокого порядка (higher-order function).
 
-Normally I wouldn't mention higher-order functions, but in a React book it makes total sense. It makes sense to know about higher-order functions, because React deals with a concept called higher-order components. You will get to know the concept later in the book. Now again, let's focus on the filter functionality.
+Обычно я бы не упомянул функции высокого порядка, но в книге про React в определённо есть смысл, потому что React связан с концепцией, называемой компонентами высокого порядка. Вы познакомитесь с этой концепцией позже в этой книге. А пока давайте сосредоточимся на функциональности фильтра.
 
-First, you have to define the higher-order function outside of your App component.
+Во-первых, определем функцию высокого порядка вне компонента App.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
 # leanpub-start-insert
 function isSearched(searchTerm) {
   return function(item) {
-    // some condition which returns true or false
+    // условие, возвращающее true или false
   }
 }
 # leanpub-end-insert
@@ -937,7 +937,9 @@ class App extends Component {
 }
 ~~~~~~~~
 
-The function takes the `searchTerm` and returns another function, because after all the filter function takes a function as its input. The returned function has access to the item object because it is the function that is passed to the filter function. In addition, the returned function will be used to filter the list based on the condition defined in the function. Let's define the condition.
+
+
+Функция принимает `searchTerm` и возвращает другую функцию, потому что в конце концов функция фильтрации принимает функцию в качестве входного параметра. Возвращаемая функция имеет доступ к объекту элемента, так как она была передана функции фильтрации is passed. Кроме того, возвращаемая функция будет использоваться для фильтрация списка на основе условия, определённого в функции. Давайте теперь определим это условие.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -956,9 +958,9 @@ class App extends Component {
 }
 ~~~~~~~~
 
-The condition says that you match the incoming `searchTerm` pattern with the title property of the item from your list. You can do that with the built-in `includes` JavaScript functionality. Only when the pattern matches, you return true and the item stays in the list. When the pattern doesn't match the item is removed from the list. But be careful with pattern matching: You shouldn't forget to lower case both strings. Otherwise there will be mismatches between a search term 'redux' and an item title 'Redux'. Since we are working on a immutable list and return a new list by using the filter function, the original list in the local state isn't modified at all.
+В условии утверждается, что сопоставляется входящий шаблон (строка) `searchTerm` со свойством title элемента списка. Вы можете сделать это с помощью встроенной функции JavaScript `includes`. Только когда шаблон совпадает, возвращается true и элемент остаётся в списке, иначе элемент удаляется из списка. Но будьте осторожны с сопоставлением по шаблону: нужно помнить об нижнем регистре обоих строк. В противном случае между строкой поиска 'redux' и элементом с заголовком 'Redux' будет несоответствие. Поскольку мы работаем над неизменяемым списком и возвращаем новый список с помощью фильтрации, исходный список в локальном состоянии не изменяется вовсе.
 
-One thing is left to mention: We cheated a bit by using the built-in includes JavaScript functionality. It is already an ES6 feature. How would that look like in JavaScript ES5? You would use the `indexOf()` function to get the index of the item in the list. When the item is in the list, `indexOf()` will return its index in the array.
+Осталось только упомянуть: мы немного сжульничали, использовав встроенную функцию JavaScript includes. Это функция из ES6. Каа она будет выглядеть в JavaScript ES5? Вы можете использовать функцию `indexOf()` для получения индекса элемента в списке. Когда элемент находится в списке, `indexOf()` вернет индексе в массиве.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -969,7 +971,7 @@ string.indexOf(pattern) !== -1
 string.includes(pattern)
 ~~~~~~~~
 
-Another neat refactoring can be done with an ES6 arrow function again. It makes the function more concise:
+Ещё один элегантный рефакторинг можно сделать с помощью стрелочных функций ES6. Это сделает функцию более лаконичной:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -985,9 +987,9 @@ const isSearched = searchTerm => item =>
   item.title.toLowerCase().includes(searchTerm.toLowerCase());
 ~~~~~~~~
 
-One could argue which function is more readable. Personally I prefer the second one. The React ecosystem uses a lot of functional programming concepts. It happens often that you will use a function which returns a function (higher-order functions). In JavaScript ES6, you can express these more concisely with arrow functions.
+Можно поспорить, какая из функций более удобочитаемая. Лично я предпочитаю второй. В экосистеме React используются множество концепций функционального программирования. Часто бывает, что вы будете использовать функцию, возвращающую другую функцию (функции высокого порядка). В JavaScript ES6 вы можете написать это более кратко с помощью стрелочных функций.
 
-Last but not least, you have to use the defined `isSearched()` function to filter your list. You pass it the `searchTerm` property from your local state, it returns the filter input function, and filters your list based on the filter condition. Afterward it maps over the filtered list to display an element for each list item.
+И последнее, но не менее важное: вам нужно использовать определённую функцию `isSearched()` для фильтрации списка. Вы передаёте ей свойство `searchTerm` из локального состояния, она возвращает функцию фильтрации входных данных и фильтрует список на основе условия фильтра. Позже с помощью функции map, применённой на отфильтрованном списке для отображения элемента для каждого элемента списка.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1015,16 +1017,16 @@ class App extends Component {
 }
 ~~~~~~~~
 
-The search functionality should work now. Try it yourself in the browser.
+Теперь функциональность поиска должна работать. Попробуйте сами в браузере.
 
-### Exercises:
+### Упражнения:
 
-* read more about [React events](https://reactjs.org/docs/handling-events.html)
-* read more about [higher-order functions](https://en.wikipedia.org/wiki/Higher-order_function)
+* узнать больше о [событиях React](https://reactjs.org/docs/handling-events.html)
+* узнать подробнее об [функциях высшего порядка](https://ru.wikipedia.org/wiki/%D0%A4%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F_%D0%B2%D1%8B%D1%81%D1%88%D0%B5%D0%B3%D0%BE_%D0%BF%D0%BE%D1%80%D1%8F%D0%B4%D0%BA%D0%B0)
 
-## ES6 Destructuring
+## Деструктуризация ES6
 
-There is a way in JavaScript ES6 for an easier access to properties in objects and arrays. It's called destructuring. Compare the following snippet in JavaScript ES5 and ES6.
+В JavaScript ES6 есть способ упросить доступ к свойствам объектов и массивов. Это называется деструктуризацией (destructuring). Сравните следующий фрагмент код в JavaScript ES5 и ES6.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -1047,7 +1049,7 @@ console.log(firstname + ' ' + lastname);
 // output: Robin Wieruch
 ~~~~~~~~
 
-While you have to add an extra line each time you want to access an object property in JavaScript ES5, you can do it in one line in JavaScript ES6. A best practice for readability is to use multilines when you destructure an object into multiple properties.
+Когда как в JavaScript ES5 каждый раз требуется новая строка для получения значения свойства объекта, в JavaScript ES6 это можно сделать в одну строку. Лучшей практикой для читабельности - использование несколько строк при деструктуризации нескольких свойств объекта. 
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -1057,7 +1059,7 @@ const {
 } = user;
 ~~~~~~~~
 
-The same goes for arrays. You can destructure them too. Again, multilines will keep your code scannable and readable.
+То же самое относится и к массивами: их то же можно деструктуризировать. Опять же, использование нескольких строк будут держать код читабельным и лёгким для понимания.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -1072,7 +1074,7 @@ console.log(userOne, userTwo, userThree);
 // output: Robin Andrew Dan
 ~~~~~~~~
 
-Perhaps you have noticed that the local state object in the App component can get destructured the same way. You can shorten the filter and map line of code.
+Возможно, вы заметили, что таким же образом к объекту локального состояния компонента App можно применить деструктуризацию. Это сократить длину строки кода в функциях filter и map. 
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1092,7 +1094,7 @@ Perhaps you have noticed that the local state object in the App component can ge
     );
 ~~~~~~~~
 
-You can do it the ES5 or ES6 way:
+Далее показаны различия способов использования способ ES5 или ES6 на одном и том же примере:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -1104,21 +1106,21 @@ var list = this.state.list;
 const { searchTerm, list } = this.state;
 ~~~~~~~~
 
-But since the book uses JavaScript ES6 most of the time, you should stick to it.
+Данная книга будет использовать в основном JavaScript ES6, поэтому вам стоит придерживаться этого выбора.  
 
-### Exercises:
+### Упражнения:
 
-* read more about [ES6 destructuring](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+* прочитайте больше о [деструктуризации в ES6](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
 
-## Controlled Components
+## Контролируемые компоненты
 
-You already learned about the unidirectional data flow in React. The same law applies for the input field, which updates the local state with the `searchTerm` in order to filter the list. When the state changes, the `render()` method runs again and uses the recent `searchTerm` from the local state to apply the filter condition.
+Вы уже узнали об однонаправленном потоке данных в React. Этот же принцип применяется к полю ввода, которое обновляет локальное состояние в зависимости от значения `searchTerm` для фильтрации списка. При изменении состояния, метод `render()` выполняется снова и используется последнее значение `searchTerm` из локального состояния для проверки условия фильтра.
 
-But didn't we forget something in the input element? A HTML input tag comes with a `value` attribute. The value attribute usually has the value that is shown in the input field. In this case it would be the `searchTerm` property. However, it seems like we don't need that in React.
+Но разве мы не забыли что-то в элементе поля ввода? У тега HTML input есть атрибут `value`. Значение атрибута, как правило, эквивалентно значению, которое отображается в самом поле ввода. В нашем случае этим значением будет `searchTerm`. Однако, похоже, нам не требуется подобное в React.
 
-That's wrong. Form elements such as `<input>`, `<textarea>` and `<select>` hold their own state in plain HTML. They modify the value internally once someone changes it from the outside. In React that's called an **uncontrolled component**, because it handles its own state. In React, you should make sure to make those elements **controlled components**.
+Это неправильно. Элементы формы, такие как `<input>`, `<textarea>` и `<select>` хранят своё состояние в обычном HTML. Они изменяют значение внутри, когда кто-то изменяет его извне. В React это называется **неконтролируемым компонентом (uncontrolled component)**, потому что он (сам) обрабатывает своё собственное состояние. В React вы должны убедиться, что эти элементы  **контролируются компонентами**.
 
-How should you do that? You only have to set the value attribute of the input field. The value is already saved in the `searchTerm` state property. So why not access it from there?
+Как мы можем этого добиться? Нужно только установить атрибут со значением поля ввода. Значение уже сохранено в свойстве локального состояния `searchTerm`. Так почему бы нам не использовать его?
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1146,20 +1148,18 @@ class App extends Component {
 }
 ~~~~~~~~
 
-That's it. The unidirectional data flow loop for the input field is self-contained now. The internal component state is the single source of truth for the input field.
+Вот и всё. Теперь цикл однонаправленный поток данных loop для поля ввода замкнутый. Внутреннее состояние компонента - единственный источник правды для поля ввода.
 
-The whole internal state management and unidirectional data flow might be new to you. But once you are used to it, it will be your natural flow to implement things in React. In general, React brought a novel pattern with the unidirectional data flow to the world of single page applications. It is adopted by several frameworks and libraries by now.
+Всё это управление внутренним состоянием и однонаправленным источником данным, возможно, в новинку для вас. Но как только вы привыкнете к этому всему, он станет естественный потоком данных при реализации приложений React. В целом, React принёс новый шаблон с однонаправленным потоком данных в мир одностраничных приложений. В настоящее время эта концепция принята несколькими фреймворками и библиотеками.
 
-### Exercises:
+### Упражнения:
 
-* read more about [React forms](https://reactjs.org/docs/forms.html)
-* learn more about [different controlled components](https://github.com/the-road-to-learn-react/react-controlled-components-examples)
+* узнайте больше о [формах в React](https://reactjs.org/docs/forms.html)
+* изучите подробнее [различные управляемые компоненты](https://github.com/the-road-to-learn-react/react-controlled-components-examples)
 
-## Split Up Components
+## Разделение компонентов
 
-You have one large App component now. It keeps growing and can become confusing eventually. You can start to split it up into chunks of smaller components.
-
-Let's start to use a component for the search input and a component for the list of items.
+Сейчас у вас один огромный компонентов App, который продолжает расти и в один момент в нём можно запутаться. Давайте начнём разделять его на набольшие компоненты.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1181,7 +1181,7 @@ class App extends Component {
 }
 ~~~~~~~~
 
-You can pass those components properties which they can use themselves. In the case of the App component it needs to pass the properties managed in the local state and its class methods.
+Вы можете передавать только те свойства компонентов, которые они сами используют. В случае компонента App, ему необходимо передать свойства, управляемые локальным состоянием и его методами класса. 
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1210,9 +1210,9 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Now you can define the components next to your App component. Those components will be ES6 class components as well. They render the same elements like before.
+Теперь вы можете определить компоненты рядом с вашим компонентом App. Эти компоненты также будет классовыми компонентами. Они отрисовывают те же самые элементы, как и раньше.
 
-The first one is the Search component.
+Первый - компонент Search.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1238,7 +1238,7 @@ class Search extends Component {
 # leanpub-end-insert
 ~~~~~~~~
 
-The second one is the Table component.
+Второй представляет компонент Table.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1275,18 +1275,18 @@ class Table extends Component {
 # leanpub-end-insert
 ~~~~~~~~
 
-Now you have three ES6 class components. Perhaps you have noticed the `props` object that is accessible via the class instance by using `this`. The props, short form for properties, have all the values you have passed to the components when you used them in your App component. That way, components can pass properties down the component tree.
+Итак, теперь у вас есть класса компонента. Возможно, вы обратили внимание на объект `props`, доступный через экземпляр класса, используя `this`. `props` - это сокращённая форма для свойств, они хранят все значения, которые вы передали компонентам, когда вы использовали их в компоненте App. Таким образом, компоненты могут передавать свойства через дерево компонентов.
 
-By extracting those components from the App component, you would be able to reuse them somewhere else. Since components get their values by using the props object, you can pass every time different props to your components when you use them somewhere else. These components became reusable.
+Путём выделения этих компонентов из компонента App, они стали повторно используемыми где-нибудь ещё. Поскольку эти компоненты получают свои значения с помощью объекта props, вы можете передавать различные свойства компонентам каждый раз, когда используете их где-то ещё.
 
-### Exercises:
+### Упражнения:
 
-* figure out further components that you could split up as you have done with the Search and Table components
-  * but don't do it now, otherwise you will run into conflicts in the next chapters
+* разобрать глубже компоненты, которые вы могли бы разделить, как это было сделано с компонентами Search и Table 
+  * но не делайте это сейчас, иначе вы столкнётесь с конфликтами в следующих главах
 
 ## Composable Components
 
-There is one more little property which is accessible in the props object: the `children` prop. You can use it to pass elements to your components from above, which are unknown to the component itself, but make it possible to compose components into each other. Let's see how this looks like when you only pass a text (string) as a child to the Search component.
+Существует ещё одно небольшое свойство, доступное в объекте props - `children`. Вы можете использовать его для передачи элементов вашим компонентам сверху, которые неизвестны самому компоненту, что позволяет компоновать компоненты друг с другом. Давайте посмотрим, как это выглядит при передачи строки текста в качестве дочернего элемента в компонент Search.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1303,7 +1303,7 @@ class App extends Component {
           value={searchTerm}
           onChange={this.onSearchChange}
         >
-          Search
+          Поиск
         </Search>
 # leanpub-end-insert
         <Table
@@ -1317,7 +1317,7 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Now the Search component can destructure the children property from the props object. Then it can specify where the children should be displayed.
+Теперь компонент Search может деструктурировать свойство children из объекта props, а затем указать он должен отображаться. 
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1341,17 +1341,17 @@ class Search extends Component {
 }
 ~~~~~~~~
 
-The "Search" text should be visible next to your input field now. When you use the Search component somewhere else, you can choose a different text if you like. After all, it is not only text that you can pass as children. You can pass an element and element trees (which can be encapsulated by components again) as children. The children property makes it possible to weave components into each other.
+Теперь текст "Поиск" будет показываться рядом с полем ввода. И в случае, если вы используете компонент Search где-нибудь ещё, вы можете задать другой текст, если хотите. В конце концов, необязательно в качестве children должен быть простой текст. Вы можете передать элемент или дерево элементов (которые снова могут быть инкапсулированы компонентами) в свойство children. Свойство children позволяет также позволяет вкладывать (weave) компоненты друг в друга.
 
-### Exercises:
+### Упражнения:
 
 * read more about [the composition model of React](https://reactjs.org/docs/composition-vs-inheritance.html)
 
-## Reusable Components
+## Повторно используемые компоненты
 
-Reusable and composable components empower you to come up with capable component hierarchies. They are the foundation of React's view layer. The last chapters mentioned the term reusability. You can reuse the Table and Search components by now. Even the App component is reusable, because you could instantiate it somewhere else again.
+Переиспользуемые and составные компоненты предоставляют возможность создавать иерархии компонентов. Они - основа слоя представления в React. В последних главах говорилось о повторном использовании. Теперь вы можете повторно использовать компоненты Table и Search. Даже компонент App можно повторно использовать, создав экземпяляр его где-нибудь в другом месте.
 
-Let's define one more reusable component, a Button component, which gets reused more often eventually.
+Давайте определим ещё один повторно используемый компонент, Button, который, в конечнем итоге, будет повторно переиспользоваться почаще.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1376,9 +1376,10 @@ class Button extends Component {
 }
 ~~~~~~~~
 
-It might seem redundant to declare such a component. You will use a `Button` component instead of a `button` element. It only spares the `type="button"`. Except for the type attribute you have to define everything else when you want to use the Button component. But you have to think about the long term investment here. Imagine you have several buttons in your application, but want to change an attribute, style or behavior for the button. Without the component you would have to refactor every button. Instead the Button component ensures to have only one single source of truth. One Button to refactor all buttons at once. One Button to rule them all.
+Может показаться лишним объявлять подобный компонент. Вы будете использовать компонент `Button` вместо элемента `button`. Он сохранит только `type="button"`. За исключением типа атрибута, вам потребуется определить всё остальное при использовании компонента Button. Но вы должны подумать о долгосрочных инвестициях здесь. Представьте, что у вас есть несколько кнопок в вашем приложении, но вам нужно изменить изменить атрибут, стиль или поведение для кнопки. Без компонента вам придётся рефакторить каждую кнопку. Вместо этого компонент Button гарантирует наличие только одного источника истины. Один компонент Button для рефакторинга всех кнопок одновременно. Один компонент Button - это как одна кнопка для управлениям всем необходимым ей.
 
-Since you already have a button element, you can use the Button component instead. It omits the type attribute, because the Button component specifies it.
+Поскольку у вас уже есть элемент кнопки, вы можете использовать компонент Button вместо него. При использовании этого компонента нам не нужно задавать тип атрибута, поскольку в компоненте уже он указан.
+
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1410,7 +1411,7 @@ class Table extends Component {
 }
 ~~~~~~~~
 
-The Button component expects a `className` property in the props. The `className` attribute is another React derivate for the HTML attribute class. But we didn't pass any `className` when the Button was used. In the code it should be more explicit in the Button component that the `className` is optional. Therefore, you can assign a default value in your object destructuring.
+Компонент Button ожидает свойство `className` в props. Атрибут `className` представляет соответствующий HTML атрибут для класса. Но мы не передали имя класса в `className` при использовании компонента Button. В коде компонента Button должно быть явно показано, что `className` необязательный, поэтому при деструктуризации указывается пустая строка в качестве значения по умолчанию.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1429,21 +1430,22 @@ class Button extends Component {
 }
 ~~~~~~~~
 
-Now, whenever there is no `className` property specified when using the Button component, the value will be an empty string instead of `undefined`.
+Теперь каждый раз, когда нет свойства `className` при использовании компонента Button, значение будет пустой строкой вместо `undefined`.
 
-## Component Declarations
+## Объявления компонентов
 
-By now you have four ES6 class components. But you can do better. Let me introduce functional stateless components as alternative for ES6 class components. Before you will refactor your components, let's introduce the different types of components in React.
+В настоящему времени у вас есть четыре класса компонентов. Но их можно объявить по-другому. Позвольте мне представить функциональные компоненты без состояния (functional stateless components) в качестве альтернативы классовым компонентам. Прежде чем заняться рефакторингом ваших компонетов, давайте представим различные типы компонентов в React. 
 
-* **Functional Stateless Components:** These components are functions which get an input and return an output. The input are the props. The output is a component instance thus plain JSX. So far it is quite similar to an ES6 class component. However, functional stateless components are functions (functional) and they have no local state (stateless). You cannot access or update the state with `this.state` or `this.setState()` because there is no `this` object. Additionally, they have no lifecycle methods. You didn't learn about lifecycle methods yet, but you already used two: `constructor()` and `render()`. Whereas the constructor runs only once in the lifetime of a component, the `render()` class method runs once in the beginning and every time the component updates. Keep in mind that functional stateless components have no lifecycle methods, when you arrive at the lifecycle methods chapter later on.
 
-* **ES6 Class Components:** You already used this type of component declaration in your four components. In the class definition, they extend from the React component. The `extend` hooks all the lifecycle methods, available in the React component API, to the component. That way you were able to use the `render()` class method. Additionally, you can store and manipulate state in ES6 class components by using `this.state` and `this.setState()`.
+* **Функциональные компоненты без состояния (Functional Stateless Components):** Это компоненты, представленные в виде функций, которые получают входные данные и возвращают вывод. Входные данные - это props, а вывод - экземпляр компонента, таким образом, простой JSX. So far it is quite similar to an ES6 class component. Однако, функциональные компоненты без состояния - это функции (функциональный), у которых нет локального состояния (поэтому и в названии - без состояния). У вас нет доступа и вы не можете обновить состояние, используя  `this.state` или `this.setState()`, соответственно, поскольку нет объекта `this`. Кроме того, у них методов жизненного цикла. Мы ещё не рассматривали методы жизненного цикла, но вы уже использовали два из них: `constructor()` и `render()`. Когда как конструктор выполняется только один раз в течение жизни компонента, метод класса `render()` запускается один раз в начале и каждый раз при обновлениях компонента. Имейте в виду, что функциональные компоненты без состояния не имеют методов жизненного цикла, когда в последующих главах о них будет рассказано.
 
-* **React.createClass:** The component declaration was used in older versions of React and still in JavaScript ES5 React applications. But [Facebook declared it as deprecated](https://facebook.github.io/react/blog/2015/03/10/react-v0.13.html) in favor of JavaScript ES6. They even added a [deprecation warning in version 15.5](https://facebook.github.io/react/blog/2017/04/07/react-v15.5.0.html). You will not use it in the book.
+* **Классовые компоненты или классы компонентов (ES6 Class Components):** Вы уже использовали этот тип объявления в ваших компонентов. В определении класса они наследуются (расширяются, extend) от компонента React. `extend` привязывает все методы жизненного цикла, доступные API компонента React, компоненту. Именно поэтому вы можете использовать метод `render()`. Кроме того, вы можете хранить и управлять состоянием в классах компонентов через использование `this.state` и `this.setState()`.
 
-So basically there are only two component declarations left. But when to use functional stateless components over ES6 class components? A rule of thumb is to use functional stateless components when you don't need local state or component lifecycle methods. Usually you start to implement your components as functional stateless components. Once you need access to the state or lifecycle methods, you have to refactor it to an ES6 class component. In our application, we started the other way around for the sake of learning React.
+* **React.createClass:** Подобное объявление компонета использовалось в старых версиях React и всё ещё в React-приложениях, использующих JavaScript ES5. Но [Facebook объявил их устаревшими](https://facebook.github.io/react/blog/2015/03/10/react-v0.13.html) в пользу JavaScript ES6. Они даже добавили [соответствующее предупреждение в версии 15.5](https://facebook.github.io/react/blog/2017/04/07/react-v15.5.0.html). Вы не будете использовать их в этой книге.
 
-Let's get back to your application. The App component uses internal state. That's why it has to stay as an ES6 class component. But the other three of your ES6 class components are stateless. They don't need access to `this.state` or `this.setState()`. Even more, they have no lifecycle methods. Let's refactor together the Search component to a stateless functional component. The Table and Button component refactoring will remain as your exercise.
+Таким образом, в основном осталось только два объявления компонента. Но когда предпочесть функциональные компоненты без состояния классовым компонентам? Эмпирическое правило - использовать функциональные компоненты без состояния, если вам не нужны локальное состояние или методы жизненного цикла. Как правило, вы начинаете реализовать свои компоненты именно как функциональные компоненты без состояния. Как только вам нужен доступ к состоянию или методам жизненного цикла - преобразуйте компонент его в классовый компонент. В нашем приложении мы поступили как раз наоборот, но всё ради изучения React.
+
+Вернёмся к нашему приложению. Компонент App использует внутреннее состояние. Именно поэтому он должен остатся нетронутым, то есть классом компонента. Но три других классовых компонента не используют состояние, то есть им не нужен доступ к `this.state` или `this.setState()`. Более того, у них методов жизненного цикла. Поэтому давайте преобразует компонент Search в функциональный. Преобразование компонентов Table и Button вы сделаете самостоятельно, в качестве упражнений. 
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1463,7 +1465,7 @@ function Search(props) {
 # leanpub-end-insert
 ~~~~~~~~
 
-That's basically it. The props are accessible in the function signature and the return value is JSX. But you can do more code wise in a functional stateless component. You already know the ES6 destructuring. The best practice is to use it in the function signature to destructure the props.
+Вот в принципе и всё. props доступны в объявлении функции и возвращает JSX. Однако ещё что можно улучшить, так как вы уже знаете деструктуризацию, и поэтому довольно эффективным методом является использование её в объявлении функции.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1482,7 +1484,7 @@ function Search({ value, onChange, children }) {
 }
 ~~~~~~~~
 
-But it can get better. You know already that ES6 arrow functions allow you to keep your functions concise. You can remove the block body of the function. In a concise body an implicit return is attached thus you can remove the return statement. Since your functional stateless component is a function, you can keep it concise as well.
+Стало лучше, но это ещё не предел для улучшения. Вы уже знаете, что стрелочные функции из ES6 позволяет писать функции короче. Вы можете удалить тело блока функции. В стрелочных функциях подразумевается неявный возврат, поэтому вы можете удалить выражение return. Поскольку ваш функциональный компонент без состояния - это функция, вы можете сделать текущий код функции более кратким.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1498,13 +1500,15 @@ const Search = ({ value, onChange, children }) =>
 # leanpub-end-insert
 ~~~~~~~~
 
-The last step was especially useful to enforce only to have props as input and JSX as output. Nothing in between. Still, you could *do something* in between by using a block body in your ES6 arrow function.
+Последний шаг был особенно полезен для того, чтобы определить свойства сразу при объявлении функции и иметь JSX в качестве вывода.
+
+The last step was especially useful to enforce only to have props as input and JSX as output. Ничего между ними. Тем не менее, вы можете *что-то сдлеать* между ними, используя тело блока в вашей стрелочной функции.
 
 {title="Code Playground",lang=javascript}
 ~~~~~~~~
 const Search = ({ value, onChange, children }) => {
 
-  // do something
+  // что-нибудь делать
 
   return (
     <form>
@@ -1518,20 +1522,20 @@ const Search = ({ value, onChange, children }) => {
 }
 ~~~~~~~~
 
-But you don't need it for now. That's why you can keep the previous version without the block body. When using block bodies, people often tend to do too many things in the function. By leaving the block body out, you can focus on the input and output of your function.
+Но пока нам это не нужно. Поэтому можно сохранить предыдущую версию без тела блока. При использовании блоков с телом кода, люди часто склонны делать многого в функции. Оставив блок с кодом, вы можете сосредоточиться на входных данных и выводе вашей функции.
 
-Now you have one lightweight functional stateless component. Once you would need access to its internal component state or lifecycle methods, you would refactor it to an ES6 class component. In addition you saw how JavaScript ES6 can be used in React components to make them more concise and elegant.
+В этому времен у вас есть один лёгкий функциональный компонент без состояния. Как только вам понадобиться внутреннее состояние или методы жизненного цикла, вы всегда можете обратиться к классовым компонентам. Кроме того, вы видели, как JavaScript ES6 может использоваться в компонентах React для того, чтобы сделать их краткими и элегантными. 
 
-### Exercises:
+### Упражнения:
 
-* refactor the Table and Button component to stateless functional components
-* read more about [ES6 class components and functional stateless components](https://reactjs.org/docs/components-and-props.html)
+* преобразовать компоненты Table и Button в функциональные компоненты без состояния
+* прочитать подробнее о [классовых компонентах и функциональных компонентах без состояния](https://reactjs.org/docs/components-and-props.html)
 
-## Styling Components
+## Стилизация компонентов
 
-Let's add some basic styling to your application and components. You can reuse the *src/App.css* and *src/index.css* files. These files should already be in your project since you have bootstrapped it with *create-react-app*. They should be imported in your *src/App.js* and *src/index.js* files too. I prepared some CSS which you can simply copy and paste to these files, but feel free to use your own style at this point.
+Давайте добавим базовые стили к вашему приложению и компонентам. Вы можете повторно использовать файлы *src/App.css* и *src/index.css*. Эти файлы уже должны быть в вашем проекте, потому что вы начали проект с помощью *create-react-app*. Они также должны быть импортированы в файлах *src/App.js* и *src/index.js*. Я подготовил CSS-код, который вы можете просто скопировать и вставить в эти файлы, но не стесняйтесь использовать собственные стили.
 
-First, styling for your overall application.
+Для начала добавим стили для всего приложения.
 
 {title="src/index.css",lang="css"}
 ~~~~~~~~
@@ -1581,7 +1585,7 @@ button:hover {
 }
 ~~~~~~~~
 
-Second, styling for your components in the App file.
+Теперь, перейдем к стилизации в файле App.
 
 {title="src/App.css",lang="css"}
 ~~~~~~~~
@@ -1650,9 +1654,9 @@ Second, styling for your components in the App file.
 }
 ~~~~~~~~
 
-Now you can use the style in some of your components. Don't forget to use React `className` instead of `class` as HTML attribute.
+Теперь у нас всё готово для стилизации компонентов, поэтому не забудьте использовать `className` вместо `class` как HTML-атрибут.
 
-First, apply it in your App ES6 class component.
+Во-первых, добавим классы в компоненте класса компонента App.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1689,7 +1693,7 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Second, apply it in your Table functional stateless component.
+Во-вторых, сделаем аналогичное для функционального компонента без состояния Table.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1726,9 +1730,9 @@ const Table = ({ list, pattern, onDismiss }) =>
 # leanpub-end-insert
 ~~~~~~~~
 
-Now you have styled your application and components with basic CSS. It should look quite decent. As you know, JSX mixes up HTML and JavaScript. Now one could argue to add CSS in the mix as well. That's called inline style. You can define JavaScript objects and pass them to the style attribute of an element.
+В данный момент вы стилизовали приложение и компоненты с помощью простого CSS. Всё это вместе должно выглядит довольно прилично. Как вы знаете, JSX смешивает HTML и JavaScript. Конечно, можно предположить, добавление CSS к этой смеси. Это называется встроенным стилям. Вы можете определить объекты JavaScript и передать их атрибуту style элемента.
 
-Let's keep the Table column width flexible by using inline style.
+Давайте сделаем фиксированную ширину столбцов в компоненте Table, использовав встроенные стили.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1763,7 +1767,7 @@ const Table = ({ list, pattern, onDismiss }) =>
   </div>
 ~~~~~~~~
 
-The style is inlined now. You could define the style objects outside of your elements to make it cleaner.
+Так, стиль встроен. Вы можете определить объекты со стилем вне элементов для большоей чистоты кода.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -1780,33 +1784,33 @@ const smallColumn = {
 };
 ~~~~~~~~
 
-After that you would use them in your columns: `<span style={smallColumn}>`.
+Поступив подобным образом, тогда вы можете использовать их в столбцах так: `<span style={smallColumn}>`.
 
-In general, you will find different opinions and solutions for style in React. You used pure CSS and inline style now. That's sufficient to get started.
+В общем, вы увидите различные мнения и решения для стилизации в React. Сейчас вы использовали чистый CSS и встроенные стили. Это достаточно удобно для старта.
 
-I don't want to be opinionated here, but I want to leave you some more options. You can read about them and apply them on your own. But if you are new to React, I would recommend to stick to pure CSS and inline style for now.
+Я не хочу быть самоуверенным здесь, но я хочу оставить вам ещё несколько вариантов.  Вы можете прочитать о них и применить самостоятельно. Но если вы новичок в React, я бы порекомендовал придерживаться чистого CSS и встроенных стилей.
 
 * [styled-components](https://github.com/styled-components/styled-components)
 * [CSS Modules](https://github.com/css-modules/css-modules)
 
 {pagebreak}
 
-You have learned the basics to write your own React application! Let's recap the last chapters:
+Вы изучили основы написания собственного React-приложения! Давайте повторим последние темы:
 
 * React
-  * use `this.state` and `setState()` to manage your internal component state
-  * pass functions or class methods to your element handler
-  * use forms and events in React to add interactions
-  * unidirectional data flow is an important concept in React
-  * embrace controlled components
-  * compose components with children and reusable components
-  * usage and implementation of ES6 class components and functional stateless components
-  * approaches to style your components
+  * использование `this.state` и `setState()` для управления внутреннем состоянием компонента
+  * передача функций или методов класса к элементу обработчика
+  * использование форм и событий в React для добавления взаимодействий
+  * однонаправленный поток данных - важная концепция в React
+  * охватили управляемые компоненты
+  * составлять компоненты с дочерними компонентами и повторно используемыми компонентами
+  * использование и реализация классовых компонентов и функциональных компонентов без состояния
+  * подходы к стилизации компонентов
 * ES6
-  * functions that are bound to a class are class methods
-  * destructuring of objects and arrays
-  * default parameters
-* General
-  * higher-order functions
+  * функции, связанные с классом - это методы класса
+  * деструктуризация объектов и массивов
+  * параметры по умолчанию
+* Общее
+  * функции высокого порядка
 
-Again it makes sense to take a break. Internalize the learnings and apply them on your own. You can experiment with the source code you have written so far. You can find the source code in the [official repository](https://github.com/the-road-to-learn-react/hackernews-client/tree/5.2).
+Опять же имеет смысл сделать перерыв. Усвоить полученные значения и применить их самостоятельно на практике. Вы можете поэксперементировать с исходным кодом, написанным в течение этой главы, его можно в [официальном репозитории](https://github.com/the-road-to-learn-react/hackernews-client/tree/5.2).
