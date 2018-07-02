@@ -1,16 +1,16 @@
-# State Management in React and beyond
+# Управление состоянием в React и за его пределами
 
-You have already learned the basics of state management in React in the previous chapters. This chapter digs a bit deeper into the topic. You will learn best practices, how to apply them and why you could consider using a third-party state management library.
+Вы уже изучили основы управления состоянием в React в предыдущих главах. В данном главе мы немного углубимся в эту тему. Вы узнаете о передовых практиках и как их применять, а также как использовать стороннюю библиотеку для управления состоянием.
 
-## Lifting State
+## Подъём состояние
 
-Only the App component is a stateful ES6 component in your application. It handles a lot of application state and logic in its class methods. Maybe you have noticed that you pass a lot of properties to your Table component. Most of these props are only used in the Table component. In conclusion one could argue that it makes no sense that the App component knows about them.
+Только компонент App — классовый компонент с состоянием в вашем приложении. Он обрабатывает все состояния в приложении и содержит много логики в своих методах. Возможно, вы заметили, что передаёте много свойств компоненту Table. Большинство из них используются только в компоненте Table. В заключение можно утверждать, что нет никакого смысла в том, что компонент App знает обо всех них.
 
-The whole sort functionality is only used in the Table component. You could move it into the Table component, because the App component doesn't need to know about it at all. The process of refactoring substate from one component to another is known as *lifting state*. In your case, you want to move state that isn't used in the App component into the Table component. The state moves down from parent to child component.
+Вся функциональность сортировки используется только в компоненте Table. Вы можете перенести её в компонент Table, потому что компонент App вообще не должен знать об этом. Процесс рефакторинга подсостояния от одного компонента к другому известен как *подъём состояние*. В вашем случае вам нужно переместить состояние, неиспользуемое в компоненте App, в компонент Table. Состояние перемещается от родительского к дочернему компоненту.
 
-In order to deal with state and class methods in the Table component, it has to become an ES6 class component. The refactoring from functional stateless component to ES6 class component is straightforward.
+Для работы с методами класса и состояния в компоненте Table, его нужно преобразовать в компонент ES6-класса. Рефакторинг из функционального компонента без состояния в компонент класса ES6 — это просто.
 
-Your Table component as a functional stateless component:
+Компонент Table как функциональный компонент без состояния выглядит примерно так:
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -27,14 +27,14 @@ const Table = ({
     : sortedList;
 
   return(
-    ...
+    // ...
   );
 }
 ~~~~~~~~
 
-Your Table component as an ES6 class component:
+Компонент Table в виде класса ES6 компонента будет таким:
 
-{title="src/App.js",lang=javascript}
+{title="src/Table.js",lang=javascript}
 ~~~~~~~~
 # leanpub-start-insert
 class Table extends Component {
@@ -53,14 +53,14 @@ class Table extends Component {
       : sortedList;
 
     return (
-      ...
+      // ...
     );
   }
 }
 # leanpub-end-insert
 ~~~~~~~~
 
-Since you want to deal with state and methods in your component, you have to add a constructor and initial state.
+Поскольку вам нужно работать с состоянием и методами в своём компоненте, вам нужно добавить конструктор и начальное состояние.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -74,14 +74,14 @@ class Table extends Component {
 # leanpub-end-insert
 
   render() {
-    ...
+    // ...
   }
 }
 ~~~~~~~~
 
-Now you can move state and class methods regarding the sort functionality from your App component down to your Table component.
+Теперь вы можете переместить методы состояния и класса, относящиеся к функциональности сортировки из вашего компонента App в компонент Table.
 
-{title="src/App.js",lang=javascript}
+{title="src/Table.js",lang=javascript}
 ~~~~~~~~
 class Table extends Component {
   constructor(props) {
@@ -105,12 +105,12 @@ class Table extends Component {
 # leanpub-end-insert
 
   render() {
-    ...
+    // ...
   }
 }
 ~~~~~~~~
 
-Don't forget to remove the moved state and `onSort()` class method from your App component.
+Не забудьте удалить перемещённое состояние и метод `onSort()` из компонента App.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -136,18 +136,18 @@ class App extends Component {
     this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
   }
 
-  ...
+  // ...
 
 }
 ~~~~~~~~
 
-Additionally, you can make the Table component API more lightweight. Remove the props that are passed to it from the App component, because they are handled internally in the Table component now.
+Кроме того, вы можете сделать API компонента Table более лёгким. Удалите свойства, которые передаются ему из компонента App, потому что теперь они обрабатываются внутри компонента Table.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
 class App extends Component {
 
-  ...
+  // ...
 
   render() {
 # leanpub-start-insert
@@ -160,7 +160,7 @@ class App extends Component {
     } = this.state;
 # leanpub-end-insert
 
-    ...
+    // ...
 
     return (
       <div className="page">
@@ -176,20 +176,20 @@ class App extends Component {
 # leanpub-end-insert
           />
         }
-        ...
+        // ...
       </div>
     );
   }
 }
 ~~~~~~~~
 
-Now in your Table component you can use the internal `onSort()` method and the internal Table state.
+Теперь в компоненте Table вы можете использовать внутренний метод `onSort()` и внутреннее состояние Table.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
 class Table extends Component {
 
-  ...
+  // ...
 
   render() {
 # leanpub-start-insert
@@ -220,7 +220,7 @@ class Table extends Component {
 # leanpub-end-insert
               activeSortKey={sortKey}
             >
-              Title
+              Заголовок
             </Sort>
           </span>
           <span style={{ width: '30%' }}>
@@ -231,7 +231,7 @@ class Table extends Component {
 # leanpub-end-insert
               activeSortKey={sortKey}
             >
-              Author
+              Автор
             </Sort>
           </span>
           <span style={{ width: '10%' }}>
@@ -242,7 +242,7 @@ class Table extends Component {
 # leanpub-end-insert
               activeSortKey={sortKey}
             >
-              Comments
+              Комментарии
             </Sort>
           </span>
           <span style={{ width: '10%' }}>
@@ -253,21 +253,25 @@ class Table extends Component {
 # leanpub-end-insert
               activeSortKey={sortKey}
             >
-              Points
+              Очки
             </Sort>
           </span>
           <span style={{ width: '10%' }}>
-            Archive
+            Архив
           </span>
         </div>
         { reverseSortedList.map((item) =>
-          ...
+          // ...
         )}
       </div>
     );
   }
 }
 ~~~~~~~~
+
+Ваше приложение по-прежнему должно работать. Но вы сделали большой рефакторинг. Вы переместили функциональность и приблизились к другому компоненту. Другие компоненты снова стали более легкими. Кроме того, API компонента был более легким, поскольку он внутренне выполняет функции сортировки.
+
+Процесс подъема состояния может идти по обратному пути: от дочернего к родительскому компоненту. Он называется _подъём состояния вверх_. Представьте, что вы имеете дело с внутренним состоянием в дочернем компоненте. Теперь вы хотите выполнить требование о том, чтобы показать состояние в своем родительском компоненте. Вам нужно будет поднять состояние к вашему родительскому компоненту. Но это идет еще дальше. Представьте, что вы хотите показать состояние в дочернем компоненте вашего дочернего компонента. Снова вам нужно будет поднять состояние до вашего родительского компонента. Родительский компонент имеет дело с внутренним состоянием, но предоставляет его для обоих дочерних компонентов.
 
 Your application should still work. But you made a crucial refactoring. You moved functionality and state closer into another component. Other components got more lightweight again. Additionally the component API of the Table got more lightweight because it deals internally with the sort functionality.
 
@@ -278,23 +282,27 @@ The process of lifting state can go the other way as well: from child to parent 
 * read more about [lifting state in React](https://reactjs.org/docs/lifting-state-up.html)
 * read more about lifting state in [learn React before using Redux](https://www.robinwieruch.de/learn-react-before-using-redux/)
 
-## Revisited: setState()
+## Пересмотр: setState()
 
-So far, you have used React `setState()` to manage your internal component state. You can pass an object to the function where you can update partially the internal state.
+До сих пор вы использовали React `setState ()` для управления состоянием вашего внутреннего компонента. Вы можете передать объект функции, в которой вы можете частично обновить внутреннее состояние.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
 this.setState({ foo: bar });
 ~~~~~~~~
 
-But `setState()` doesn't take only an object. In its second version, you can pass a function to update the state.
+Но `setState ()` принимает не только объект. Второй вариант использования этого метода включает передачу функцию для обновления состояния.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
 this.setState((prevState, props) => {
-  ...
+  // ...
 });
 ~~~~~~~~
+
+Когда это может пригодиться? Существует один важный случай использования, когда имеет смысл использовать функцию вместо объекта. Это когда вы обновляете состояние в зависимости от предыдущего состояния или свойства. Если вы не используете функцию, управление внутренним состоянием может вызвать ошибки.
+
+Но почему это вызывает баги при использовании объекта вместо функции, когда обновление зависит от предыдущего состояния или свойства? Метод React `setState()` является асинхронным. React группирует вызовы `setState()` и выполняет их рано или поздно. Может случиться так, что предыдущее состояние или свойство изменились между тем, когда вы будете использовать его в вызове `setState()`.
 
 Why should you want to do that? There is one crucial use case where it makes sense to use a function over an object. It is when you update the state depending on the previous state or props. If you don't use a function, the internal state management can cause bugs.
 
@@ -307,9 +315,9 @@ const { barCount } = this.props;
 this.setState({ count: fooCount + barCount });
 ~~~~~~~~
 
-Imagine that `fooCount` and `barCount`, thus the state or the props, change somewhere else asynchronously when you call `setState()`. In a growing application, you have more than one 'setState()' call across your application. Since `setState()` executes asynchronously, you could rely in the example on stale values.
+Представьте, что `fooCount` и` barCount`, таким образом, состояние или свойство, изменяются где-то ещё асинхронно, когда вы вызываете `setState()`. В растущем приложении у вас есть больше одного вызова `setState()` в приложении. Поскольку `setState()` выполняет асинхронно, вы можете использовать его в примере на устаревших значениях.
 
-With the function approach, the function in `setState()` is a callback that operates on the state and props at the time of executing the callback function. Even though `setState()` is asynchronous, with a function it takes the state and props at the time when it is executed.
+С помощью функционального подхода функция в `setState()` — колбэк, который работает с состоянием и свойствами во время выполнения колбэк-функции. Даже при том, что `setState()` является асинхронным, с функцией он принимает состояние и свойства в момент его выполнения.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -320,9 +328,9 @@ this.setState((prevState, props) => {
 });
 ~~~~~~~~
 
-Now, lets get back to your code to fix this behavior. Together we will fix it for one place where `setState()` is used and relies on the state or props. Afterward, you are able to fix it at other places too.
+Теперь вернемся к вашему коду, чтобы исправить это поведение. Вместе мы исправим его для одного места, где используется `setState()` и полагается на состояние или свойства. Впоследствии вы сможете исправить это и в других местах.
 
-The `setSearchTopStories()` method relies on the previous state and thus is a perfect example to use a function over an object in `setState()`. Right now, it looks like the following code snippet.
+Метод `setSearchTopStories ()` опирается на предыдущее состояние и, следовательно, является прекрасным примером использования функции вместо объекта в `setState()`. Сейчас так выглядит следующий фрагмент кода.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -349,7 +357,7 @@ setSearchTopStories(result) {
 }
 ~~~~~~~~
 
-You extract values from the state, but update the state depending on the previous state asynchronously. Now you can use the functional approach to prevent bugs because of a stale state.
+Вы извлекаете значения из состояния, но обновляете состояние в зависимости от предыдущего состояния асинхронно. Теперь вы можете использовать функциональный подход для предотвращения ошибок из-за устаревшего состояния.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -358,13 +366,13 @@ setSearchTopStories(result) {
 
 # leanpub-start-insert
   this.setState(prevState => {
-    ...
+    // ...
   });
 # leanpub-end-insert
 }
 ~~~~~~~~
 
-You can move the whole block that you have already implemented into the function. You only have to exchange that you operate on the `prevState` rather than `this.state`.
+Вы можете переместить весь блок, который вы уже внедрили в эту функцию. Вам нужно только изменить, что вы работаете уже с `prevState`, а не с `this.state`.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -396,7 +404,7 @@ setSearchTopStories(result) {
 }
 ~~~~~~~~
 
-That will fix the issue with a stale state. There is one more improvement. Since it is a function, you can extract the function for an improved readability. That's one more advantage to use a function over an object. The function can live outside of the component. But you have to use a higher-order function to pass the result to it. After all, you want to update the state based on the fetched result from the API.
+Это исправит проблему с устаревшим состоянием. Есть ещё одно улучшение. Поскольку это функция, её можно извлечь для улучшения читаемости. Это ещё одно преимущество использования функции перед объектом — функция может работать вне компонента. Но вам нужно использовать функцию высшего порядка, чтобы передать результат. В конце концов, вы хотите обновить состояние на основе полученного результата из API.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -406,7 +414,7 @@ setSearchTopStories(result) {
 }
 ~~~~~~~~
 
-The `updateSearchTopStoriesState()` function has to return a function. It is a higher-order function. You can define this higher-order function outside of your App component. Note how the function signature changes slightly now.
+Функция `updateSearchTopStoriesState()` должна возвращать функцию. Это функция высшего порядка. Вы можете определить эту функцию высшего порядка вне вашего компонента App. Обратите внимание на то, как теперь меняется объявление функции.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -434,11 +442,11 @@ const updateSearchTopStoriesState = (hits, page) => (prevState) => {
 # leanpub-end-insert
 
 class App extends Component {
-  ...
+  // ...
 }
 ~~~~~~~~
 
-That's it. The function over an object approach in `setState()` fixes potential bugs yet increases readability and maintainability of your code. Furthermore, it becomes testable outside of the App component. You could export it and write a test for it as exercise.
+Вот и всё. Использование функция над объектным подходом в `setState()` исправляет потенциальные ошибки, но повышает читаемость и поддержку вашего кода. Кроме того, он становится тестируемым вне компонента приложения. Вы можете экспортировать его и написать тест в виде упражнения.
 
 ### Exercise:
 
@@ -449,15 +457,18 @@ That's it. The function over an object approach in `setState()` fixes potential 
   * but only when it makes sense, because it relies on props or state
 * run your tests again and verify that everything is up to date
 
-## Taming the State
+## Укрощение состояния
 
-The previous chapters have shown you that state management can be a crucial topic in larger applications. In general, not only React but a lot of SPA frameworks struggle with it. Applications got more complex in the recent years. One big challenge in web applications nowadays is to tame and control the state.
+Предыдущие главы показали, что управление состоянием может быть важной темой в более крупных приложениях. В целом, не только React, но и много фреймворков SPA противостоят этому. За последние годы приложения стали более сложными. Одной из серьёзных проблем в веб-приложениях в настоящее время — укрощение и контроль состояния.
 
-Compared to other solutions, React already made a big step forward. The unidirectional data flow and a simple API to manage state in a component are indispensable. These concepts make it easier to reason about your state and your state changes. It makes it easier to reason about it on a component level and to a certain degree on an application level.
+По сравнению с другими решениями, React уже сделал большой шаг вперед. Однонаправленный поток данных и простой API для управления состоянием в компоненте являются незаменимыми. Эти концепции упрощают рассуждение о вашем состоянии и изменениях в вашем состоянии. Это упрощает рассуждение об этом на уровне компонентов и в определенной степени на уровне приложений.
 
-In a growing application, it gets harder to reason about state changes. You can introduce bugs by operating on stale state when using an object over a function in `setState()`. You have to lift state around to share necessary or hide unnecessary state across components. It can happen that a component needs to lift up state, because its sibling component depends on it. Perhaps the component is far away in the component tree and thus you have to share the state across the whole component tree. In conclusion components get involved to a greater extent in state management. But after all, the main responsibility of components should be representing the UI, shouldn't it?
+В условиях роста приложении становится всё труднее размышлять об изменениях состояния. Вы можете допустить баги, работая с устаревшим состоянием при использовании объекта вместо функции в `setState()`. Вы должны поднять состояние, чтобы поделиться необходимым или скрыть ненужное состояние между компонентами. Может случиться так, что компонент должен поднять состояние, потому что его родственный (одноуровневый) компонент зависит от него. Возможно, компонент находится далеко в дереве компонентов и, следовательно, вам нужно разделить это состояние по всему дереву компонентов. В заключение компоненты в большей степени задействованы в управлении состоянием. Но ведь основная ответственность компонентов должна представлять пользовательский интерфейс, не так ли?
 
-Because of all these reasons, there exist standalone solutions to take care of the state management. These solutions are not only used in React. However, that's what makes the React ecosystem such a powerful place. You can use different solutions to solve your problems. To address the problem of scaling state management, you might have heard of the libraries [Redux](http://redux.js.org/docs/introduction/) or [MobX](https://mobx.js.org/). You can use either of these solutions in a React application. They come with extensions, [react-redux](https://github.com/reactjs/react-redux) and [mobx-react](https://github.com/mobxjs/mobx-react), to integrate them into the React view layer.
+Из-за всех этих причин существуют независимые решения по управлению и сохранению состоянием. Эти решения используются не только в React. Однако это то, что делает экосистему React таким мощным местом. Вы можете использовать различные решения ваших проблем. Чтобы решить проблему масштабирования управления состоянием, вы, возможно, слышали о библиотеках [Redux](http://redux.js.org/docs/introduction/) или [MobX](https://mobx.js.org/ ). Вы можете использовать любое из этих решений в приложении React. Они включают расширения, такие как [react-redux](https://github.com/reactjs/react-redux) и [mobx-react](https://github.com/mobxjs/mobx-react), чтобы их интегрировать в слой представления React.
+
+Redux и MobX находятся за пределами этой книги. Когда вы закончите книгу, вы получите руководство о том, как вы можете продолжать изучать React и его экосистему. Одним из путей обучения может стать изучение Redux. Прежде чем вы погрузитесь в тему внешнего управления государством, я могу порекомендовать прочитать эту статью [https://www.robinwieruch.de/redux-mobx-confusion/). Он призван дать вам лучшее представление о том, как изучать внешнее управление государством.
+
 
 Redux and MobX are outside of the scope of this book. When you have finished the book, you will get guidance on how you can continue to learn React and its ecosystem. One learning path could be to learn Redux. Before you dive into the topic of external state management, I can recommend to read this [article](https://www.robinwieruch.de/redux-mobx-confusion/). It aims to give you a better understanding of how to learn external state management.
 
