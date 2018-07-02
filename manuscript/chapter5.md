@@ -1,20 +1,20 @@
-# Advanced React Components
+# Продвинутые React-компоненты
 
-The chapter will focus on the implementation of advanced React components. You will learn about higher-order components and how to implement them. In addition, you will dive into more advanced topics in React and implement complex interactions with it.
+В этой главе основное внимание будет уделено реализации продвинутых компонентов React. Вы узнаете о компонентах высокого порядка (higher-order component) и о том, как их реализовать. Кроме того, погрузитесь в более сложные темы в React и реализуете сложные взаимодействия с ним.
 
-## Ref a DOM Element
+## Ссылка на DOM-элемент
 
-Sometimes you need to interact with your DOM nodes in React. The `ref` attribute gives you access to a node in your elements. Usually that is an anti pattern in React, because you should use its declarative way of doing things and its unidirectional data flow. You have learned about it when you have introduced your first search input field. But there are certain cases where you need access to the DOM node. The official documentation mentions three use cases:
+Иногда вам нужно взаимодействовать с вашими DOM-узлами в React. Атрибут `ref` дает вам доступ к узлу в ваших элементах. Обычно это антишаблон в React, потому что вам следует использовать декларативный способ работы и однонаправленный поток данных. Вы узнали об этом, когда добавили своё первое поле ввода для поиска. Но есть определённые случаи, когда вам нужен доступ к узлу DOM. В официальной документации упоминаются три варианта использования:
 
-* to use the DOM API (focus, media playback etc.)
-* to invoke imperative DOM node animations
-* to integrate with a third-party library that needs the DOM node (e.g. [D3.js](https://d3js.org/))
+* для использования API DOM (фокус, воспроизведение мультимедиа и т.д.)
+* для вызова императивных анимаций DOM-узлов
+* для интеграции со сторонней библиотекой, которой нужен DOM-узел (например, [D3.js](https://d3js.org/))
 
-Let's do it by example with the Search component. When the application renders the first time, the input field should be focused. That's one use case where you would need access to the DOM API. This chapter will show you how it works, but since it is not very useful for the application itself, we will omit the changes after the chapter. You can keep it for your own application though.
+Давайте сделаем это на примере с помощью компонента Search. Когда приложение отрисовывается в первый раз, поле ввода должно быть сфокусировано. Это один из вариантов, когда вам нужен доступ к API DOM. В этой главе вы узнаете, как это работает, но поскольку это не очень полезно для самого приложения, мы опустим изменения после главы. Однако вы можете сохранить его для своего приложения.
 
-In general, you can use the `ref` attribute in both functional stateless components and ES6 class components. In the example of the focus use case, you will need a lifecycle method. That's why the approach is first showcased by using the `ref` attribute with an ES6 class component.
+В общем, вы можете использовать атрибут `ref` как в функциональных компонентах без состояния, так и в ES6-классах компонентов. В варианте использования примера с фокусом вам понадобится метод жизненного цикла. Вот почему подход сначала демонстрируется с использованием атрибута `ref` с классовым компонентом.
 
-The initial step is to refactor the functional stateless component to an ES6 class component.
+Первоначальный шаг — миграция функционального компонента без состояния на компонент класса ES6.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -47,7 +47,7 @@ class Search extends Component {
 # leanpub-end-insert
 ~~~~~~~~
 
-The `this` object of an ES6 class component helps us to reference the DOM node with the `ref` attribute.
+Объект `this` ES6-класса компонента  помогает нам ссылаться на DOM-узел с атрибутом `ref`.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -79,7 +79,7 @@ class Search extends Component {
 }
 ~~~~~~~~
 
-Now you can focus the input field when the component mounted by using the `this` object, the appropriate lifecycle method, and the DOM API.
+Теперь вы можете сфокусировать поле ввода, когда компонент монтируется с использованием  объекта `this`, соответствующего метода жизненного цикла и API DOM .
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -117,9 +117,9 @@ class Search extends Component {
 }
 ~~~~~~~~
 
-The input field should be focused when the application renders. That's it basically for using the `ref` attribute.
+Поле ввода должно быть сфокусировано при отрисовки приложения. Это в основном это для использования атрибута `ref`.
 
-But how would you get access to the `ref` in a functional stateless component without the `this` object? The following functional stateless component demonstrates it.
+Но как бы вы получили доступ к `ref` в функциональном компоненте без состояния без использования объекта `this`? Следующий пример демонстрирует такой случай.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -150,6 +150,8 @@ const Search = ({
 }
 ~~~~~~~~
 
+Теперь вы сможете получить доступ к элементу ввода DOM. В примере использования фокуса это не поможет вам, потому что у вас нет метода жизненного цикла в функциональном компоненте без состояния, чтобы вызвать фокус. Но в будущем вы можете столкнуться с другими вариантами использования, когда имеет смысл использовать функциональный компонент без состояния с атрибутом `ref`.
+
 Now you would be able to access the input DOM element. In the example of the focus use case it wouldn't help you, because you have no lifecycle method in a functional stateless component to trigger the focus. But in the future you might come across other use cases where it can make sense to use a functional stateless component with the `ref` attribute.
 
 ### Exercises
@@ -157,17 +159,17 @@ Now you would be able to access the input DOM element. In the example of the foc
 * read more about [the usage of the ref attribute in React](https://www.robinwieruch.de/react-ref-attribute-dom-node/)
 * read more about [the ref attribute in general in React](https://reactjs.org/docs/refs-and-the-dom.html)
 
-## Loading ...
+## Загрузка ...
 
-Now let's get back to the application. You might want to show a loading indicator when you submit a search request to the Hacker News API. The request is asynchronous and you should show your user some feedback that something is about to happen. Let's define a reusable Loading component in your *src/App.js* file.
+Теперь вернемся к приложению. Возможно, вы захотите показать индикатор загрузки при отправке поискового запроса к API Hacker News. Поскольку запрос является асинхронным, вы, возможно, захотите дать своему пользователю обратную связь о том, что сейчас коё-что произойдет. Давайте определим повторно используемый компонент Loading в файле *src/App.js*.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
 const Loading = () =>
-  <div>Loading ...</div>
+  <div>Загрузка ...</div>
 ~~~~~~~~
 
-Now you will need a property to store the loading state. Based on the loading state you can decide to show the Loading component later on.
+Теперь вам понадобится свойство для хранения состояния загрузки. В зависимости от значения состояния загрузки вы можете позднее отобразить компонент Loading.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -187,26 +189,26 @@ class App extends Component {
 # leanpub-end-insert
     };
 
-    ...
+    // ...
   }
 
-  ...
+  // ...
 
 }
 ~~~~~~~~
 
-The initial value of that `isLoading` property is false. You don't load anything before the App component is mounted.
+Начальное значение такого свойства `isLoading` устанавливается в значение `false`. Вы не загружаете ещё что-либо перед тем, как компонент App смонтирован.
 
-When you make the request, you set a loading state to true. Eventually the request will succeed and you can set the loading state to false.
+Когда вы делаете запрос, вы устанавливаете состояние загрузки в значение `true`. В конце концов запрос будет успешным, и вы можете установить состояние загрузки обратно на значение `false`.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
 class App extends Component {
 
-  ...
+  // ...
 
   setSearchTopStories(result) {
-    ...
+    // ...
 
     this.setState({
       results: {
@@ -229,12 +231,12 @@ class App extends Component {
       .catch(error => this._isMounted && this.setState({ error }));
   }
 
-  ...
+  // ...
 
 }
 ~~~~~~~~
 
-In the last step, you will use the Loading component in your App. A conditional rendering based on the loading state will decide whether you show a Loading component or the Button component. The latter one is your button to fetch more data.
+На последнем шаге вы будете использовать компонент Loading в App. Условная отрисовка на основании значения состоянии загрузки будет определять, отображать ли компонент Loading или компонент Button. Последний — это кнопка для получения больше данных.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -275,19 +277,19 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Initially the Loading component will show up when you start your application, because you make a request on `componentDidMount()`. There is no Table component, because the list is empty. When the response returns from the Hacker News API, the result is shown, the loading state is set to false and the Loading component disappears. Instead, the "More" button to fetch more data appears. Once you fetch more data, the button will disappear again and the Loading component will show up.
+Первоначально компонент Loading будет отображаться при запуске приложения, потому что вы делаете запрос в `componentDidMount()`. Компонент Table отсутствует, потому что список пуст. Когда ответ приходит от API Hacker News, показывается результат, состояние загрузки устанавливается на значение `false`, а компонент Loading исчезает. Вместо этого отображается кнопка «Больше историй» для получения ещё одной порции данных. После получения дополнительных данных кнопка получения снова исчезнет и вместо неё отобразиться компонент Loading.
 
 ### Exercises:
 
 * use a library such as [Font Awesome](http://fontawesome.io/) to show a loading icon instead of the "Loading ..." text
 
-## Higher-Order Components
+## Компоненты высшего порядка
 
-Higher-order components (HOC) are an advanced concept in React. HOCs are an equivalent to higher-order functions. They take any input - most of the time a component, but also optional arguments - and return a component as output. The returned component is an enhanced version of the input component and can be used in your JSX.
+Компоненты высшего порядка (Higher-order components, HOC) — продвинутая концепция React. Компоненты высшего порядка эквивалентны функциям высшего порядка. Они принимают любые входные данные — чаще всего компонент, но также необязательные аргументы — и возвращают компонент в качестве возвращаемого значения. Возвращаемый компонент является расширенной версией входного компонента и может использоваться в вашем JSX.
 
-HOCs are used for different use cases. They can prepare properties, manage state or alter the representation of a component. One use case could be to use a HOC as a helper for a conditional rendering. Imagine you have a List component that renders a list of items or nothing, because the list is empty or null. The HOC could shield away that the list would render nothing when there is no list. On the other hand, the plain List component doesn't need to bother anymore about an non existent list. It only cares about rendering the list.
+Компоненты высшего порядка используются в разных случаев использования. Они могут подготавливать свойства, управлять состоянием или изменять представление компонента. Одним из вариантов использования может быть использование HOC в качестве помощника для условной отрисовки. Представьте, что у вас есть компонент List, который отображает список элементов или вообще ничего, потому что список пуст или равняется `null`. HOC может защитить, что список ничего не отрисует, когда его нет. С другой стороны, компоненту простого List больше не нужно беспокоиться о несуществующем списке. Он заботится только о том, чтобы отрисовать список.
 
-Let's do a simple HOC which takes a component as input and returns a component. You can place it in your *src/App.js* file.
+Давайте сделаем простой HOC, который принимает компонент на вход и возвращает компонент. Вы можете поместить его в файл *src/App.js*.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -298,6 +300,8 @@ function withFoo(Component) {
 }
 ~~~~~~~~
 
+Есть одно ясное соглашение — префикс имени HOC начинается с `with`. Поскольку вы используете JavaScript ES6, вы можете более быстро выразить HOC с помощью стрелочных функций из ES6.
+
 One neat convention is to prefix the naming of a HOC with `with`. Since you are using JavaScript ES6, you can express the HOC more concisely with an ES6 arrow function.
 
 {title="src/App.js",lang=javascript}
@@ -306,7 +310,7 @@ const withFoo = (Component) => (props) =>
   <Component { ...props } />
 ~~~~~~~~
 
-In the example, the input component would stay the same as the output component. Nothing happens. It renders the same component instance and passes all of the props to the output component. But that's useless. Let's enhance the output component. The output component should show the Loading component, when the loading state is true, otherwise it should show the input component. A conditional rendering is a great use case for a HOC.
+В этом примере входной компонент будет оставаться таким же, как и выходной компонент. Ничего не происходит. Он отрисовывает один и тот же экземпляр компонента и передаёт все свойства возвращаемому компоненту. Но это бесполезно. Давайте улучшим получаемый из HOC компонент. Компонент на выходе должен показывать компонент Loading, когда значение состояния загрузки равняется `true`, в противном случае он должен отображать входящий компонент. Условная отрисовка — отличный вариант использования HOC.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -318,21 +322,21 @@ const withLoading = (Component) => (props) =>
 # leanpub-end-insert
 ~~~~~~~~
 
-Based on the loading property you can apply a conditional rendering. The function will return the Loading component or the input component.
+Судя по значению свойства загрузки вы можете применить условную отрисовку. Функция вернет компонент Loading или входной компонент.
 
-In general it can be very efficient to spread an object, like the props object in the previous example, as input for a component. See the difference in the following code snippet.
+В общем случае может быть очень эффективным расширение объекта, например, объектом `props` из предыдущего примера, на входном компоненте. Смотрите разницу в следующем фрагменте кода.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
-// before you would have to destructure the props before passing them
+// деструктуризация свойств перед их передачей
 const { foo, bar } = props;
 <SomeComponent foo={foo} bar={bar} />
 
-// but you can use the object spread operator to pass all object properties
+// но можно использовать оператор расширения для передачи всех свойств объекта
 <SomeComponent { ...props } />
 ~~~~~~~~
 
-There is one little thing that you should avoid. You pass all the props including the `isLoading` property, by spreading the object, into the input component. However, the input component may not care about the `isLoading` property. You can use the ES6 rest destructuring to avoid it.
+Есть одна маленькая деталь, которую следует избегать. Вы передаете все свойства, включая `isLoading`, путем расширения объекта во входной компонент. Однако входной компонент может не поддерживать свойство `isLoading`, тогда вы можете использовать деструктуризацию оставшихся свойств из ES6 для решения этой проблемы.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -344,9 +348,9 @@ const withLoading = (Component) => ({ isLoading, ...rest }) =>
 # leanpub-end-insert
 ~~~~~~~~
 
-It takes one property out of the object, but keeps the remaining object. It works with multiple properties as well. You might have already read about it in the [destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment).
+Он забирает одно свойство из объекта, но сохраняет оставшийся объект. Он также поддерживает работу с несколькими свойствами. Возможно, вы уже прочитали об этом в [destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment).
 
-Now you can use the HOC in your JSX. An use case in the application could be to show either the "More" button or the Loading component. The Loading component is already encapsulated in the HOC, but an input component is missing. In the use case of showing a Button component or a Loading component, the Button is the input component of the HOC. The enhanced output component is a ButtonWithLoading component.
+Теперь вы можете использовать HOC в своём JSX. В приложении может показываться либо кнопка «Больше историй», либо компонент Loading. Компонент Loading уже инкапсулирован в HOC, но отсутствует компонент ввода. В случае показа компонента Button или компонента Loading, компонент Button будет входным компонентом для HOC. Улучшенный выходной компонент — компонент ButtonWithLoading.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -364,7 +368,7 @@ const Button = ({
   </button>
 
 const Loading = () =>
-  <div>Loading ...</div>
+  <div>Загрузка ...</div>
 
 const withLoading = (Component) => ({ isLoading, ...rest }) =>
   isLoading
@@ -376,25 +380,27 @@ const ButtonWithLoading = withLoading(Button);
 # leanpub-end-insert
 ~~~~~~~~
 
-Everything is defined now. As a last step, you have to use the ButtonWithLoading component, which receives the loading state as an additional property. While the HOC consumes the loading property, all other props get passed to the Button component.
+Теперь всё определено. В качестве последнего шага вам необходимо использовать компонент ButtonWithLoading, который получает состояние загрузки в виде дополнительного свойства. В то время как HOC использует свойство загрузки, все другие свойства передаются компоненту Button.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
 class App extends Component {
 
-  ...
+  // ...
 
   render() {
-    ...
+    // ...
+
     return (
       <div className="page">
-        ...
+        // ...
         <div className="interactions">
 # leanpub-start-insert
           <ButtonWithLoading
             isLoading={isLoading}
-            onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
-            More
+            onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
+          >
+            Больше историй
           </ButtonWithLoading>
 # leanpub-end-insert
         </div>
@@ -403,6 +409,8 @@ class App extends Component {
   }
 }
 ~~~~~~~~
+
+Когда вы снова запустите свои тесты, вы заметите, что ваш тест снимка компонента App завершился неудачей. В командной строке различия могут выглядеть с помощью унифицированного формата diff следующим образом:
 
 When you run your tests again, you will notice that your snapshot test for the App component fails. The diff might look like the following on the command line:
 
@@ -413,18 +421,18 @@ When you run your tests again, you will notice that your snapshot test for the A
 -      onClick={[Function]}
 -      type="button"
 -    >
--      More
+-      Больше историй
 -    </button>
 +    <div>
 +      Loading ...
 +    </div>
 ~~~~~~~~
 
-You can either fix the component now, when you think there is something wrong about it, or can accept the new snapshot of it. Because you introduced the Loading component in this chapter, you can accept the altered snapshot test on the command line in the interactive test.
+Вы можете либо исправить компонент сейчас, когда вам кажется, что в нём что-то не так, либо можете принять новый снимок. Поскольку вы реализовали компонент Loading в этой главе, вы можете принять изменённый тест снимка в командной строке в интерактивном тесте.
 
-Higher-order components are an advanced technique in React. They have multiple purposes like improved reusability of components, greater abstraction, composability of components and manipulations of props, state and view. Don't worry if you don't understand them immediately. It takes time to get used to them.
+Компоненты высшего порядка — передовая методика в React. У неё есть несколько целей, таких как улучшенная возможность повторного использования компонентов, более сильная абстракция (?), композиция (компоновка) компонентов и управлениями свойствами, состоянием и представлением. Не переживайте, если не сразу понимаете всё это. Потребуется время, чтобы привыкнуть к ним.
 
-I encourage you to read the [gentle introduction to higher-order components](https://www.robinwieruch.de/gentle-introduction-higher-order-components/). It gives you another approach to learn them, shows you an elegant way to use them in a functional programming way and solves specifically the problem of conditional rendering with higher-order components.
+Я призываю вас прочитать [мягкое введение в компоненты высшего порядка](https://www.robinwieruch.de/gentle-introduction-higher-order-components/). Это даёт вам ещё один подход для их изучения, показывает вам элегантный способ использования их в функциональном программировании и в частности решает проблему условной отрисовки с компонентами высшего порядка.
 
 ### Exercises:
 
@@ -433,18 +441,18 @@ I encourage you to read the [gentle introduction to higher-order components](htt
 * think about a use case where another HOC would make sense
   * implement the HOC, if there is a use case
 
-## Advanced Sorting
+## Продвинутая сортировка
 
-You have already implemented a client- and server-side search interaction. Since you have a Table component, it would make sense to enhance the Table with advanced interactions. What about introducing a sort functionality for each column by using the column headers of the Table?
+Вы уже реализовали поиск на стороне клиента и сервера. Поскольку у вас есть компонент Table, имеет смысл улучшить таблицу с расширенными возможностями. Как насчет внедрить функциональность сортировки по каждому столбцу при нажатии на заголовки столбцов компонента Table?
 
-It would be possible to write your own sort function, but personally I prefer to use a utility library for such cases. [Lodash](https://lodash.com/) is one of these utility libraries, but you can use whatever library suits you. Let's install Lodash and use it for the sort functionality.
+Можно было бы написать свою собственную функцию сортировки, но лично я предпочитаю использовать вспомогательную библиотеку для как раз таких случаев. [Lodash](https://lodash.com/) — одна из этих утилитарных библиотек, но вы можете использовать любую библиотеку, которая вам подходит. Давайте установим Lodash и воспользуемся ей функциональности сортировки.
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
 npm install lodash
 ~~~~~~~~
 
-Now you can import the sort functionality of Lodash in your *src/App.js* file.
+Теперь вы можете импортировать Lodash в файле *src/App.js* .
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -456,11 +464,11 @@ import { sortBy } from 'lodash';
 import './App.css';
 ~~~~~~~~
 
-You have several columns in your Table. There are title, author, comments and points columns. You can define sort functions whereas each function takes a list and returns a list of items sorted by a specific property. Additionally, you will need one default sort function which doesn't sort but only returns the unsorted list. That will be your initial state.
+У вас есть несколько столбцов в компоненте Table. Есть столбцы для заголовков, авторов, комментариев и очков. Вы можете определить функции сортировки, где каждая функция принимает список и возвращает список элементов, отсортированных по определённому свойству. Кроме того, вам понадобится одна функция сортировки по умолчанию, которая не сортирует, а возвращает несортированный список. Это будет вашим первоначальным состоянием.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
-...
+// ...
 
 # leanpub-start-insert
 const SORTS = {
@@ -473,16 +481,16 @@ const SORTS = {
 # leanpub-end-insert
 
 class App extends Component {
-  ...
+  // ...
 }
-...
+// ...
 ~~~~~~~~
 
-You can see that two of the sort functions return a reversed list. That's because you want to see the items with the highest comments and points rather than to see the items with the lowest counts when you sort the list for the first time.
+Как вы можете увидеть сами, две функции сортировки возвращают список в обратном  порядке. Это из-за того, что нужно отображение элементов с наиболее большим количеством комментариев и очками, вместо того, чтобы смотреть на элементы с наименьшим количеством данных при сортировке списка в первый раз.
 
-The `SORTS` object allows you to reference any sort function now.
+Объект `SORTS` позволяет вам ссылаться на любую функцию сортировки.
 
-Again your App component is responsible for storing the state of the sort. The initial state will be the initial default sort function, which doesn't sort at all and returns the input list as output.
+Снова ваш компонент App отвечает за сохранение состояния сортировки. Первоначальным состоянием будет функция сортировки по умолчанию, которая не сортирует элементы вообще, а возвращает входной список в качестве вывода.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -498,9 +506,9 @@ this.state = {
 };
 ~~~~~~~~
 
-Once you choose a different `sortKey`, let's say the `AUTHOR` key, you will sort the list with the appropriate sort function from the `SORTS` object.
+После выбора другого ключа сортировка `sortKey`, скажем,` AUTHOR`, список будет отсортирован соответствующей функцией сортировки из объекта `SORTS`.
 
-Now you can define a new class method in your App component that simply sets a `sortKey` to your local component state. Afterward, the `sortKey` can be used to retrieve the sorting function to apply it on your list.
+Теперь вы можете определить новый метод класса в своем компоненте App, который просто устанавливает `sortKey` в вашем локальном состоянии компонента. После этого `sortKey` можно использовать для получения функции сортировки для её применения в вашем списке.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -509,7 +517,7 @@ class App extends Component {
 
   constructor(props) {
 
-    ...
+    // ...
 
     this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
     this.setSearchTopStories = this.setSearchTopStories.bind(this);
@@ -522,7 +530,7 @@ class App extends Component {
 # leanpub-end-insert
   }
 
-  ...
+  // ...
 
 # leanpub-start-insert
   onSort(sortKey) {
@@ -530,18 +538,18 @@ class App extends Component {
   }
 # leanpub-end-insert
 
-  ...
+  // ...
 
 }
 ~~~~~~~~
 
-The next step is to pass the method and `sortKey` to your Table component.
+Следующий шаг — передать метод и `sortKey` в ваш компонент Table.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
 class App extends Component {
 
-  ...
+  // ...
 
   render() {
     const {
@@ -555,11 +563,11 @@ class App extends Component {
 # leanpub-end-insert
     } = this.state;
 
-    ...
+    // ...
 
     return (
       <div className="page">
-        ...
+        // ...
         <Table
           list={list}
 # leanpub-start-insert
@@ -568,14 +576,14 @@ class App extends Component {
 # leanpub-end-insert
           onDismiss={this.onDismiss}
         />
-        ...
+       // ...
       </div>
     );
   }
 }
 ~~~~~~~~
 
-The Table component is responsible for sorting the list. It takes one of the `SORT` functions by `sortKey` and passes the list as input. Afterward it keeps mapping over the sorted list.
+Компонент Table отвечает за сортировку списка. Он принимает одну из функций из объекта `SORT` по ключу `sortKey` и передаёт список в качестве входных данных. После этого он выводит отсортированной список.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -592,13 +600,13 @@ const Table = ({
     {SORTS[sortKey](list).map(item =>
 # leanpub-end-insert
       <div key={item.objectID} className="table-row">
-        ...
+        // ...
       </div>
     )}
   </div>
 ~~~~~~~~
 
-In theory the list would get sorted by one of the functions. But the default sort is set to `NONE`, so nothing is sorted yet. So far, no one executes the `onSort()` method to change the `sortKey`. Let's extend the Table with a row of column headers that use Sort components in columns to sort each column.
+Теоретически список будет отсортирован одной из функций. Но сортировка по умолчанию установлена на `NONE`, поэтому элементы не сортируются. До сих пор никто не выполнял метод `onSort()` для изменения `sortKey`. Расширим компонент Table с помощью заголовков столбцов, которые используют компоненты Sort в столбцах для сортировки каждого столбца.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -616,7 +624,7 @@ const Table = ({
           sortKey={'TITLE'}
           onSort={onSort}
         >
-          Title
+          Заголовок
         </Sort>
       </span>
       <span style={{ width: '30%' }}>
@@ -624,7 +632,7 @@ const Table = ({
           sortKey={'AUTHOR'}
           onSort={onSort}
         >
-          Author
+          Автор
         </Sort>
       </span>
       <span style={{ width: '10%' }}>
@@ -632,7 +640,7 @@ const Table = ({
           sortKey={'COMMENTS'}
           onSort={onSort}
         >
-          Comments
+          Комментарии
         </Sort>
       </span>
       <span style={{ width: '10%' }}>
@@ -640,21 +648,21 @@ const Table = ({
           sortKey={'POINTS'}
           onSort={onSort}
         >
-          Points
+          Очки
         </Sort>
       </span>
       <span style={{ width: '10%' }}>
-        Archive
+        Архив
       </span>
     </div>
 # leanpub-end-insert
     {SORTS[sortKey](list).map(item =>
-      ...
+      // ...
     )}
   </div>
 ~~~~~~~~
 
-Each Sort component gets a specific `sortKey` and the general `onSort()` function. Internally it calls the method with the `sortKey` to set the specific key.
+Каждый компонент Sort получает определённую функцию `sortKey` и общую функцию `onSort()`, передавая ей `sortKey` для установки конкретного ключа.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -664,9 +672,9 @@ const Sort = ({ sortKey, onSort, children }) =>
   </Button>
 ~~~~~~~~
 
-As you can see, the Sort component reuses your common Button component. On a button click each individual passed `sortKey` will get set by the `onSort()` method. Now you should be able to sort the list when you click on the column headers.
+Как вы можете видеть, компонент Sort переиспользует общий компонент Button. При нажатии на кнопку каждому из компонентов Button передаётся `sortKey`, который будет установлен методом `onSort()`. Теперь есть возможность сортировать список при нажатии на заголовки столбцов.
 
-There is one minor improvement for an improved look. So far, the button in a column header looks a bit silly. Let's give the button in the Sort component a proper `className`.
+Можно сделать ещё одно небольшое улучшение внешнего вида. Пока кнопка в заголовке столбца выглядит немного глупо. Давайте дадим кнопке в компоненте Sort подходящий CSS-класс, используя `className`.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -681,7 +689,7 @@ const Sort = ({ sortKey, onSort, children }) =>
   </Button>
 ~~~~~~~~
 
-It should look nice now. The next goal would be to implement a reverse sort as well. The list should get reverse sorted once you click a Sort component twice. First, you need to define the reverse state with a boolean. The sort can be either reversed or non reversed.
+Теперь кнопка выглядит красиво. Следующая цель заключалась бы в реализации обратной сортировки. Список должен быть отсортирован в обратном порядке по двойному нажатию на компонент Sort. Во-первых, нужно определить новое свойство для обратной сортировки с булевым значением. Сортировка может быть либо прямой, либо обратной.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -698,7 +706,7 @@ this.state = {
 };
 ~~~~~~~~
 
-Now in your sort method, you can evaluate if the list is reverse sorted. It is reverse if the `sortKey` in the state is the same as the incoming `sortKey` and the reverse state is not already set to true.
+Теперь в вашем методе сортировки вы можете вычислить, отсортирован ли список в обратном порядке. В обратном порядке, если `sortKey` состояния совпадает с переданным `sortKey`, а значение состояния для обратного порядка сортировка уже не является `true`.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -710,13 +718,13 @@ onSort(sortKey) {
 }
 ~~~~~~~~
 
-Again you can pass the reverse prop to your Table component.
+Снова вы можете передать свойство, указывающим на обратную сортировку в свой компонент Table.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
 class App extends Component {
 
-  ...
+  // ...
 
   render() {
     const {
@@ -731,7 +739,7 @@ class App extends Component {
 # leanpub-end-insert
     } = this.state;
 
-    ...
+    // ...
 
     return (
       <div className="page">
@@ -745,14 +753,14 @@ class App extends Component {
           onSort={this.onSort}
           onDismiss={this.onDismiss}
         />
-        ...
+        // ...
       </div>
     );
   }
 }
 ~~~~~~~~
 
-The Table has to have an arrow function block body to compute the data now.
+Теперь для вычисления данных в компоненте Table необходима стрелочная функция.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -773,12 +781,12 @@ const Table = ({
 # leanpub-end-insert
     <div className="table">
       <div className="table-header">
-        ...
+        // ...
       </div>
 # leanpub-start-insert
       {reverseSortedList.map(item =>
 # leanpub-end-insert
-        ...
+        // ...
       )}
     </div>
 # leanpub-start-insert
@@ -787,11 +795,11 @@ const Table = ({
 # leanpub-end-insert
 ~~~~~~~~
 
-The reverse sort should work now.
+Сортировка в обратном порядке должна сейчас работать.
 
-Last but not least, you have to deal with one open question for the sake of an improved user experience. Can a user distinguish which column is actively sorted? So far, it is not possible. Let's give the user a visual feedback.
+И последнее, но не менее важное: вам нужно разобраться с одним открытым вопросом улучшения пользовательского интерфейса. Может ли пользователь определить, по какому столбцу сейчас сейчас происходит сортировка? Пока это невозможно. Давайте дадим пользователю такую визуальную возможность.
 
-Each Sort component gets its specific `sortKey` already. It could be used to identify the activated sort. You can pass the `sortKey` from the internal component state as active sort key to your Sort component.
+Каждый компонент Sort уже получает свой конкретный `sortKey`. Его можно использовать для определения активной в данный момент сортировки. Вы можете передать `sortKey` из внутреннего состояния компонента в качестве активного ключа сортировки в свой компонент Sort.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -818,7 +826,7 @@ const Table = ({
             activeSortKey={sortKey}
 # leanpub-end-insert
           >
-            Title
+            Заголвок
           </Sort>
         </span>
         <span style={{ width: '30%' }}>
@@ -829,7 +837,7 @@ const Table = ({
             activeSortKey={sortKey}
 # leanpub-end-insert
           >
-            Author
+            Автор
           </Sort>
         </span>
         <span style={{ width: '10%' }}>
@@ -840,7 +848,7 @@ const Table = ({
             activeSortKey={sortKey}
 # leanpub-end-insert
           >
-            Comments
+            Комментарии
           </Sort>
         </span>
         <span style={{ width: '10%' }}>
@@ -851,22 +859,22 @@ const Table = ({
             activeSortKey={sortKey}
 # leanpub-end-insert
           >
-            Points
+            Очки
           </Sort>
         </span>
         <span style={{ width: '10%' }}>
-          Archive
+          Архив
         </span>
       </div>
       {reverseSortedList.map(item =>
-          ...
+          // ...
       )}
     </div>
   );
 }
 ~~~~~~~~
 
-Now in your Sort component, you know based on the `sortKey` and `activeSortKey` whether the sort is active. Give your Sort component an extra `className` attribute, in case it is sorted, to give the user a visual feedback.
+Теперь в компоненте Sort можно узнать, основываясь на `sortKey` и` activeSortKey`, активен ли данный столбец сортировки или нет. Добавьте компоненту Sort ещё дополнительный атрибут `className`, применяемый при сортировки, для визуального различия столбцов.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -895,14 +903,14 @@ const Sort = ({
 # leanpub-end-insert
 ~~~~~~~~
 
-The way to define the `sortClass` is a bit clumsy, isn't it? There is a neat little library to get rid of this. First you have to install it.
+Этот способ определения CSS-классов, используя константу `sortClass` немного неуклюжий, не считаете так? Существует замечательная небольшая библиотека для элегантной установки CSS-классов. Сначала нужно её установить.
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
 npm install classnames
 ~~~~~~~~
 
-And second you have to import it on top of your *src/App.js* file.
+И во-вторых, нам нужно импортировать в верху файла *src/App.js*.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -916,6 +924,8 @@ import './App.css';
 ~~~~~~~~
 
 Now you can use it to define your component `className` with conditional classes.
+
+Теперь вы можете воспользоваться этой библиотекой для определения CSS-классов в зависимости от условий через всё тот же атрибут `className` компонента.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -945,11 +955,11 @@ const Sort = ({
 }
 ~~~~~~~~
 
-Again, when you run your tests, you should see failing snapshot tests but also failing unit tests for the Table component. Since you changed again your component representations, you can accept the snapshot tests. But you have to fix the unit test. In your *src/App.test.js* file, you need to provide a `sortKey` and the `isSortReverse` boolean for the Table component.
+Теперь же, когда вы выполните тесты, то увидите неудачные снимки тестов, а также не прошедшие модульные тесты компонента Table. Поскольку вы изменили внешний вид компонентов, вы можете принять эти снимки. Но вам нужно исправить модульный тест. В вашем файле *src/App.test.js* вам необходимо указать ключи `sortKey` и `isSortReverse` с логическим значением для компонента Table.
 
 {title="src/App.test.js",lang=javascript}
 ~~~~~~~~
-...
+// ...
 
 describe('Table', () => {
 
@@ -964,14 +974,14 @@ describe('Table', () => {
 # leanpub-end-insert
   };
 
-  ...
+  // ...
 
 });
 ~~~~~~~~
 
-Once again you might need to accept the failing snapshot tests for your Table component, because you provided extended props for the Table component.
+Ещё раз вам может потребоваться принять неудачные снимки компонента Table, потому что были расширены его свойства.
 
-Finally your advanced sort interaction is complete now.
+Наконец, взаимодействие с расширенной сортировкой завершено.
 
 ### Exercises:
 
@@ -981,7 +991,7 @@ Finally your advanced sort interaction is complete now.
 
 {pagebreak}
 
-You have learned advanced component techniques in React! Let's recap the last chapters:
+Вы изучили продвинутые технологии компонентов React! Давайте повторим последние пройденные темы:
 
 * React
   * the ref attribute to reference DOM nodes
