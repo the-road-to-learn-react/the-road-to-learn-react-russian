@@ -265,7 +265,8 @@ class App extends Component {
           { isLoading
             ? <Loading />
             : <Button
-              onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
+                onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
+              >
               More
             </Button>
           }
@@ -281,7 +282,7 @@ class App extends Component {
 
 ### Exercises:
 
-* use a library such as [Font Awesome](http://fontawesome.io/) to show a loading icon instead of the "Loading ..." text
+* use a library such as [Font Awesome](https://fontawesome.io/) to show a loading icon instead of the "Loading ..." text
 
 ## Компоненты высшего порядка
 
@@ -985,7 +986,7 @@ describe('Table', () => {
 
 ### Exercises:
 
-* use a library like [Font Awesome](http://fontawesome.io/) to indicate the (reverse) sort
+* use a library like [Font Awesome](https://fontawesome.io/) to indicate the (reverse) sort
   * it could be an arrow up or arrow down icon next to each Sort header
 * read more about the [classnames library](https://github.com/JedWatson/classnames)
 
