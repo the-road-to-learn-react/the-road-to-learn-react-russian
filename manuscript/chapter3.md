@@ -653,7 +653,7 @@ const PARAM_PAGE = 'page=';
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
-const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}`;
+const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}&${PARAM_PAGE}`;
 
 console.log(url);
 // выведет: https://hn.algolia.com/api/v1/search?query=redux&page=
