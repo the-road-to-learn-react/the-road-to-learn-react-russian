@@ -263,7 +263,8 @@ class App extends Component {
           { isLoading
             ? <Loading />
             : <Button
-              onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
+                onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
+              >
               More
             </Button>
           }
