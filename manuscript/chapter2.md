@@ -348,7 +348,7 @@ onDismiss(id) {
 
 ### Упражнения:
 
-* узнать больше о [состоянии и жизненном цикле в React](https://reactjs.org/docs/state-and-lifecycle.html)
+* узнать больше о [состоянии и жизненном цикле в React](https://ru.react.js.org/docs/state-and-lifecycle.html)
 
 ## Привязки
 
@@ -1019,7 +1019,7 @@ class App extends Component {
 
 ### Упражнения:
 
-* узнать больше о [событиях React](https://reactjs.org/docs/handling-events.html)
+* узнать больше о [событиях React](https://ru.react.js.org/docs/handling-events.html)
 * узнать подробнее про [функции высшего порядка](https://ru.wikipedia.org/wiki/%D0%A4%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F_%D0%B2%D1%8B%D1%81%D1%88%D0%B5%D0%B3%D0%BE_%D0%BF%D0%BE%D1%80%D1%8F%D0%B4%D0%BA%D0%B0)
 
 ## Деструктуризация ES6
@@ -1152,7 +1152,7 @@ class App extends Component {
 
 ### Упражнения:
 
-* узнайте больше о [формах в React](https://reactjs.org/docs/forms.html)
+* узнайте больше о [формах в React](https://ru.react.js.org/docs/forms.html)
 * изучите подробнее [различные контролируемые компоненты](https://github.com/the-road-to-learn-react/react-controlled-components-examples)
 
 ## Разделение компонентов
@@ -1343,7 +1343,7 @@ class Search extends Component {
 
 ### Упражнения:
 
-* прочитать подробнее про [модель композиции React](https://reactjs.org/docs/composition-vs-inheritance.html)
+* прочитать подробнее про [модель композиции React](https://ru.react.js.org/docs/composition-vs-inheritance.html)
 
 ## Повторно используемые компоненты
 
@@ -1523,7 +1523,7 @@ const Search = ({ value, onChange, children }) => {
 ### Упражнения:
 
 * преобразовать компоненты Table и Button в функциональные компоненты без состояния
-* прочитать подробнее про [классовые компоненты и функциональные компоненты без состояния](https://reactjs.org/docs/components-and-props.html)
+* прочитать подробнее про [классовые компоненты и функциональные компоненты без состояния](https://ru.react.js.org/docs/components-and-props.html)
 
 ## Стилизация компонентов
 
