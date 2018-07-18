@@ -1,79 +1,78 @@
-# Getting Real with an API
+# Получение реальных данных с API
 
-Now it's time to get real with an API, because it can get boring to deal with sample data.
+Теперь пришло время получать реальные данные через API, поскольку может быть скучно работать с демонстрационными данными.
 
-If you are not familiar with APIs, I encourage you [to read my journey where I got to know APIs](https://www.robinwieruch.de/what-is-an-api-javascript/).
+Если вы не знакомы с API, я рекомендую вам прочитать [моё путешествие по знакомству с API](https://www.robinwieruch.de/what-is-an-api-javascript/).
 
-Do you know the [Hacker News](https://news.ycombinator.com/) platform? It's a great news aggregator about tech topics. In this book, you will use the Hacker News API to fetch trending stories from the platform. There is a [basic](https://github.com/HackerNews/API) and [search](https://hn.algolia.com/api) API to get data from the platform. The latter one makes sense in the case of this application in order to search stories on Hacker News. You can visit the API specification to get an understanding of the data structure.
+Вы знаете платформу [Hacker News](https://news.ycombinator.com/)? Это отличный новостной агрегатор на технические темы. В этой книге мы будем использовать API Hacker News для получения популярных (трендовых) историй. Для того, чтобы это сделать есть [базовый](https://github.com/HackerNews/API) и [поисковый](https://hn.algolia.com/api) API для получения данных с этой платформы. Последний предназначен для нашего разрабатываемого приложения для поиска историй на Hacker News. Вы можете открыть спецификацию API для понимания структуры данных.
 
-## Lifecycle Methods
+## Методы жизненного цикла
 
-You will need to know about React lifecycle methods before you can start to fetch data in your components by using an API. These methods are a hook into the lifecycle of a React component. They can be used in ES6 class components, but not in functional stateless components.
+Вам нужно будет узнать о методах жизненного цикла React до того, как вы начнёте получать данные в ваших компонентах с использованием API. Эти методы — хуки в жизненном цикле React-компонента. Их можно использовать в ES6-классе компонента, но не в функциональных компонентах без состояния.
 
-Do you remember when a previous chapter taught you about JavaScript ES6 classes and how they are used in React? Apart from the `render()` method, there are several methods that can be overridden in a React ES6 class component. All of these are the lifecycle methods. Let's dive into them:
+Помните, в предыдущей главе вы изучали классы в JavaScript ES6 и их использование в React? Помимо метода `render()` существует несколько методов, которые переопределяются в классовых компонентах React. Всё это методы жизненного цикла, давайте погрузимся в них.
 
-You already know two lifecycle methods that can be used in an ES6 class component: `constructor()` and `render()`.
+Вам уже знакомы два метода жизненного цикла, которые можно использовать к классе компонента: `constructor()` и `render()`.
 
-The constructor is only called when an instance of the component is created and inserted in the DOM. The component gets instantiated. That process is called mounting of the component.
+Конструктор вызывается только тогда, когда экземпляр компонента создан и добавлен в DOM, т.е. компонент проинициализирован. Этот процесс называется монтированием (установкой) компонента.
 
-The `render()` method is called during the mount process too, but also when the component updates. Each time when the state or the props of a component change, the `render()` method of the component is called.
+Метод `render()` также вызывается во время процесса монтирования, но ещё и при обновлении компонента. Каждый раз при изменении состояния или свойств компонента, вызывается метод `render()`.
 
-Now you know more about the two lifecycle methods and when they are called. You already used them as well. But there are more of them.
+Теперь вы узнали больше об этих двух методах жизненного цикла и о том, в каких случаях они вызываются. Вы их уже использовали, но есть и другие методы, которые мы сейчас рассмотрим.
 
-The mounting of a component has two more lifecycle methods: `componentWillMount()` and `componentDidMount()`. The constructor is called first, `componentWillMount()` gets called before the `render()` method and `componentDidMount()` is called after the `render()` method.
+У монтирования компонента есть два метода жизненного цикла: `getDerivedStateFromProps()` и `componentDidMount()`. Сначала вызывается конструктор, метод `getDerivedStateFromProps()` вызывается до метода `render()` и `componentDidMount()` вызывается после метода `render()`.
 
-Overall the mounting process has 4 lifecycle methods. They are invoked in the following order:
+В целом процесс монтирования имеет 4 метода жизненного цикла. Они вызываются в следующем порядке:
 
 * constructor()
-* componentWillMount()
+* getDerivedStateFromProps()
 * render()
 * componentDidMount()
 
-But what about the update lifecycle of a component that happens when the state or the props change? Overall it has 5 lifecycle methods in the following order:
+Но как насчёт обновления жизненного цикла компонента, которое происходит при изменении состояния или свойств?
 
-* componentWillReceiveProps()
+* getDerivedStateFromProps()
 * shouldComponentUpdate()
 * componentWillUpdate()
 * render()
+* getSnapshotBeforeUpdate()
 * componentDidUpdate()
 
-Last but not least there is the unmounting lifecycle. It has only one lifecycle method: `componentWillUnmount()`.
+И последнее, но не менее важное — жизненный цикл размонтирования. Для этого процесса доступен только один метод — `componentWillUnmount()`.
 
-After all, you don't need to know all of these lifecycle methods from the beginning. It can be intimidating yet you will not use all of them. Even in a larger React application you will only use a few of them apart from the `constructor()` and the `render()` method. Still, it is good to know that each lifecycle method can be used for specific use cases:
+В конце концов, вам не нужно знать все эти методы жизненного цикла с самого начала. Это может быть пугающим, тем более не все вы будете использовать. Даже в крупном React-приложении вы будете использовать только некоторые из них, помимо методов `constructor()` и `render()`. Тем не менее, хорошо знать, какой метод жизненного цикла в каких случаях может использоваться:
 
-* **constructor(props)** - It is called when the component gets initialized. You can set an initial component state and bind class methods during that lifecycle method.
+* **constructor(props)** — вызывается, когда компонент инициализируется. Вы можете установить начальное состояние компонента и связать методы класса в этом методе жизненного цикла.
 
-* **componentWillMount()** - It is called before the `render()` lifecycle method. That's why it could be used to set internal component state, because it will not trigger a second rendering of the component. Generally it is recommended to use the `constructor()` to set the initial state.
+* **static getDerivedStateFromProps(props, state)** — вызывается перед методом жизненного цикла `render()` как при начальном монтировании, так и при последующих обновлениях. Этот метод должен возвратить объект для обновления состояния или `null`, если ничего не нужно обновлять. Он существует для **редких** случаев использования, когда состояние зависит от изменений в свойствах со временем. Важно знать, что это статический метод, и поэтому у него нет доступа к экземпляру компонента.
 
-* **render()** - This lifecycle method is mandatory and returns the elements as an output of the component. The method should be pure and therefore shouldn't modify the component state. It gets an input as props and state and returns an element.
+* **render()** — требуется обязательно и возвращает элементы в качестве вывода компонента. Метод должен быть чистым, т.е. не изменять состояние компонента. Он получает входные данные в виде свойств и состояния и возвращает элемент.
 
-* **componentDidMount()** - It is called only once when the component mounted. That's the perfect time to do an asynchronous request to fetch data from an API. The fetched data would get stored in the internal component state to display it in the `render()` lifecycle method.
+* **componentDidMount()** — вызывается только один раз при монтировании компонента. Это идеальный момент для выполнения асинхронных запросов на получение данных из API. Полученные данные будут сохранены во внутреннем состоянии компонента для его отображения в методе жизненного цикла `render()`.
 
-* **componentWillReceiveProps(nextProps)** - The lifecycle method is called during an update lifecycle. As input you get the next props. You can diff the next props with the previous props, by using `this.props`, to apply a different behavior based on the diff. Additionally, you can set state based on the next props.
+* **shouldComponentUpdate(nextProps, nextState)** — всегда вызывается, когда компонент изменяется во время изменения состояния или свойств. Вы будете использовать его в зрелых React-приложениях для оптимизации производительности. В зависимости от возвращаемого из этого метода логического значения компонент и все его дочерние элементы либо будут перерисовываться, либо нет. Этот метод может предотвратить отрисовку компонента.
 
-* **shouldComponentUpdate(nextProps, nextState)** - It is always called when the component updates due to state or props changes. You will use it in mature React applications for performance optimizations. Depending on a boolean that you return from this lifecycle method, the component and all its children will render or will not render on an update lifecycle. You can prevent the render lifecycle method of a component.
+* **getSnapshotBeforeUpdate(prevProps, prevState)** — вызывается непосредственно перед тем, как последний отрисованный вывод будет зафиксирован в DOM. В редких вариантах использования компонент должен захватить информацию из DOM прежде чем он в принципе будет изменён. Этот метод жизненного цикла позволяет компоненту это сделать. Другой метод (`componentDidUpdate()`) получит любое значение, возвращаемое `getSnapshotBeforeUpdate()` в качестве параметра.
 
-* **componentWillUpdate(nextProps, nextState)** - The lifecycle method is immediately invoked before the `render()` method. You already have the next props and next state at your disposal. You can use the method as last opportunity to perform preparations before the render method gets executed. Note that you cannot trigger `setState()` anymore. If you want to compute state based on the next props, you have to use `componentWillReceiveProps()`.
+* **componentDidUpdate(prevProps, prevState)** — вызывается сразу после обновления, но не при первоначальной отрисовке метода `render()`. Вы можете использовать его как возможность выполнять операции с DOM или дальнейшие асинхронные запросы. Если ваш компонент реализует метод `getSnapshotBeforeUpdate()`, возвращаемое им значение будет приниматься в качестве параметра `snapshot`.
 
-* **componentDidUpdate(prevProps, prevState)** - The lifecycle method is immediately invoked after the `render()` method. You can use it as opportunity to perform DOM operations or to perform further asynchronous requests.
+* **componentWillUnmount()** - вызывается до того, как компонент будет уничтожен. Вы можете использовать этот метод для выполнения любых задач очистки.
 
-* **componentWillUnmount()** - It is called before you destroy your component. You can use the lifecycle method to perform any clean up tasks.
+Вы уже использовали методы `constructor()` и `render()`. Это часто используемые методы жизненного цикла в классовых компонентах. На самом деле только метод `render()` является обязательным, в противном случае вы не возвратите экземпляр компонента.
 
-The `constructor()` and `render()` lifecycle methods are already used by you. These are the commonly used lifecycle methods for ES6 class components. Actually the `render()` method is required, otherwise you wouldn't return a component instance.
+Существует ещё один метод жизненного цикла — `componentDidCatch(error, info)`. Он представлен в [React 16](https://www.robinwieruch.de/what-is-new-in-react-16/) и используется для обработки ошибок в компонентах. К примеру, список хорошо отображается в приложении. Но что, если список в локальном состоянии случайно установлен в `null` (например, при получении данных из внешнего API запрос завершился неудачно, поэтому вы установили локальное состояние для списка в значение `null`). Впоследствии было невозможно фильтровать и отображать список, поскольку вместо элементов списка — значение `null`. Компонент будет сломан, и приложение полностью потерпит неудачу. Теперь, используя `componentDidCatch()`, вы можете перехватить ошибку, сохранить её в локальном состоянии и необязательно показать сообщение в приложении для уведомления пользователя об ошибке.
 
-There is one more lifecycle method: `componentDidCatch(error, info)`. It was introduced in [React 16](https://www.robinwieruch.de/what-is-new-in-react-16/) and is used to catch errors in components. For instance, displaying the sample list in your application works just fine. But there could be a case when the list in the local state is set to `null` by accident (e.g. when fetching the list from an external API, but the request failed and you set the local state of the list to null). Afterward, it wouldn't be possible to filter and map the list anymore, because it is `null` and not an empty list. The component would be broken and the whole application would fail. Now, by using `componentDidCatch()`, you can catch the error, store it in your local state, and show an optional message to your application user that an error has happened.
+### Упражнения:
 
-### Exercises:
+* узнать подробнее про [методы жизненного цикла в React](https://reactjs.org/docs/react-component.html)
+* узнать подробнее о [состоянии, связанном с методами жизненного цикла в React](https://reactjs.org/docs/state-and-lifecycle.html)
+* узнать подробнее про [обработку ошибок в компонентах](https://reactjs.org/blog/2017/07/26/error-handling-in-react-16.html)
 
-* read more about [lifecycle methods in React](https://reactjs.org/docs/react-component.html)
-* read more about [the state related to lifecycle methods in React](https://reactjs.org/docs/state-and-lifecycle.html)
-* read more about [error handling in components](https://reactjs.org/blog/2017/07/26/error-handling-in-react-16.html)
+## Получение данных
 
-## Fetching Data
+Теперь вы готовы извлечь данные из API Hacker News. Для этого можно воспользоваться ранее упомянутым методом жизненного цикла — `componentDidMount()`. Для выполнения запроса мы будем использовать нативный в JavaScript fetch.
 
-Now you are prepared to fetch data from the Hacker News API. There was one lifecycle method mentioned that can be used to fetch data: `componentDidMount()`. You will use the native fetch API in JavaScript to perform the request.
-
-Before we can use it, let's set up the URL constants and default parameters to breakup the API request into chunks.
+Прежде чем мы будем его использовать, давайте настроим константы для URL-адреса и параметры по умолчанию, чтобы разбить запрос к API на куски.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -88,10 +87,10 @@ const PATH_SEARCH = '/search';
 const PARAM_SEARCH = 'query=';
 # leanpub-end-insert
 
-...
+// ...
 ~~~~~~~~
 
-In JavaScript ES6, you can use [template strings](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Template_literals) to concatenate strings. You will use it to concatenate your URL for the API endpoint.
+В JavaScript ES6 вы можете использовать [шаблонные строки](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Template_literals) для конкатенации строк. В вашем случае вы будете их использовать для конкатенации  URL-адреса к конечной точке (endpoint) API.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -102,12 +101,12 @@ const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}`;
 var url = PATH_BASE + PATH_SEARCH + '?' + PARAM_SEARCH + DEFAULT_QUERY;
 
 console.log(url);
-// output: https://hn.algolia.com/api/v1/search?query=redux
+// вывод: https://hn.algolia.com/api/v1/search?query=redux
 ~~~~~~~~
 
-That will keep your URL composition flexible in the future.
+Это позволит сохранить гибкость структуры URL-адреса в будущем.
 
-But let's get to the API request where you will use the url. The whole data fetch process will be presented at once, but each step will be explained afterward.
+Но давайте перейдем к API-запросу, в котором будет использоваться URL-адрес. Весь процесс получения данных приводится сразу, но каждый шаг будет объяснен позже.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -151,19 +150,19 @@ class App extends Component {
 }
 ~~~~~~~~
 
-A lot of things happen in the code. I thought about breaking it into smaller pieces. Then again it would be difficult to grasp the relations of each piece to each other. Let me explain each step in detail.
+В коде много чего происходит. Я думал о том, чтобы разбить его на небольшие части. Тогда снова было бы трудно понять связь каждой части друг с другом. Позвольте мне подробно объяснить каждый шаг.
 
-First, you can remove the sample list of items, because you return a real list from the Hacker News API. The sample data is not used anymore. The initial state of your component has an empty result and default search term now. The same default search term is used in the input field of the Search component and in your first request.
+Во-первых, вы можете удалить демонстрационный список элементов, потому что вы возвращаете реальный список из API Hacker News. Демонстрационные данные больше не используются. Исходное состояние вашего компонента теперь имеет пустой результат и поисковый запрос по умолчанию. Тот же самый поисковый запрос по умолчанию используется в поле ввода компонента Search и в вашем первом запросе.
 
-Second, you use the `componentDidMount()` lifecycle method to fetch the data after the component did mount. In the very first fetch, the default search term from the local state is used. It will fetch "redux" related stories, because that is the default parameter.
+Во-вторых, вы используете метод жизненного цикла `componentDidMount()` для получения данных после монтирования компонента. При самом первом получении используется поисковый запрос по умолчанию из локального состояния. Он будет получить истории, связанные с "redux", поскольку это параметр по умолчанию.
 
-Third, the native fetch API is used. The JavaScript ES6 template strings allow it to compose the URL with the `searchTerm`. The URL is the argument for the native fetch API function. The response needs to get transformed to a JSON data structure, which is a mandatory step in a native fetch function when dealing with JSON data structures, and can finally be set as result in the internal component state. In addition, the catch block is used in case of an error. If an error happens during the request, the function will run into the catch block instead of the then block. In a later chapter of the book, you will include the error handling.
+В-третьих, используется нативный API. Шаблонные строки в JavaScript ES6 позволяют ему составлять URL-адрес с `searchTerm`. URL-адрес — аргумент для нативной функции API fetch. Ответ требуется преобразовать в структуру данных JSON, что является обязательным шагом в нативной функции fetch при работе с JSON-данными, и, наконец, они могут сохранены в качестве результата во внутреннем состоянии компонента. Кроме того, блок `catch` используете в случае ошибки. Если во время выполнения запроса произошла ошибка, выполнение функции перейдет из блока `then` в блок `catch`. В следующей главе книги будет включена обработка ошибок.
 
-Last but not least, don't forget to bind your new component method in the constructor.
+И последнее, но не менее важно: не забудьте связать новый метод компонента в конструкторе.
 
-Now you can use the fetched data instead of the sample list of items. However, you have to be careful again. The result is not only a list of data. [It's a complex object with meta information and a list of hits which are in our case the stories](https://hn.algolia.com/api). You can output the internal state with `console.log(this.state);` in your `render()` method to visualize it.
+Теперь вы можете использовать полученные данные вместо демонстрационного списка элементов. Однако нужно быть осторожным. Результат содержит не только список данных. [Это сложный объект с метаинформацией и свойством hits, который содержит нужные нам истории](https://hn.algolia.com/api). Вы можете вывести внутреннее состояние через `console.log(this.state);` в методе для `render()` для наглядного отображения.
 
-In the next step, you will use the result to render it. But we will prevent it from rendering anything, so we will return null, when there is no result in the first place. Once the request to the API succeeded, the result is saved to the state and the App component will re-render with the updated state.
+Следующим шагом будет использование результата для его отрисовки. Мы предотвратим отрисовку, вернув значение `null`, если данных с API нет в первый раз. После того, как запрос к API выполнен успешно, результат будет сохранен в состоянии и компонент App повторно отрисуется с обновлённым состоянием.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -194,23 +193,23 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Let's recap what happens during the component lifecycle. Your component gets initialized by the constructor. After that, it renders for the first time. But you prevent it from displaying anything, because the result in the local state is null. It is allowed to return null for a component in order to display nothing. Then the `componentDidMount()` lifecycle method runs. In that method you fetch the data from the Hacker News API asynchronously. Once the data arrives, it changes your internal component state in `setSearchTopStories()`. Afterward, the update lifecycle comes into play because the local state was updated. The component runs the `render()` method again, but this time with populated result in your internal component state. The component and thus the Table component with its content will be rendered.
+Давайте вспомним, что происходит во время жизненного цикла компонента. Компонент инициализируется через конструктор. После этого он отрисовывается в первый раз. Но вы препятствуете отрисовке чего-либо, поскольку результат в локальном состоянии равен `null`. Разрешено возвращать `null` из компонента, если нет данных для отображения. Затем выполняется метод жизненного цикла `componentDidMount()`. В этом методе вы асинхронно получаете данные из API Hacker News. Как только данные придут, изменится внутреннее состояние компонента в `setSearchTopStories()`. Поскольку локальное состояние обновлено, вступает в действие обновление жизненного цикла. Компонент снова выполняет метод `render()`, но на этот раз с заполненными данными результата во внутреннем состоянии компонента. Компонент, и таким образом, компонент Table с его содержимым будут отрисовываться.
 
-You used the native fetch API that is supported by most browsers to perform an asynchronous request to an API. The *create-react-app* configuration makes sure that it is supported in every browser. There are third-party node packages that you can use to substitute the native fetch API: [superagent](https://github.com/visionmedia/superagent) and [axios](https://github.com/mzabriskie/axios).
+Вы использовали нативный API fetch, поддерживаемый большинством браузеров для выполнения асинхронных запросов. Конфигурация *create-react-app*  гарантирует его поддержку в каждом браузере. Существуют также сторонние пакеты, которыми можно заменить нативный API fetch: [superagent](https://github.com/visionmedia/superagent) and [axios](https://github.com/mzabriskie/axios).
 
-Keep in mind that the book builds up on the JavaScript's shorthand notation for truthfulness checks. In the previous example, `if (!result)` was used in favor of `if (result === null)`. The same applies for other cases throughout the book too. For instance, `if (!list.length)` is used in favor of `if (list.length === 0)` or `if (someString)` is used in favor of `if (someString !== '')`. Read up about the topic if you are not too familiar with it.
+Имейте в виду, что в книге используется сокращённая нотация JavaScript для проверки истинности. В предыдущем примере `if (!result)` вместо `if (result === null)`. То же самое относится и к другим частям примеров на протяжении всей книги. Например, используете `if (!list.length)` вместо `if (list.length === 0)` или `if (someString)` вместо `if (someString !== '')`. Почитайте тему, если вы не слишком знакомы с этим.
 
-Back to your application: The list of hits should be visible now. However, there are two regression bugs in the application now. First, the "Dismiss" button is broken. It doesn't know about the complex result object and still operates on the plain list from the local state when dismissing an item. Second, when the list is displayed but you try to search for something else, the list gets filtered on the client-side even though the initial search was made by searching for stories on the server-side. The perfect behvaior would be to fetch another result object from the API when using the Search component. Both regression bugs will be fixed in the following chapters.
+Вернёмся к нашему приложению: показывается список историй. Однако сейчас в приложении есть два регресионных бага. Во-первых, кнопка "Отбросить" не работает. Она не знает о сложном объекте результата и по-прежнему работает на обычном списке из локального состояния при отклонении элемента. Во-вторых, при попытке поиска в отображенном списке, он фильтруется на стороне клиента, даже если изначальное получение данных было выполнено посредством поиска историй на стороне сервера. Идеально было бы при использовании компонента Search получать другой объект результата из API. Обе ошибки регрессии будут исправлены в следующих главах.
 
-### Exercises:
+### Упражнения:
 
-* read more about [ES6 template strings](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Template_literals)
-* read more about [the native fetch API](https://developer.mozilla.org/en/docs/Web/API/Fetch_API)
-* read more about [data fetching in React](https://www.robinwieruch.de/react-fetching-data/)
+* узнать подробнее про [строковые шаблоны ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Template_literals)
+* узнать подробнее про [нативный API fetch](https://developer.mozilla.org/ru/docs/Web/API/Fetch_API)
+* узнать подробнее про [получение данных в React](https://www.robinwieruch.de/react-fetching-data/)
 
-## ES6 Spread Operators
+## Оператор расширения ES6
 
-The "Dismiss" button doesn't work because the `onDismiss()` method is not aware of the complex result object. It only knows about a plain list in the local state. But it isn't a plain list anymore. Let's change it to operate on the result object instead of the list itself.
+Кнопка "Отбросить" не работает, потому что метод `onDismiss()` не знает о сложном результирующем объекте. Она знает только про простой список в локальном состоянии. Но это уже не простой список. Давайте изменим его для работы с результирующим объектом вместо самого списка.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -225,19 +224,19 @@ onDismiss(id) {
 }
 ~~~~~~~~
 
-But what happens in `setState()` now? Unfortunately the result is a complex object. The list of hits is only one of multiple properties in the object. However, only the list gets updated, when an item gets removed in the result object, while the other properties stay the same.
+Но что теперь происходит в `setState()`? К сожалению, результат — сложный объект. Список хитов — это только одно из нескольких свойств объекта. Тем не менее, только список обновляется, когда элемент удаляется в результирующем объекте, тогда как остальные свойства остаются такими же.
 
-One approach could be to mutate the hits in the result object. I will demonstrate it, but we won't do it that way.
+Один из подходов может заключаться в том, чтобы изменять свойство hits в результирующем объекте. Я продемонстрирую это, но мы не будем так делать.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
-// don`t do this
+// не делайте этого
 this.state.result.hits = updatedHits;
 ~~~~~~~~
 
-React embraces immutable data structures. Thus you shouldn't mutate an object (or mutate the state directly). A better approach is to generate a new object based on the information you have. Thereby none of the objects get altered. You will keep the immutable data structures. You will always return a new object and never alter an object.
+React охватывает неизменяемые структуры данных. Таким образом, вы не должны изменять объект (или напрямую изменить состояние). Лучший подход — создать новый объект на основе имеющейся информации. Таким образом, ни один из объектов не будет изменён. Вы сохраните неизменяемые структуры данных. Вы всегда будете возвращать новый объект, а не изменять объект.
 
-Therefore you can use JavaScript ES6 `Object.assign()`. It takes as first argument a target object. All following arguments are source objects. These objects are merged into the target object. The target object can be an empty object. It embraces immutability, because no source object gets mutated. It would look similar to the following:
+Поэтому вы можете использовать `Object.assign()` в JavaScript ES6. Он принимает в качестве первого аргумента целевой объект. Все следующие аргументы — исходные объекты. Эти объекты объединяются в целевой объект. Целевой объект может быть пустым. Метод `Object.assign()` удовлетворяет принципу неизменяемости, так что ни один из исходных объектов не изменяется. В итоге код будет выглядеть следующим образом:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -245,7 +244,7 @@ const updatedHits = { hits: updatedHits };
 const updatedResult = Object.assign({}, this.state.result, updatedHits);
 ~~~~~~~~
 
-Latter objects will override former merged objects when they share the same property names. Now let's do it in the `onDismiss()` method:
+Последующие объекты будут переопределять прежние объединённые объекты, если у них одинаковые имена свойств. Теперь давайте применим его в методе `onDismiss()`:
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -260,9 +259,9 @@ onDismiss(id) {
 }
 ~~~~~~~~
 
-That would already be the solution. But there is a simpler way in JavaScript ES6 and future JavaScript releases. May I introduce the spread operator to you? It only consists of three dots: `...` When it is used, every value from an array or object gets copied to another array or object.
+Мы эту функцию уже использовали. Но в JavaScript ES6 и будущих релизах JavaScript есть более простой способ. Могу ли я представить вам оператор расширения? Он состоит из трёх точек: `...`. При его использовании каждое значение из массива или объекта копируется в другой массив или объект.
 
-Let's examine the ES6 **array** spread operator even though you don't need it yet.
+Давайте изучим оператор расширения **массива** ES6, даже если он вам ещё не нужен.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -271,10 +270,10 @@ const additionalUser = 'Jordan';
 const allUsers = [ ...userList, additionalUser ];
 
 console.log(allUsers);
-// output: ['Robin', 'Andrew', 'Dan', 'Jordan']
+// выведет ['Robin', 'Andrew', 'Dan', 'Jordan']
 ~~~~~~~~
 
-The `allUsers` variable is a completely new array. The other variables `userList` and `additionalUser` stay the same. You can even merge two arrays that way into a new array.
+Переменная `allUsers` — это полностью новый массив. Остальные переменные `userList` и `additionalUser` остаются такими же. Вы можете объединить два массива таким образом в новый массив.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -283,12 +282,12 @@ const newUsers = ['Dan', 'Jordan'];
 const allUsers = [ ...oldUsers, ...newUsers ];
 
 console.log(allUsers);
-// output: ['Robin', 'Andrew', 'Dan', 'Jordan']
+// выведет: ['Robin', 'Andrew', 'Dan', 'Jordan']
 ~~~~~~~~
 
-Now let's have a look at the object spread operator. It is not JavaScript ES6. It is a [proposal for a next JavaScript version](https://github.com/sebmarkbage/ecmascript-rest-spread) yet already used by the React community. That's why *create-react-app* incorporated the feature in the configuration.
+Теперь давайте посмотрим на оператор расширения объекта. Это не JavaScript ES6. Это [предложение для следующей версии JavaScript](https://github.com/sebmarkbage/ecmascript-rest-spread), которое уже используется сообществом React. Именно поэтому *create-react-app* включило эту возможно в свою конфигурацию.
 
-Basically it is the same as the JavaScript ES6 array spread operator but with objects. It copies each key value pair into a new object.
+В основном это то же самое, что и оператор расширения массива в JavaScript ES6, но с объектами. Он копирует каждую пару ключ-значение в новый объект.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -297,10 +296,10 @@ const age = 28;
 const user = { ...userNames, age };
 
 console.log(user);
-// output: { firstname: 'Robin', lastname: 'Wieruch', age: 28 }
+// выведет { firstname: 'Robin', lastname: 'Wieruch', age: 28 }
 ~~~~~~~~
 
-Multiple objects can be spread like in the array spread example.
+Может использоваться несколько объектов, как в аналогичном примере с массивом.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -309,10 +308,10 @@ const userAge = { age: 28 };
 const user = { ...userNames, ...userAge };
 
 console.log(user);
-// output: { firstname: 'Robin', lastname: 'Wieruch', age: 28 }
+// выведет { firstname: 'Robin', lastname: 'Wieruch', age: 28 }
 ~~~~~~~~
 
-After all, it can be used to replace `Object.assign()`.
+В конце концов его можно использовать для замены `Object.assign()`.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -327,21 +326,21 @@ onDismiss(id) {
 }
 ~~~~~~~~
 
-Now the "Dismiss" button should work again, because the `onDismiss()` method is aware of the complex result object and how to update it after dismissing an item from the list.
+Теперь кнопка "Отбросить" должна снова работать, потому что метод `onDismiss()` знает о сложном результирующем объекте и о том, как его обновлять после отклонения элемента из списка.
 
-### Exercises:
+### Упражнения:
 
-* read more about the [ES6 Object.assign()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)
-* read more about the [ES6 array spread operator](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Spread_operator)
-  * the object spread operator is briefly mentioned
+* узнайте подробнее про [ES6 Object.assign()](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)
+* узнайте подробнее про  [Оператора расширения массива ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Spread_operator)
+  * оператор расширения объектов кратко упоминался уже
 
-## Conditional Rendering
+## Отрисовка по условию
 
-Conditional rendering is introduced pretty early in React applications. But not in the case of the book, because there wasn't such an use case yet. The conditional rendering happens when you want to make a decision to render either one or another element. Sometimes it means to render an element or nothing. After all, a conditional rendering simplest usage can be expressed by an if-else statement in JSX.
+Условная отрисовка применяется довольно рано в React-приложении. Но не в этой книге, потому что не было такого случая использования. Условная отрисовка происходит, когда вы хотите решить — отрисовать тот или иной элемент, или нет. Иногда это означает отрисовать либо элемент, либо вообще ничего. В конце концов, упрощённое использование условной отрисовки может быть сформулировано выражением if-else в JSX.
 
-The `result` object in the internal component state is `null` in the beginning. So far, the App component returned no elements when the `result` hasn't arrived from the API. That's already a conditional rendering, because you return earlier from the `render()` lifecycle method for a certain condition. The App component either renders nothing or its elements.
+Объект `result` во внутреннем состоянии объекта равен значению `null` в самом начале. До сих пор компонент App не возвращал элементов, когда `result` не был заполнен с API. Это уже условная отрисовка, потому что из метода жизненного цикла `render()` заранее возвращается что-то в зависимости от определённого условия. Компонент App либо отрисовывает свои элементы, либо ничего не отрисовывает.
 
-But let's go one step further. It makes more sense to wrap the Table component, which is the only component that depends on the `result`, in an independent conditional rendering. Everything else should be displayed, even though there is no `result` yet. You can simply use a ternary operator in your JSX.
+Но давайте пойдём дальше. Имеет смысл обернуть компонент Table, единственный компонент, который зависит от `result`, в независимую условную отрисовку. Всё остальное должно отображаться, даже если пока `result` ещё нет. Вы можете просто использовать тернарный оператор в JSX.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -360,7 +359,7 @@ class App extends Component {
             value={searchTerm}
             onChange={this.onSearchChange}
           >
-            Search
+            Поиск
           </Search>
         </div>
 # leanpub-start-insert
@@ -379,20 +378,20 @@ class App extends Component {
 }
 ~~~~~~~~
 
-That's your second option to express a conditional rendering. A third option is the logical `&&` operator. In JavaScript a `true && 'Hello World'` always evaluates to 'Hello World'. A `false && 'Hello World'` always evaluates to false.
+Это второй вариант выражения условной отрисовки. Третий вариант заключается в логическом операторе `&&`. В JavaScript выражение `true && 'Hello World'` всегда выполняется как 'Hello World'. А выражение `false && 'Hello World'` всегда будет false.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
 const result = true && 'Hello World';
 console.log(result);
-// output: Hello World
+// выведет: Hello World
 
 const result = false && 'Hello World';
 console.log(result);
-// output: false
+// выведет: false
 ~~~~~~~~
 
-In React you can make use of that behavior. If the condition is true, the expression after the logical `&&` operator will be the output. If the condition is false, React ignores and skips the expression. It is applicable in the Table conditional rendering case, because it should return a Table or nothing.
+В React вы можете использовать подобное поведение. Если условие равняется true, выражение после оператора `&&` будет выведено. Если условие равняется false, React проигнорирует и пропустит выражение. Это подходит в случае условной отрисовки компонента Table, поскольку он должен возвращать Table, а может его не вернуть.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -405,20 +404,20 @@ In React you can make use of that behavior. If the condition is true, the expres
 }
 ~~~~~~~~
 
-These were a few approaches to use conditional rendering in React. You can read about [more alternatives in an exhaustive list of examples for conditional rendering approaches](https://www.robinwieruch.de/conditional-rendering-react/). Moreover you will get to know their different use cases and when to apply them.
+Сейчас были показаны несколько подходов использования условной отрисовки в React. Вы можете узнать [больше о других альтернативах в исчерпывающем списке примеров условной отрисовки](https://www.robinwieruch.de/conditional-rendering-react/). Кроме того, вы узнаете об их различных вариантах использования и применения их.
 
-After all, you should be able to see the fetched data in your application. Everything except the Table is displayed when the data fetching is pending. Once the request resolves the result and stores it into the local state, the Table is displayed because the `render()` method runs again and the condition in the conditional rendering resolves in favor of displaying the Table component.
+В конце концов, вы должны иметь возможность видеть полученные данные в приложении. Когда данные находятся только в процессе получения, отображается всё, кроме таблицы. После того как результат будет получен из запроса и сохранен в локальном состоянии, будет отображена таблица, потому что метод `render()` запускается снова, и условие разрешается в пользу отображения компонента таблицы.
 
-### Exercises:
+### Упражнения:
 
-* read more about [different ways for conditional renderings](https://www.robinwieruch.de/conditional-rendering-react/)
-* read more about [React conditional rendering](https://reactjs.org/docs/conditional-rendering.html)
+* узнайте подробнее про [различные способы условной отрисовки](https://www.robinwieruch.de/conditional-rendering-react/)
+* узнайте больше про [отрисовку по условию в React](https://reactjs.org/docs/conditional-rendering.html)
 
-## Client- or Server-side Search
+## Поиск на стороне клиента и на стороне сервера
 
-When you use the Search component with its input field now, you will filter the list. That's happening on the client-side though. Now you are going to use the Hacker News API to search on the server-side. Otherwise you would deal only with the first API response which you got on `componentDidMount()` with the default search term parameter.
+Теперь, когда вы используете компонент поиска со своим полем ввода, пришло время фильтровать список. Сейчас это происходит на стороне клиента, а теперь вы будете использовать фильтрацию на стороне сервера. В противном случае вы будете иметь дело только с первым запросом, который вы сделали в методе `componentDidMount()` с параметром поиска по умолчанию.
 
-You can define an `onSearchSubmit()` method in your App component which fetches results from the Hacker News API when executing a search in the Search component.
+Вы можете определить метод `onSearchSubmit()` в компонента App, который получает результаты из Hacker News API при выполнении поиска в компоненте Search.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -452,7 +451,7 @@ class App extends Component {
 }
 ~~~~~~~~
 
-The `onSearchSubmit()` method should use the same functionality as the `componentDidMount()` lifecycle method, but this time with a modified search term from the local state and not with the initial default search term. Thus you can extract the functionality as a reusable class method.
+Метод `onSearchSubmit()` должен использовать ту же функциональность, что и метод жизненного цикла `componentDidMount()`, но на этот раз с изменённым поисковым запросом из локального состояния, а не с начальным запросом поиска по умолчанию. Таким образом, вы можете извлечь функциональность как метод класса для повторного использования.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -506,11 +505,11 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Now the Search component has to add an additional button. The button has to explicitly trigger the search request. Otherwise you would fetch data from the Hacker News API every time when your input field changes. But you want to do it explicitly in a `onClick()` handler.
+Теперь в компоненте Search нужно добавить дополнительную кнопку. Кнопка должна явно вызывать запрос на поиск. В противном случае вы будете получать данные с API Hacker News каждый раз, когда изменяется поле ввода. Скорее всего вы захотите это сделать в обработчике `onClick()`.
 
-As alternative you could debounce (delay) the `onChange()` function and spare the button, but it would add more complexity at this time and maybe wouldn't be the desired effect. Let's keep it simple without a debounce for now.
+В качестве альтернативы вы можете отложить (задержать выполнение) функцию `onChange()` и обойтись без этой кнопки. Но это добавит больше сложности и, возможно, не будет иметь желаемого эффекта. Давайте оставим простой вариант без задержки.
 
-First, pass the `onSearchSubmit()` method to your Search component.
+Сначала передадим метод `onSearchSubmit()` в компонент Search.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -530,7 +529,7 @@ class App extends Component {
             onSubmit={this.onSearchSubmit}
 # leanpub-end-insert
           >
-            Search
+            Поиск
           </Search>
         </div>
         { result &&
@@ -546,7 +545,7 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Second, introduce a button in your Search component. The button has the `type="submit"` and the form uses its `onSubmit()` attribute to pass the `onSubmit()` method. You can reuse the children property, but this time it will be used as the content of the button.
+Во-вторых, создадим кнопку в компоненте Search. У кнопки будет атрибут `type="submit"`, а у формы будет свой атрибут `onSubmit` для передачи метода `onSubmit()`. Вы можете повторно использовать свойство `children`, но на этот раз в нём будет содержаться текст кнопки.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -570,7 +569,7 @@ const Search = ({
 # leanpub-end-insert
 ~~~~~~~~
 
-In the Table, you can remove the filter functionality, because there will be no client-side filter (search) anymore. Don't forget to remove the `isSearched()` function as well. It will not be used anymore. The result comes directly from the Hacker News API now after you have clicked the "Search" button.
+В компоненте Table можно удалить функциональность фильтра, потому что больше не будет фильтра (поиска) на стороне клиента. Не забудьте также удалить функцию `isSearched()`: она больше не будет использоваться. Результат приходит непосредственно из API Hacker News после того, как была нажата кнопка "Поиск".
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -610,7 +609,7 @@ const Table = ({ list, onDismiss }) =>
   </div>
 ~~~~~~~~
 
-When you try to search now, you will notice that the browser reloads. That's a native browser behavior for a submit callback in a HTML form. In React you will often come across the `preventDefault()` event method to suppress the native browser behavior.
+Если вы попытаетесь выполнить данный код сейчас, вы заметите, что браузер перезагружается. Это стандартное поведение браузера для колбэка при отправки формы HTML. В React вы часто столкнётесь с методом события `preventDefault()` для предотвращения нативного поведения браузера.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -625,18 +624,18 @@ onSearchSubmit(event) {
 }
 ~~~~~~~~
 
-Now you should be able to search different Hacker News stories. Perfect, you interact with a real world API. There should be no client-side search anymore.
+Теперь вы сможете искать различные истории по Hacker News. Прекрасно, сейчас вы взаимодействуете с реальным API. Больше не должно быть поиска на стороне клиента.
 
-### Exercises:
+### Упражнения:
 
-* read more about [synthetic events in React](https://reactjs.org/docs/events.html)
-* experiment with the [Hacker News API](https://hn.algolia.com/api)
+* узнайте больше про [синтетические события в React](https://reactjs.org/docs/events.html)
+* поэкспериментируйте с [API Hacker News](https://hn.algolia.com/api)
 
-## Paginated Fetch
+## Получение данных с разбивкой на страницы
 
-Did you have a closer look at the returned data structure yet? The [Hacker News API](https://hn.algolia.com/api) returns more than a list of hits. Precisely it returns a paginated list. The page property, which is `0` in the first response, can be used to fetch more paginated sublists as result. You only need to pass the next page with the same search term to the API.
+Вы внимательно изучили структуру возвращаемых данных до сих пор? [API Hacker News](https://hn.algolia.com/api) возвращает больше данных, чем просто список историй (hits). Как раз этот API возвращает список историй с разбивкой на страницы. Свойство `page`, равное `0` в первом ответе, может быть использовано для получения большего количества с делением на страницы в качестве результата. Вам нужно передать следующую страницу с тем же самим поисковым запросам к API.
 
-Let's extend the composable API constants so that it can deal with paginated data.
+Давайте расширим вспомогательные константы для API, чтобы мы могли работать с данными, разбитыми на страницы.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -650,17 +649,17 @@ const PARAM_PAGE = 'page=';
 # leanpub-end-insert
 ~~~~~~~~
 
-Now you can use the new constant to add the page parameter to your API request.
+Теперь можно использовать новую константу для добавления параметра страницы к запросу API.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
-const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}`;
+const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}&${PARAM_PAGE}`;
 
 console.log(url);
-// output: https://hn.algolia.com/api/v1/search?query=redux&page=
+// выведет: https://hn.algolia.com/api/v1/search?query=redux&page=
 ~~~~~~~~
 
-The `fetchSearchTopStories()` method will take the page as second argument. If you don't provide the second argument, it will fallback to the `0` page for the initial request. Thus the `componentDidMount()` and `onSearchSubmit()` methods fetch the first page on the first request. Every additional fetch should fetch the next page by providing the second argument.
+Метод `fetchSearchTopStories()` принимает страницу в качестве второго аргумента. Если второй аргумент не предоставлен, будет использоваться страница `0` для первоначального запроса. Таким образом, методы `componentDidMount()` и `onSearchSubmit()` извлекают первую страницу по первому запросу. Каждая дополнительная выборка будет отображать следующую страницу, передавая её вторым аргументом.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -682,9 +681,9 @@ class App extends Component {
 }
 ~~~~~~~~
 
-The page argument uses the JavaScript ES6 default parameter to introduce the fallback to page `0` in case no defined page argument is provided for the function.
+Аргумент страницы использует значения параметров по умолчанию из JavaScript ES6, чтобы вернуться к странице `0` в случае, если функции не предоставлен аргумент страницы.
 
-Now you can use the current page from the API response in `fetchSearchTopStories()`. You can use this method in a button to fetch more stories on a `onClick` button handler. Let's use the Button to fetch more paginated data from the Hacker News API. You only need to define the `onClick()` handler which takes the current search term and the next page (current page + 1).
+Теперь мы знаем, как получить текущую страницу из ответа API в `fetchSearchTopStories()`. Вы можете использовать этот метод при нажатии на кнопку, чтобы получить ещё больше историй в обработчике кнопки `onClick`. Давайте воспользуемся компонентом Button для выборки большего количества данных с разбивкой на страницы из API Hacker News. Вам нужно только определить обработчик `onClick()`, который принимает текущий поисковый запрос пользователя и следующую страницу (текущая страница + 1).
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -710,7 +709,7 @@ class App extends Component {
 # leanpub-start-insert
         <div className="interactions">
           <Button onClick={() => this.fetchSearchTopStories(searchTerm, page + 1)}>
-            More
+            Больше историй
           </Button>
         </div>
 # leanpub-end-insert
@@ -720,9 +719,9 @@ class App extends Component {
 }
 ~~~~~~~~
 
-In addition, in your `render()` method you should make sure to default to page 0 when there is no result yet. Remember that the `render()` method is called before the data is fetched asynchronously in the `componentDidMount()` lifecycle method.
+Кроме того, в методе `render()` вам надо убедиться, что по умолчанию страница 0, когда результата пока нет. Помните, что метод `render()` вызывается до того, как данные будут извлечены асинхронно в методе жизненного цикла `componentDidMount()`.
 
-There is one step missing. You fetch the next page of data, but it will override your previous page of data. It would be ideal to concatenate the old and new list of hits from the local state and new result object. Let's adjust the functionality to add the new data rather than to override it.
+Но мы пропустили ещё один шаг. Вы получаете следующую страницу данных, но она не переопределяет предыдущую страницу данных. Было бы идеально объединять старый и новый список историй из локального состояния и нового объекта результата. Давайте скорректируем функциональность добавления новых данных, вместо того чтобы переопределять их.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -746,15 +745,15 @@ setSearchTopStories(result) {
 }
 ~~~~~~~~
 
-A couple of things happen in the `setSearchTopStories()` method now. First, you get the hits and page from the result.
+Несколько моментов в методе `setSearchTopStories()` нужно отметить. Во-первых, вы получаете истории и текущую страницу из результата.
 
-Second, you have to check if there are already old hits. When the page is 0, it is a new search request from `componentDidMount()` or `onSearchSubmit()`. The hits are empty. But when you click the "More" button to fetch paginated data the page isn't 0. It is the next page. The old hits are already stored in your state and thus can be used.
+Во-вторых, вам нужно проверить, есть ли уже старые истории. Если страница равна 0, значит это новый поисковый запрос от `componentDidMount()` или `onSearchSubmit()`. Истории пустые. Но когда вы нажимаете на кнопку «Больше историй», чтобы получить больше данных с разбивкой по страницам, текущая страница больше не будет равняться 0. Это следующая страница. Старые истории уже хранятся в состоянии компонента и поэтому могут быть использованы.
 
-Third, you don't want to override the old hits. You can merge old and new hits from the recent API request. The merge of both lists can be done with the JavaScript ES6 array spread operator.
+В-третьих, вы не хотите переопределять старые истории. Вы можете объединить старые и новые истории из последнего запроса API. Объединение обоих списков может быть выполнено с помощью оператора расширения массива из JavaScript ES6.
 
-Fourth, you set the merged hits and page in the local component state.
+В-четвертых, вы сохранили объединённые истории и страницу в состоянии локального компонента.
 
-You can make one last adjustment. When you try the "More" button it only fetches a few list items. The API URL can be extended to fetch more list items with each request. Again, you can add more composable path constants.
+Мы можем сделать последнюю правку. Когда вы пытаетесь нажать на кнопку «Больше историй», будут получены только несколько элементов списка. URL-адрес API может быть расширен для получения большего количества элементов списка с каждым запросом. Опять же, вы можете добавить дополнительные пути для запроса в виде констант.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -772,7 +771,7 @@ const PARAM_HPP = 'hitsPerPage=';
 # leanpub-end-insert
 ~~~~~~~~
 
-Now you can use the constants to extend the API URL.
+Теперь вы можете использовать константы для расширения URL-адреса к API-запросу.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -786,20 +785,20 @@ fetchSearchTopStories(searchTerm, page = 0) {
 }
 ~~~~~~~~
 
-Afterward, the request to the Hacker News API fetches more list items in one request than before. As you can see, a powerful API such as the Hacker News API gives you plenty of ways to experiment with real world data. You should make use of it to make your endeavours when learning something new more exciting. That's [how I learned about the empowerment that APIs provide](https://www.robinwieruch.de/what-is-an-api-javascript/) when learning a new programming language or library.
+После этого запрос к API Hacker News получает больше элементов списка за один запрос, чем раньше. Как вы можете видеть, мощный API, такой как API Hacker News, даёт вам множество способов экспериментировать с данными из реального мира. Вы должны это использовать, чтобы приложить усилия, когда узнаете что-нибудь новое, более захватывающее. Вот [как я узнал о расширении возможностей, предоставляемых API](https://www.robinwieruch.de/what-is-an-api-javascript/) при изучении нового языка программирования или библиотеки.
 
-### Exercises:
+### Упражнения:
 
-* read more about [ES6 default parameters](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Default_parameters)
-* experiment with the [Hacker News API parameters](https://hn.algolia.com/api)
+* узнайте больше про [параметры по умолчанию из ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Functions/Default_parameters)
+* поэкспериментируйте с [параметрами API Hacker News](https://hn.algolia.com/api)
 
-## Client Cache
+## Кеш клиента
 
-Each search submit makes a request to the Hacker News API. You might search for "redux", followed by "react" and eventually "redux" again. In total it makes 3 requests. But you searched for "redux" twice and both times it took a whole asynchronous roundtrip to fetch the data. In a client-sided cache you would store each result. When a request to the API is made, it checks if a result is already there. If it is there, the cache is used. Otherwise an API request is made to fetch the data.
+При каждой отправке формы поиска отправляется запрос к API Hacker News. Вы можете поискать «redux», а затем «react», и в конце концов снова «redux». Таким образом, получаются 3 запроса. Но вы дважды искали «redux», и оба раза для получения данных потребовалось полное асинхронное получение данных в обе стороны. В кеше на стороне клиента вы сохраните каждый результат. Когда выполняется запрос к API, проверяется, есть ли уже результат. Если он есть, используется кеш. В противном случае для получения данных выполняется запрос к API.
 
-In order to have a client cache for each result, you have to store multiple `results` rather than one `result` in your internal component state. The results object will be a map with the search term as key and the result as value. Each result from the API will be saved by search term (key).
+Для обеспечения существования клиентского кеша для каждого результата, вам нужно сохранить несколько результатов (`results`), а не один результат (`result`) во внутреннем состоянии компонента. Объектом результатов будет объект с поисковой строкой в качестве ключа и результатом запроса в качестве значения. Каждый результат, полученный от API, будет сохранён с соответствующей поисковой строкой в качестве ключа.
 
-At the moment, your result in the local state looks similar to the following:
+На данный момент ваш результат в локальном состоянии выглядит примерно так:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -809,7 +808,7 @@ result: {
 }
 ~~~~~~~~
 
-Imagine you have made two API requests. One for the search term "redux" and another one for "react". The results object should look like the following:
+Представьте, что вы сделали два запроса API. Один для поисковой строки «redux» и ещё один для «react». Объект результатов будет выглядеть следующим образом:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -826,7 +825,7 @@ results: {
 }
 ~~~~~~~~
 
-Let's implement a client-side cache with React `setState()`. First, rename the `result` object to `results` in the initial component state. Second, define a temporary `searchKey` which is used to store each `result`.
+Давайте реализуем кеширование на стороне клиента с помощью `setState()`. Во-первых, переименуйте объект `result` в `results` в начальном состоянии компонента. Во-вторых, определите временный `searchKey`, который используется для хранения каждого результата (`result`).
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -852,7 +851,7 @@ class App extends Component {
 }
 ~~~~~~~~
 
-The `searchKey` has to be set before each request is made. It reflects the `searchTerm`. You might wonder: Why don't we use the `searchTerm` in the first place? That's a crucial part to understand before continuing with the implementation. The `searchTerm` is a fluctuant variable, because it gets changed every time you type into the Search input field. However, in the end you will need a non fluctuant variable. It determines the recent submitted search term to the API and can be used to retrieve the correct result from the map of results. It is a pointer to your current result in the cache and thus can be used to display the current result in your `render()` method.
+Ключ `searchKey` должен быть установлен перед каждым запросом. Он отражает `searchTerm`. Вы могли бы задаться вопросом: почему мы не используем `searchTerm` в первую очередь? Это важно понять, прежде чем продолжать реализацию. `searchTerm` — это неустойчивая (временная) переменная, поскольку она изменяется каждый раз при вводе в поле поиска. Однако в конце вам понадобится постоянная переменная. Она определяет недавно отправленный поисковый запрос к API и может использоваться для получения правильного результата из объекта с результатами. Это указатель на ваш текущий результат в кеше и, следовательно, её можно использовать для отображения текущего результата в методе `render()`.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -874,7 +873,7 @@ onSearchSubmit(event) {
 }
 ~~~~~~~~
 
-Now you have to adjust the functionality where the result is stored to the internal component state. It should store each result by `searchKey`.
+Теперь вам нужно подправить код для сохранения результата во внутреннее состояние компонента. Он должен хранить каждый результат с использованием ключа `searchKey`.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -912,13 +911,13 @@ class App extends Component {
 }
 ~~~~~~~~
 
-The `searchKey` will be used as the key to save the updated hits and page in a `results` map.
+`searchKey` будет использоваться в качестве ключа для сохранения обновлённых историй и страницы в объекте `results`.
 
-First, you have to retrieve the `searchKey` from the component state. Remember that the `searchKey` gets set on `componentDidMount()` and `onSearchSubmit()`.
+Во-первых, вы должны получить `searchKey` из состояния компонента. Помните, что `searchKey` устанавливается в `componentDidMount()` и `onSearchSubmit()`.
 
-Second, the old hits have to get merged with the new hits as before. But this time the old hits get retrieved from the `results` map with the `searchKey` as key.
+Во-вторых, старые истории должны быть объединены с новыми историями, как и раньше. Но на этот раз старые истории получаются из объекта `results` с помощью `searchKey` в качестве ключа.
 
-Third, a new result can be set in the `results` map in the state. Let's examine the `results` object in `setState()`.
+В-третьих, новый результат может быть сохранён в объекте `results` состояния. Рассмотрим объект `results` в `setState()`.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -928,11 +927,11 @@ results: {
 }
 ~~~~~~~~
 
-The bottom part makes sure to store the updated result by `searchKey` in the results map. The value is an object with a hits and page property. The `searchKey` is the search term. You already learned the `[searchKey]: ...` syntax. It is an ES6 computed property name. It helps you to allocate values dynamically in an object.
+Нижняя часть гарантирует сохранение обновлённого результата с ключом `searchKey` в объекте результатов. Значение — это объект со свойствами hits и page. `searchKey` — это поисковая строка. Вы уже изучили синтаксис `[searchKey]: ...`. Это вычисляемое имя свойства в ES6. Оно помогает динамически распределять значения в объекте.
 
-The upper part needs to spread all other results by `searchKey` in the state by using the object spread operator. Otherwise you would lose all results that you have stored before.
+Верхняя часть должна добавить все остальные результаты по `searchKey` в состоянии с помощью оператора расширения объектов. В противном случае вы потеряете все результаты, которые вы сохранили ранее.
 
-Now you store all results by search term. That's the first step to enable your cache. In the next step, you can retrieve the result depending on the non fluctuant `searchKey` from your map of results. That's why you had to introduce the `searchKey` in the first place as non fluctuant variable. Otherwise the retrieval would be broken when you would use the fluctuant `searchTerm` to retrieve the current result, because this value might change when you would use the Search component.
+Теперь вы сохраняете все результаты по поисковой строке. Это первый шаг для реализации кеша. На следующем шаге вы можете получить результат в зависимости от не временного значения в `searchKey` в объекте результатов. Вот почему вам сначала нужно было ввести `searchKey` как постоянную переменную. В противном случае процесс поиска будет нарушен, если вы будете использовать временный `searchTerm` для получения текущего результата, потому что это значение может измениться, если вы будете использовать компонент Search.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -976,7 +975,7 @@ class App extends Component {
 # leanpub-start-insert
           <Button onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
 # leanpub-end-insert
-            More
+            Больше историй
           </Button>
         </div>
       </div>
@@ -985,11 +984,11 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Since you default to an empty list when there is no result by `searchKey`, you can spare the conditional rendering for the Table component now. Additionally you will need to pass the `searchKey` rather than the `searchTerm` to the "More" button. Otherwise your paginated fetch depends on the `searchTerm` value which is fluctuant. Moreover make sure to keep the fluctuant `searchTerm` property for the input field in the "Search" component.
+Поскольку по умолчанию у нас пустой список, потому что нет результата по `searchKey`, мы можем сейчас сэкономить условную отрисовку для компонента Table. Кроме того, вам нужно будет передать `searchKey`, а не` searchTerm` в кнопку «Больше историй». В противном случае постраничное получение данных зависит от значения `searchTerm`, которое является изменчивым. Кроме того, не забудьте сохранить свойство `searchTerm` для поля ввода в компоненте Search.
 
-The search functionality should work again. It stores all results from the Hacker News API.
+Функциональность поиска должна снова заработать. Она сохраняет все результаты от API Hacker News.
 
-Additionally the `onDismiss()` method needs to get improved. It still deals with the `result` object. Now it has to deal with multiple `results`.
+Кроме того, метод `onDismiss()` должен быть улучшен. Он по-прежнему работает с объектом `result`. Теперь он должен иметь дело с несколькими результатами (`results`).
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1013,9 +1012,9 @@ Additionally the `onDismiss()` method needs to get improved. It still deals with
   }
 ~~~~~~~~
 
-The "Dismiss" button should work again.
+Кнопка «Отбросить» должна снова работать.
 
-However, nothing stops the application from sending an API request on each search submit. Even though there might be already a result, there is no check that prevents the request. Thus the cache functionality is not complete yet. It caches the results, but it doesn't make use of them. The last step would be to prevent the API request when a result is available in the cache.
+Тем не менее, ничто не мешает приложению отсылать запрос к API при каждом запросе на поиск. Несмотря на то, что результат уже может быть, нет проверки, которая предотвращает запрос. Таким образом, функциональность кеша ещё не завершена. Она кеширует результаты, но не использует их. Последним шагом было бы предотвратить запрос к API, когда результат имеется в кеше.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1061,13 +1060,13 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Now your client makes a request to the API only once although you search for a search term twice. Even paginated data with several pages gets cached that way, because you always save the last page for each result in the `results` map. Isn't that a powerful approach to introduce caching to your application? The Hacker News API provides you with everything you need to even cache paginated data effectively.
+Теперь на клиенте делается запрос к API только один раз, хотя вы дважды ищете поисковую строку. Даже данные с разбивкой на страницы с несколькими страницами кешируются таким образом, потому что вы всегда сохраняете последнюю страницу для каждого результата в объекте `results`. Разве это не мощный подход для внедрения кеширования в ваше приложение? API Hacker News предоставляет всё необходимое для того, чтобы эффективно кешировать данные с разбивкой на страницы.
 
-## Error Handling
+## Обработка ошибок
 
-Everything is in place for your interactions with the Hacker News API. You even have introduced an elegant way to cache your results from the API and make use of its paginated list functionality to fetch an endless list of sublists of stories from the API. But there is one piece missing. Unfortunately it is often missed when developing applications nowadays: error handling. It is too easy to implement the happy path without worrying about the errors that can happen along the way.
+Всё готово для работы с API Hacker News. Мы даже попробовали реализовать элегантный способ кеширования результатов из API и использовать возможность API для постраничного получения бесконечного списка историй. Но есть недостающая часть. К сожалению, сегодня она часто пропускается при разработке приложений — обработка ошибок. Слишком просто реализовать работающий сценарий функционирования приложения, не задумываясь о тех ошибках, которые могут произойти во время его работы.
 
-In this chapter, you will introduce an efficient solution to add error handling for your application in case of an erroneous API request. You have already learned about the necessary building blocks in React to introduce error handling: local state and conditional rendering. Basically, the error is only another state in React. When an error occurs, you will store it in the local state and display it with a conditional rendering in your component. That's it. Let's implement it in the App component, because it's the component that is used to fetch the data from the Hacker News API in the first place. First, you have to introduce the error in the local state. It is initialized as null, but will be set to the error object in case of an error.
+В этом разделе главы вы познакомитесь с эффективным решением для добавления обработки ошибок для вашего приложения в случае ошибочного запроса API. Вы уже узнали о необходимых строительных блоках в React для реализации обработки ошибок: локальное состояние и отрисовка по условию. В основном, ошибка — это всего лишь другое состояние в React. При возникновении ошибки вы сохраните её в локальном состоянии и отобразите её, используя условную отрисовку в компоненте. Вот и всё. Давайте реализуем обработку ошибок в компоненте App, потому что прежде всего это компонент, который используется для получения данных из API Hacker News. Во-первых, нам нужно свойство для ошибки в локальном состоянии. Оно инициализируется значением `null`, но ему будет присвоен объект ошибки в случае неудачного запроса.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1092,7 +1091,7 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Second, you can use the catch block in your native fetch to store the error object in the local state by using `setState()`. Every time the API request isn't successful, the catch block would be executed.
+Во-вторых, вы можете использовать блок `catch` в нативном fetch для сохранения объекта ошибки в локальном состоянии с помощью `setState()`. Каждый раз, когда запрос к API потерпит неудачу, будет выполнен код в блоке catch.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1114,7 +1113,7 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Third, you can retrieve the error object from your local state in the `render()` method and display a message in case of an error by using React's conditional rendering.
+В-третьих, вы можете получить объект ошибки из своего локального состояния в методе `render()` и отобразить сообщение об ошибке с помощью условной отрисовки в React.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1136,7 +1135,7 @@ class App extends Component {
 
 # leanpub-start-insert
     if (error) {
-      return <p>Something went wrong.</p>;
+      return <p>Что-то произошло не так.</p>;
     }
 # leanpub-end-insert
 
@@ -1149,14 +1148,14 @@ class App extends Component {
 }
 ~~~~~~~~
 
-That's it. If you want to test that your error handling is working, you can change the API URL to something else that is non existent.
+Вот так. Если вы хотите проверить, работает ли обработка ошибок, вы можете изменить URL-адрес API на любой несуществующий.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
 const PATH_BASE = 'https://hn.foo.bar.com/api/v1';
 ~~~~~~~~
 
-Afterward, you should get the error message instead of your application. It is up to you where you want to place the conditional rendering for the error message. In this case, the whole app isn't displayed anymore. That wouldn't be the best user experience. So what about displaying either the Table component or the error message? The remaining application would still be visible in case of an error.
+При использовании такого значения для константы пути к API вы должны получить сообщение об ошибке вместо отображения приложения. Это зависит от вас, где вы хотите поместить условную отрисовку для сообщения об ошибке. В данном случае всё приложение не будет отображаться. Это не самый лучший опыт для пользовательского взаимодействия. А что насчёт отображения компонента Table или сообщения об ошибке? Остальная часть приложения даже в случае ошибки всё равно будет отображаться.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1207,33 +1206,33 @@ class App extends Component {
 }
 ~~~~~~~~
 
-In the end, don't forget to revert the URL for the API to the existent one.
+Напоследок не забудьте вернуть прежний URL-адрес API.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
 const PATH_BASE = 'https://hn.algolia.com/api/v1';
 ~~~~~~~~
 
-Your application should still work, but this time with error handling in case the API request fails.
+Ваше приложение должно по-прежнему работать, но на этот раз с обработкой ошибок в случае неудачного запроса к API.
 
-### Exercises:
+### Упражнения:
 
-* read more about [React's Error Handling for Components](https://reactjs.org/blog/2017/07/26/error-handling-in-react-16.html)
+* узнайте подробнее про [обработку ошибок в компонентах React](https://reactjs.org/blog/2017/07/26/error-handling-in-react-16.html)
 
-## Axios instead of Fetch
+## Использование Axios вместо Fetch
 
-In one of the previous chapters, you have introduced the native fetch API to perform a request to the Hacker News platform. The browser enables you to use this native fetch API. However, not all browsers, especially older browsers, support it. In addition, once you start to test your application in a headless browser environment (there is no browser, instead it is only mocked), there can be issues regarding the fetch API. Such a headless browser environment can happen when writing and executing tests for your application which don't run in a real browser. There are a couple of ways to make fetch work in older browsers (polyfills) and in tests ([isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch)), but we won't go down this rabbit hole in this book.
+В одном из предыдущих разделов вы внедрили нативный API fetch для выполнения запроса на платформу Hacker News. Браузер позволяет использовать этот нативный API fetch. Однако не все браузеры, особенно старые, поддерживают его. Кроме того, как только вы начнёте тестировать свое приложение в окружении браузера без пользовательского интерфейса (без браузера, а это только имитация), могут возникнуть проблемы с API fetch. Такое окружение браузера из консоли может быть при написании и выполнении тестов для вашего приложения, которые не запускаются в реальном браузере. Есть несколько способов сделать работу fetch в старых браузерах (через полифилы) и в тестах ([isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch)), но в этой книге мы не будем заниматься этим.
 
-An alternative way to solve it would be to substitute the native fetch API with a stable library such as [axios](https://github.com/axios/axios). Axios is a library that solves only one problem, but it solves it with a high quality: performing asynchronous requests to remote APIs. That's why you will use it in this book. On a concrete level, the chapter should show you how you can substitute a library (which is a native API of the browser in this case) with another library. On an abstract level, it should show you how you can always find a solution for the quirks (e.g. old browsers, headless browser tests) in web development. So never stop to look for solutions if anything gets in your way.
+Альтернативным способом решения этой проблемы было бы заменить нативный API fetch стабильной библиотекой, такой как [axios](https://github.com/axios/axios). Axios — это библиотека, которая решает только одну проблему, но делает это качественно: выполнение асинхронных запросов к удалённым API. Вот почему вы будете использовать его в этой книге. Конкретно этот раздел главы продемонстрирует вам, как вы можете заменить библиотеку (которая является нативным API браузера в этом случае) другой библиотекой. На абстрактном уровне он должен показать вам, как вы всегда можете найти решение для причуд (например, старых браузеров, тестов браузеров без пользовательского интерфейса) в веб-разработке. Поэтому никогда не переставайте искать решения, если что-то мешает вам.
 
-Let's see how the native fetch API can be substituted with axios. Actually everything said before sounds more difficult than it is. First, you have to install axios on the command line:
+Давайте посмотрим, как нативный API fetch можно заменить на axios. На самом деле всё сказанное ранее звучит сложнее, чем есть на самом деле. Во-первых, вам нужно установить axios в командной строке:
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
 npm install axios
 ~~~~~~~~
 
-Second, you can import axios in your App component's file:
+Во-вторых, импортировать axios в файл компонента App:
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1246,7 +1245,7 @@ import './App.css';
 ...
 ~~~~~~~~
 
-And last but not least, you can use it instead of `fetch()`. Its usage looks almost identical to the native fetch API. It takes the URL as argument and returns a promise. You don't have to transform the returned response to JSON anymore. Axios is doing it for you and wraps the result into a `data` object in JavaScript. Thus make sure to adapt your code to the returned data structure.
+И последнее, но не менее важное: вы можете использовать его вместо `fetch()`. Его использование почти идентично нативному API fetch. Он принимает URL в виде аргумента и возвращает промис. Вам больше не нужно преобразовывать возвращённый ответ JSON. Axios делает это за вас и обёртывает результат в объект `data` в JavaScript. Таким образом, не забудьте адаптировать свой код к возвращаемой структуре данных.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1267,18 +1266,18 @@ class App extends Component {
 }
 ~~~~~~~~
 
-That's it for replacing fetch with axios in this chapter. In your code, you are calling `axios()` which uses by default a HTTP GET request. You can make the GET request explicit by calling `axios.get()`. Also you can use another HTTP method such as HTTP POST with `axios.post()` instead. There you can already see how axios is a powerful library to perform requests to remote APIs. I often recommend to use it over the native fetch API when your API requests become complex or you have to deal with web development quirks with promises. In addition, in a later chapter, you will introduce testing in your application. Then you don't need to worry anymore about a browser or headless browser environment.
+Это всё, что нужно для замены fetch на axios в этой главе. В вашем коде вы вызываете `axios()`, который по умолчанию использует HTTP GET-запрос. Вы можете сделать запрос GET явным образом, вызвав `axios.get()`. Также вы можете использовать другой HTTP-метод, такой как HTTP POST с помощью `axios.post()`. Сейчас вы уже видите, что axios — это мощная библиотека для выполнения запросов к удалённым API. Я часто рекомендую использовать его вместо нативного API fetch, когда ваши запросы API усложняются или вам приходится сталкиваться со странностями веб-разработки, связанными с промисами. Кроме того, в следующей главе вы познакомитесь с тестированием своего приложения. Тогда вам больше не нужно будет беспокоиться о браузере или окружении консольного браузера.
 
-I want to introduce another improvement for the Hacker News request in the App component. Imagine your component mounts when the page is rendered for the first time in the browser. In `componentDidMount()` the component starts to make the request, but then, because your application introduced some kind of navigation, you navigate away from this page to another page. Your App component unmounts, but there is still a pending request from your `componentDidMount()` lifecycle method. It will attempt to use `this.setState()` eventually in the `then()` or `catch()` block of the promise. Perhaps then it's the first time you will see the following warning on your command line or in your browser's developer output:
+Я хочу представить ещё одно улучшение запроса к Hacker News в компоненте App. Представьте, что ваш компонент монтируется, когда веб-страница отображается в браузере в первый раз. В `componentDidMount()` компонент делает запрос, но затем, поскольку ваше приложение произвело некую навигацию, вы переходите от этой страницы к другой странице. Ваш компонент App демонтируется, но все ещё остаётся ожидающий запрос из вашего жизненного цикла `componentDidMount()`. Он попытается использовать `this.setState()` в конечном итоге в блоке промиса `then()` или `catch()`. Возможно, в первый раз вы увидите следующее предупреждение в командной строке или в выводе консоли разработчика браузера:
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
 Warning: Can only update a mounted or mounting component. This usually means you called setState, replaceState, or forceUpdate on an unmounted component. This is a no-op.
 ~~~~~~~~
 
-You can deal with this issue by aborting the request when your component unmounts or preventing to call `this.setState()` on an unmounted component. It's a best practice in React, even though it's not followed by many developers, to preserve an clean application without any annoying warnings. However, the current promise API doesn't implement aborting a request. Thus you need to help yourself on this issue. This might also be the case why not many developers are following this best practice. The following implementation seems more like a workaround than a sustainable implementation. Because of that, you can decide on your own if you want to implement it to work around the warning because of an unmounted component. Nevertheless, keep the warning in mind in case it comes up in a later chapter of this book or in your own application one day. Then you know how to deal with it.
+Вы можете решить эту проблему, прервав запрос, когда ваш компонент размонтируется или предотвратить вызов `this.setState()` в размонтированном компоненте. Это передовая практика в React, хотя ей следуют далеко не все разработчики, чтобы оставить чистое приложение без каких-либо раздражающих предупреждений. Однако в текущем API промисов не реализует прерывание запроса. Таким образом, вам нужно самостоятельно справиться с этой проблемой. Возможно также, это та причина, по которой не многие разработчики следуют этой лучшей практике. Следующая реализация выглядит скорее как обходное решение, чем поддерживаемая в дальнейшем реализация. Исходя из этого вы можете самостоятельно решить, хотите ли вы это реализовывать, чтобы обойти предупреждение из-за размонтированного компонента. Тем не менее, помните об этом предупреждении, если оно появится в следующей главе этой книги или в вашем собственном приложении. Теперь в подобных случаях вы знаете как справиться с этим.
 
-Let's start to work around it. You can introduce a class field which holds the lifecycle state of your component. It can be initialized as `false` when the component initializes, changed to `true` when the component mounted, but then again set to `false` when the component unmounted. This way, you can keep track of your component's lifecycle state. It has nothing to do with the local state stored and modified with `this.state` and `this.setState()`, because you should be able to access it directly on the component instance without relying on React's local state management. Moreover, it doesn't lead to any re-rendering of the component when the class field is changed this way.
+Давайте перейдём к решению проблемы. Вы можете добавить поле класса, которое содержит состояние жизненного цикла вашего компонента. Он может быть инициализирован как `false`, когда компонент инициализируется, и изменяется на `true`, когда компонент установлен, а затем снова устанавливается на `false` при удалении компонента. Таким образом, вы можете отслеживать состояние жизненного цикла вашего компонента. Это поле не имеет ничего общего с локальным состоянием, которое хранится и модифицируется с помощью `this.state` и `this.setState()`, поскольку у вас должен быть к нему доступ непосредственно в экземпляре компонента, не полагаясь на управление локальным состоянием React. Более того, это не приводит к повторной отрисовке компонента, когда поле класса изменяется таким образом.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1314,7 +1313,7 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Finally, you can use this knowledge not to abort the request itself but to avoid calling `this.setState()` on your component instance even though the component already unmounted. It will prevent the mentioned warning.
+Наконец, вы можете использовать эти знания, чтобы не прервать сам запрос, а избежать вызов `this.setState()` в вашем экземпляре компонента, даже если компонент уже удалён. Это предотвратит упомянутое предупреждение.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -1335,35 +1334,35 @@ class App extends Component {
 }
 ~~~~~~~~
 
-Overall the chapter has shown you how you can replace one library with another library in React. If you run into any issues, you can use the vast library ecosystem in JavaScript to help yourself. In addition, you have seen a way how you can avoid calling `this.setState()` in React on an unmounted component. If you dig deeper into the axios library, you will find a way to prevent the cancel the request in the first place too. It's up to you to read up more about this topic.
+В целом в главе показано, как вы можете заменить одну библиотеку другой библиотекой в React. Если у вас возникнут какие-либо проблемы, вы можете использовать обширную экосистему JavaScript-библиотек, чтобы помочь самому себе. Кроме того, вы видели способ, как можно избежать вызова `this.setState()` в React на размонтированном компоненте. Если вы получше изучите библиотеку axios, вы также найдёте способ отменить запрос. Вам предстоит больше узнать об этой теме.
 
-### Exercises:
+### Упражнения:
 
-* read more about [why frameworks matter](https://www.robinwieruch.de/why-frameworks-matter/)
-* learn more about [an alternative React component syntax](https://github.com/the-road-to-learn-react/react-alternative-class-component-syntax)
+* прочитайте про то, [почему выбор фреймворка имеет значение](https://www.robinwieruch.de/why-frameworks-matter/)
+* узнайте больше про [альтернативный синтаксис для определения компонента](https://github.com/the-road-to-learn-react/react-alternative-class-component-syntax)
 
 {pagebreak}
 
-You have learned to interact with an API in React! Let's recap the last chapters:
+Вы научились взаимодействовать с API в React! Давайте повторим последние темы:
 
 * React
-  * ES6 class component lifecycle methods for different use cases
-  * componentDidMount() for API interactions
-  * conditional renderings
-  * synthetic events on forms
-  * error handling
-  * aborting a remote API request
-* ES6 and beyond
-  * template strings to compose strings
-  * spread operator for immutable data structures
-  * computed property names
-  * class fields
-* General
-  * Hacker News API interaction
-  * native fetch browser API
-  * client- and server-side search
-  * pagination of data
-  * client-side caching
-  * axios as an alternative for the native fetch API
+  * Методы жизненного цикла ES6-класса компонента для разных случаев использования
+  * `componentDidMount()` для взаимодействий с API
+  * отрисовка по условию
+  * синтетические события на формах
+  * обработка ошибок
+  * отмена удалённого API-запроса
+* ES6 и за его пределами
+  * шаблонные строки для объединения строк
+  * оператор расширения для неизменяемых структур данных
+  * вычисляемые имена свойств
+  * поля класса
+* Общее
+  * Работа с API Hacker News
+  * API нативного fetch в браузере
+  * Поиск на стороне клиента и сервера
+  * Разбивка на страницы данных
+  * Кеширование на стороне клиента
+  * Использование axios в качестве альтернативы для нативного API fetch
 
-Again it makes sense to take a break. Internalize the learnings and apply them on your own. You can experiment with the source code you have written so far. You can find the source code in the [official repository](https://github.com/the-road-to-learn-react/hackernews-client/tree/5.3.1).
+Повторю снова, имеет смысл сделать перерыв. Усвоить полученные знания и применить их на практике самостоятельно. Вы можете поэкспериментировать с исходным кодом, который вы написали к настоящему времени. Исходный код можно найти в [официальном репозитории](https://github.com/the-road-to-learn-react/hackernews-client/tree/5.3.1).
