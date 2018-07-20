@@ -1,93 +1,92 @@
-# Code Organization and Testing
+# Организация и тестирование кода
 
-The chapter will focus on important topics to keep your code maintainable in a scaling application. You will learn about code organization to embrace best practices when structuring your folders and files. Another aspect you will learn is testing, which is important to keep your code robust. The whole chapter will take a step back from the practical application and explain a couple of these topics for you.
+В этой главе мы сосредоточим внимание на важных темах сохранения кода удобным для поддержки в масштабируемом приложении. Вы узнаете об организации кода, чтобы освоить лучшие способы структурирования ваших папок и файлов. Ещё один аспект, который вы узнаете, — это тестирование, которое важно для написания надёжного кода. Наконец, вы узнаете о полезном инструменте для отладки ваших React-приложений. Бо́льшая часть главы отойдёт в сторону от практического приложения и объяснит вам пару этих тем.
 
-## ES6 Modules: Import and Export
+## Модули ES6: импорт и экспорт
 
-In JavaScript ES6 you can import and export functionalities from modules. These functionalities can be functions, classes, components, constants and others. Basically everything that you can assign to a variable. The modules can be single files or whole folders with one index file as entry point.
+В JavaScript ES6 вы можете импортировать и экспортировать функциональность из модулей. Этой функциональностью могут быть функции, классы, компоненты, константы и т.д. В основном это всё то, что вы можете присвоить переменной. Модули могут быть отдельными файлами или целыми папками с одним индексным файлом (index.js) в качестве точки входа.
 
-In the beginning of the book, after you have bootstrapped your application with *create-react-app*, you already had several `import` and `export` statements across your initial files. Now it is the appropriate time to explain these.
+В начале книги после того, как вы инициализировали приложение с помощью *create-react-app*, вы уже сталкивались с несколькими выражениями `import` и `export` в ваших файлах исходного кода. Настало время объяснить, зачем всё это.
 
-The `import` and `export` statements help you to share code across multiple files. Before there were already several solutions for this in the JavaScript environment. It was a mess, because you would want to follow one standardized way rather than having several approaches for the same thing. Now it is a native behavior since JavaScript ES6.
+Выражения `import` и `export` помогают распространять код между несколькими файлами. Раньше в среде JavaScript было несколько решений для этой цели. Это был беспорядок, потому что вы, вероятно, хотели бы следовать стандартизированному способу, а не иметь несколько подходов к одному и тому же. Теперь это нативная возможность, начиная с JavaScript ES6.
 
-Additionally these statements embrace code splitting. You distribute your code across multiple files to keep it reusable and maintainable. The former is true because you can import the piece of code in multiple files. The latter is true because you have one single source where you maintain the piece of code.
+Кроме того, эти выражения охватывает идею разделения кода. Вы разделяете свой код между несколькими файлами для возможности сделать его многоразовым и поддерживаемым. Первое верно, потому что вы можете импортировать часть кода в несколько файлов. Последнее верно, потому что у вас есть один источник, в котором вы поддерживаете часть кода.
 
-Last but not least, it helps you to think about code encapsulation. Not every functionality needs to get exported from a file. Some of these functionalities should only be used in the file where they have been defined. The exports of a file are basically the public API to the file. Only the exported functionalities are available to be reused somewhere else. It follows the best practice of encapsulation.
+И последнее, но не менее важное: это поможет вам подумать о инкапсуляции кода. Не каждая функциональность должна быть экспортирована из файла. Некоторые из этих функциональных возможностей должны использоваться только в файле, где они были определены. Экспорт файла в основном означает общедоступный API для использования в другом файле. Доступны для повторного использования в другом месте кодовой базы только экспортированные функциональные возможности. Это следует передовой практике инкапсуляции.
 
-But let's get practical. How do these `import` and `export` statements work? The following examples showcase the statements by sharing one or multiple variables across two files. In the end, the approach can scale to multiple files and could share more than simple variables.
+Но давайте перейдём к практике. Как эти выражения `import` и `export` работают? В следующих примерах приводятся выражения, совместно использующие одну или несколько переменных в двух файлах. В конце концов, этот подход можно масштабировать на несколько файлов и обмениваться не только простыми переменными.
 
-You can export one or multiple variables. It is called a named export.
+Вы можете экспортировать одну или несколько переменных. Это называется именованным экспортом.
 
 {title="Code Playground: file1.js",lang="javascript"}
 ~~~~~~~~
-const firstname = 'robin';
-const lastname = 'wieruch';
+const firstname = 'Robin';
+const lastname = 'Wieruch';
 
 export { firstname, lastname };
 ~~~~~~~~
 
-And import them in another file with a relative path to the first file.
+И импортируйте их в другой файл с помощью относительного пути к первому файлу.
 
 {title="Code Playground: file2.js",lang="javascript"}
 ~~~~~~~~
 import { firstname, lastname } from './file1.js';
 
 console.log(firstname);
-// output: robin
+// выведет: Robin
 ~~~~~~~~
 
-You can also import all exported variables from another file as one object.
+Вы также можете импортировать все экспортируемые данные из другого файла в виде одного объекта.
 
 {title="Code Playground: file2.js",lang="javascript"}
 ~~~~~~~~
 import * as person from './file1.js';
 
 console.log(person.firstname);
-// output: robin
+// выведет: Robin
 ~~~~~~~~
 
-Imports can have an alias. It can happen that you import functionalities from multiple files that have the same named export. That's why you can use an alias.
+У выражений импорта могут быть псевдонимы. Может произойти такая ситуация, когда вы импортируете функциональность из нескольких файлов с одним и тем же именем при экспорте. По этой причине вы можете использовать псевдоним.
 
 {title="Code Playground: file2.js",lang="javascript"}
 ~~~~~~~~
 import { firstname as foo } from './file1.js';
 
 console.log(foo);
-// output: robin
+// выведет: Robin
 ~~~~~~~~
 
-Last but not least there exists the `default` statement. It can be used for a few use cases:
-
-* to export and import a single functionality
-* to highlight the main functionality of the exported API of a module
-* to have a fallback import functionality
+И последнее, но не менее важное: существует выражение по умолчанию — `default`. Его можно использовать в следующих случаях:
+* для экспорта и импорта единственной функциональной возможности
+* для выделения основных функциональных возможностей экспортированного API модуля
+* для того, чтобы иметь резервную (фолбэк) функциональность при импорте
 
 {title="Code Playground: file1.js",lang="javascript"}
 ~~~~~~~~
 const robin = {
-  firstname: 'robin',
-  lastname: 'wieruch',
+  firstname: 'Robin',
+  lastname: 'Wieruch',
 };
 
 export default robin;
 ~~~~~~~~
 
-You can leave out the curly braces for the import to import the default export.
+Вы можете опустить фигурные скобки при импорте по умолчанию.
 
 {title="Code Playground: file2.js",lang="javascript"}
 ~~~~~~~~
 import developer from './file1.js';
 
 console.log(developer);
-// output: { firstname: 'robin', lastname: 'wieruch' }
+// выведет: { firstname: 'Robin', lastname: 'Wieruch' }
 ~~~~~~~~
 
-Furthermore, the import name can differ from the exported default name. You can also use it in conjunction with the named export and import statements.
+Кроме того, название импорта можно различать от экспортированного названия по умолчанию. Вы также можете использовать его это в сочетании с именованными выражениями экспорта и импорта.
 
 {title="Code Playground: file1.js",lang="javascript"}
 ~~~~~~~~
-const firstname = 'robin';
-const lastname = 'wieruch';
+const firstname = 'Robin';
+const lastname = 'Wieruch';
 
 const person = {
   firstname,
@@ -107,35 +106,35 @@ export default person;
 import developer, { firstname, lastname } from './file1.js';
 
 console.log(developer);
-// output: { firstname: 'robin', lastname: 'wieruch' }
+// выведет: { firstname: 'Robin', lastname: 'Wieruch' }
 console.log(firstname, lastname);
-// output: robin wieruch
+// выведет: Robin Wieruch
 ~~~~~~~~
 
-In named exports you can spare additional lines and export the variables directly.
+При использовании именованного экспорта вы можете сэкономить дополнительные строки и непосредственно экспортировать переменные.
 
 {title="Code Playground: file1.js",lang="javascript"}
 ~~~~~~~~
-export const firstname = 'robin';
-export const lastname = 'wieruch';
+export const firstname = 'Robin';
+export const lastname = 'Wieruch';
 ~~~~~~~~
 
-These are the main functionalities for ES6 modules. They help you to organize your code, to maintain your code and to design reusable module APIs. You can also export and import functionalities to test them. You will do that in one of the following chapters.
+Это основная функциональность модулей ES6. Они помогают вам организовать собственный код, поддерживать его и проектировать API-интерфейсы повторно используемых модулей. Вы также можете экспортировать и импортировать функциональность для их тестирования. Вы сделаете это в одной из следующих глав.
 
-### Exercises:
+### Упражнения:
 
-* read more about [ES6 import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
-* read more about [ES6 export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export)
+* узнайте больше про [импорт в ES6](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
+* узнайте больше про [экспорт в ES6](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export)
 
-## Code Organization with ES6 Modules
+## Организация кода с помощью модулей в ES6
 
-You might wonder: Why didn't we follow the best practices of code splitting for the *src/App.js* file? In the file we already have multiple components which could be defined in their own files/folders (modules). For the sake of learning React, it is practical to keep these things at one place. But once your React application grows, you should consider to split up these components into multiple modules. Only that way your application scales.
+Вы могли бы задаться вопросом: почему мы не последовали передовому опыту разделения кода для файла *src/App.js*? В этом файле у нас уже есть несколько компонентов, которые могут быть определены в собственных файлах/папках (модулях). В интересах изучения React, целесообразно хранить их в одном месте. Но как только ваше приложение React растёт, вам следует рассмотреть возможность разделения этих компонентов на несколько модулей. Только так ваше приложение масштабируется.
 
-In the following, I will propose several module structures you *could* apply. I would recommend to apply them as an exercise at the end of the book. To keep the book itself simple, I will not perform the code splitting and will continue the following chapters with the *src/App.js* file.
+Ниже я предлагаю несколько модулей, которые вы *могли* бы применить. Я бы рекомендовал применить их в качестве упражнения в конце книги. Чтобы книга оставалась простой, я не буду выполнять разделение кода и продолжу следующие главы с файлом *src/App.js*.
 
-One possible module structure could be:
+Одной из возможных структур модулей могла быть такая:
 
-{title="Folder Structure",lang="text"}
+{title="Структура каталогов",lang="text"}
 ~~~~~~~~
 src/
   index.js
@@ -154,9 +153,9 @@ src/
   Search.css
 ~~~~~~~~
 
-It separates the components into their own files, but it doesn't look too promising. You can see a lot of naming duplications and only the file extension differs. Another module structure could be:
+Такой подход разделяет компоненты на отдельные файлы, но он не выглядит слишком перспективным. Вы можете видеть много дублирования названий, которые различаются только расширением файла. Совершенно другой структурой модулей может быть подобное разделение:
 
-{title="Folder Structure",lang="text"}
+{title="Структура каталогов",lang="text"}
 ~~~~~~~~
 src/
   index.js
@@ -179,11 +178,11 @@ src/
     index.css
 ~~~~~~~~
 
-It looks cleaner than before. The index naming of a file describes it as an entry point file to the folder. It is just a common naming convention, but you can use your own naming as well. In this module structure, a component is defined by its component declaration in the JavasScript file, but also by its style and tests.
+Это уже выглядит чище, чем предыдущий способ. Файлы с названием index описывает его как файл точки входа в папку (модуль). Это просто обычное соглашение (правило) об наименовании, но вы также можете использовать собственное соглашение. В этой структуре модулей компонент определяется объявлением компонента в файле JavasScript (index.js) , а также его стилем (index.css) и тестами для него (test.js).
 
-Another step could be extracting the constant variables from the App component. These constants were used to compose the Hacker News API URL.
+Следующим шагом могло бы быть стать извлечение констант из компонента App. Эти константы использовались для формирования URL к API Hacker News.
 
-{title="Folder Structure",lang="text"}
+{title="Структура каталогов",lang="text"}
 ~~~~~~~~
 src/
   index.js
@@ -204,7 +203,7 @@ src/
     ...
 ~~~~~~~~
 
-Naturally the modules would split up into *src/constants/* and *src/components/*. Now the *src/constants/index.js* file could look like the following:
+Естественно, что модули бы разделились на *src/constants/* и *src/components/*. Теперь файл *src/constants/index.js* может выглядеть следующим образом:
 
 {title="Code Playground: src/constants/index.js",lang="javascript"}
 ~~~~~~~~
@@ -217,7 +216,7 @@ export const PARAM_PAGE = 'page=';
 export const PARAM_HPP = 'hitsPerPage=';
 ~~~~~~~~
 
-The *App/index.js* file could import these variables in order to use them.
+В файле *App/index.js* вы можете импортировать эти константы для использования.
 
 {title="Code Playground: src/components/App/index.js",lang=javascript}
 ~~~~~~~~
@@ -234,7 +233,7 @@ import {
 ...
 ~~~~~~~~
 
-When you use the *index.js* naming convention, you can omit the filename from the relative path.
+Когда вы используете соглашение по именованию, включающее *index.js*, вы можете опустить название файла из относительно пути.
 
 {title="Code Playground: src/components/App/index.js",lang=javascript}
 ~~~~~~~~
@@ -253,9 +252,9 @@ import {
 ...
 ~~~~~~~~
 
-But what's behind the *index.js* file naming? The convention was introduced in the node.js world. The index file is the entry point to a module. It describes the public API to the module. External modules are only allowed to use the *index.js* file to import shared code from the module. Consider the following made up module structure to demonstrate it:
+Но что стоит за именованием файлов *index.js*? Соглашение было введено в мире Node.js. Индексный файл является точкой входа в модуль. Он описывает общедоступный API для модуля. Внешним модулям разрешено использовать файл *index.js* для импорта разделяемого кода из модуля. Рассмотрим следующую составленную структуру модуля, чтобы продемонстрировать её:
 
-{title="Folder Structure",lang="text"}
+{title="Структура каталогов",lang="text"}
 ~~~~~~~~
 src/
   index.js
@@ -268,7 +267,7 @@ src/
     CancelButton.js
 ~~~~~~~~
 
-The *Buttons/* folder has multiple button components defined in its distinct files. Each file can `export default` the specific component making it available to *Buttons/index.js*. The *Buttons/index.js* file imports all different button representations and exports them as public module API.
+В каталоге *Buttons/* есть несколько компонентов, определённых в разных файлах. Каждый файл компонента может использовать `export default`, чтобы его можно было импортировать в файле *Buttons/index.js*. Файл *Buttons/index.js* импортирует все различные представления кнопок и экспортирует их в качестве общедоступного API модуля.
 
 {title="Code Playground: src/Buttons/index.js",lang="javascript"}
 ~~~~~~~~
@@ -283,7 +282,7 @@ export {
 };
 ~~~~~~~~
 
-Now the *src/App/index.js* can import the buttons from the public module API located in the *index.js* file.
+Теперь из файла *src/App/index.js* можно импортировать кнопки из общедоступного API модуля, расположенного в файле *index.js*.
 
 {title="Code Playground: src/App/index.js",lang=javascript}
 ~~~~~~~~
@@ -294,33 +293,33 @@ import {
 } from '../Buttons';
 ~~~~~~~~
 
-By going with this constraint, it would be a bad practice to reach into other files than the *index.js* in the module. It would break the rules of encapsulation.
+Рассматривая ограничения данного подхода, было бы неудачной практикой импортировать функциональность из других файловых путей, отличных от *index.js*, в модуле. Это нарушит правила инкапсуляции.
 
 {title="Code Playground: src/App/index.js",lang=javascript}
 ~~~~~~~~
-// bad practice, don't do it
+// порочная практика, не делайте так
 import SubmitButton from '../Buttons/SubmitButton';
 ~~~~~~~~
 
-Now you know how you could refactor your source code in modules with the constraints of encapsulation. As I said, for the sake of keeping the book simple I will not apply these changes. But you should do the refactoring when you finished reading the book.
+Теперь вы знаете, как можно отрефакторить исходный код в модулях с ограничениями инкапсуляции. Как я уже сказал, ради сохранения простоты в книге я не буду использовать описанные выше изменения. Но вам стоит заняться рефакторингом после прочтения книги.
 
-### Exercises:
+### Упражнения:
 
-* refactor your *src/App.js* file into multiple component modules when you finished the book
+* займитесь рефакторингом файла *src/App.js*  на несколько модулей-компонентов, когда закончите книгу
 
-## Snapshot Tests with Jest
+## Тестирование снимками с помощью Jest
 
-The book will not dive deeply into the topic of testing, but it shouldn't be unmentioned. Testing your code in programming is essential and should be seen as mandatory. You want to keep the quality of your code high and an assurance that everything works.
+Данная книга не будет глубоко погружаться в тему тестирования, но это не значит, что её следует игнорировать. Тестирование кода в программировании имеет важное значение и должно рассматриваться в качестве обязательного требования, если вы хотите, чтобы качество вашего кода было высоким и всё работало как надо.
 
-Perhaps you have heard about the testing pyramid. There are end-to-end tests, integration tests and unit tests. If you are not familiar with those, the book gives you a quick and basic overview. A unit test is used to test an isolated and small block of code. It can be a single function that is tested by an unit test. However, sometimes the units work well in isolation yet don't work in combination with other units. They need to be tested as a group as units. That's where integration tests can help out by covering whether units work well together. Last but not least, an end-to-end test is the simulation of a real user scenario. It could be an automated setup in a browser simulating the login flow of an user in a web application. While unit tests are fast and easy to write and to maintain, end-to-end tests are the opposite of this spectrum.
+Возможно, вы слышали о пирамиде тестирования. Существуют сквозные (end-to-end), интеграционные (integration) и модульные (unit) тесты. Если вы не знакомы с ними, то в книге приводится быстрый и краткий обзор. Модульный тест служит для проверки изолированного и небольшого куска кода. Это может быть всего лишь одна функция, проверяемая модульным тестом. Тем не менее, иногда модульные тесты работают хорошо в изоляции, но не работают в сочетании с другими модульными тестами. Поэтому их нужно тестировать группой из модульных тестов. Вот где интеграционные тесты могут помочь, учитывая, что они неплохо работают вместе. И последнее, но не менее важное: сквозной тест — это имитация реального использования приложения пользователем. Это может быть автоматическая настройка в браузере, имитирующая процесс входа пользователя в приложение. Если модульные тесты быстро и легко писать и поддерживать, то к сквозным тестам это не относится.
 
-How many tests do I need of each type? You want to have many unit tests to cover your isolated functions. After that, you can have several integration tests to cover that the most important functions work in combination as expected. Last but not least, you might want to have only a few end-to-end tests to simulate critical scenarios in your web application. That's it for the general excursion in the world of testing.
+Сколько тестов нужно для каждого типа тестирования? Скорее всего, вы хотите, чтобы было как можно больше модульных тестов для покрытия тестами функций в изоляции. После этого вы можете провести несколько интеграционных тестов, чтобы проверить, что наиболее важные функции работают в сочетании вместе, как ожидалось. И наконец, что немаловажно, вам может потребоваться только несколько сквозных тестов для симулирования критических сценариев использования приложения. На этом общая экскурсия в мир тестирования заканчивается.
 
-So how do you apply this knowledge in testing your React application? The foundation for testing in React are component tests which can be generalized as unit tests and a part of it as snapshot tests. You will conduct unit tests for your components in the next chapter by using a library called Enzyme. In this chapter, you will focus on another kind of tests: snapshot tests. That's were Jest comes into play.
+Итак, как можно применить полученные знания для тестировании своего приложения на React? Основа тестирования в React — это тесты компонентов, которые можно тестировать модульными тестами, а часть из них — тестированием снимками (snapshot). Вы напишите модульные тесты для своих компонентов в следующей главе, используя библиотеку Enzyme. В этой главе вы остановитесь на другом типе тестов — тестов снимками. Для данного тестирования применяется библиотека под названием Jest.
 
-[Jest](https://facebook.github.io/jest/) is a JavaScript testing framework that is used at Facebook. In the React community, it is used for React component tests. Fortunately *create-react-app* already comes with Jest, so you don't need to worry about setting it up.
+[Jest](https://jestjs.io/) — это платформа для тестирования JavaScript, используемая и разработанная в Facebook. В сообществе React она используется для тестирования React-компонентов. К счастью, *create-react-app* уже поставляется с Jest, поэтому вам не нужно дополнительно его настраивать.
 
-Let's start to test your first components. Before you can do that, you have to export the components, which you are going to test, from your *src/App.js* file. Afterward you can test them in a different file. You have learned about this in the code organization chapter.
+Давайте начнём тестировать ваши первые компоненты. Прежде чем приступить к этому, вам нужно экспортировать компоненты, которые вы собираетесь тестировать, из файла *src/App.js*. После этого вы можете протестировать их в другом файле. Об этом вы узнали в разделе про организацию кода.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -343,7 +342,7 @@ export {
 # leanpub-end-insert
 ~~~~~~~~
 
-In your *App.test.js* file, you will find a first test that came with *create-react-app*. It verifies that the App component would render without any errors.
+В файле *App.test.js* вы найдёте ваш первый тест, который появился при инициализации *create-react-app*. Он проверяет, что компонент App отображается без каких-либо ошибок.
 
 {title="src/App.test.js",lang=javascript}
 ~~~~~~~~
@@ -351,36 +350,36 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
-it('renders without crashing', () => {
+it('отрисовывает без ошибки', () => {
   const div = document.createElement('div');
   ReactDOM.render(<App />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
 ~~~~~~~~
 
-The "it"-block describes one test case. It comes with a test description and when you test it, it can either succeed or fail. Furthermore, you could wrap it into a "describe"-block that defines your test suite. A test suite could include a bunch of the "it"-blocks for one specific component. You will see those "describe"-blocks later on. Both blocks are used to separate and organize your test cases.
+Блок «it» представляет собой один тест. Этот блок принимает описание теста и собственно код теста, который может либо пройти успешно, либо потерпеть неудачу (провалиться). Кроме того, вы можете обернуть его в блок «describe», который определяет набор тестов. Набор тестов может включать в себя множество блоков «it» для одного конкретного компонента. Мы рассмотрим блоки «describe» чуть позже. Оба этих блока используются для разделения и организации ваших тестов.
 
-Note that the `it` function is acknowledged in the JavaScript community as the function where you run a single test. However, in Jest it is often found as an alias `test` function.
+Обратите внимание, что функция `it` считается в сообществе JavaScript функцией, в которой выполняется один тест. Однако в Jest часто встречается псевдоним `test` для функции тестирования.
 
-You can run your test cases by using the interactive *create-react-app* test script on the command line. You will get the output for all test cases on your command line interface.
+Вы можете запускать свои тесты с помощью интерактивного скрипта тестирования приложения, предоставляемого *create-react-app* в командной строке. Вам будет показан вывод по каждому тесту в терминале.
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
 npm test
 ~~~~~~~~
 
-Now Jest enables you to write snapshot tests. These tests make a snapshot of your rendered component and run this snapshot against future snapshots. When a future snapshot changes, you will get notified in the test. You can either accept the snapshot change, because you changed the component implementation on purpose, or deny the change and investigate for the error. It complements unit tests very well, because you only test the diffs of the rendered output. It doesn't add big maintenance costs, because you can simply accept changed snapshots when you changed something on purpose for the rendered output in your component.
+Теперь Jest позволяет создавать снимки. Эти тесты делают снимок вашего отрисованного компонента и сравнивает этот снимок с будущими снимками. При изменении будущих снимков, будут отображаться соответствующие уведомления в тесте. Вы можете принять изменение снимка, потому что вы специально изменили реализацию компонента, либо отказать в изменении снимка, что означает, что была допущена ошибка, которую нужно исправить. Jest очень хорошо дополняет модульные тесты, потому что проверяются только различия в отрисованных компонентов в разные моменты времени. Кроме того, это не добавляет больших затрат на поддержку таких тестов, потому что вы можете просто принимать измененные снимки, когда вы намеренно что-то изменили, что повлияло на отрисовку компонента.
 
-Jest stores the snapshots in a folder. Only that way it can validate the diff against a future snapshot. Additionally, the snapshots can be shared across teams by having them in one folder.
+Jest хранит снимки в каталоге `snapshots`. Только таким образом он может проверить различия с будущим снимком. Кроме того, снимками можно обмениваться между командами, если они находятся в одной папке.
 
-Before writing your first snapshot test with Jest, you have to install an utility library.
+Перед написанием первого теста снимка с помощью Jest вам необходимо установить следующую библиотеку.
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
 npm install --save-dev react-test-renderer
 ~~~~~~~~
 
-Now you can extend the App component test with your first snapshot test. First, import the new functionality from the node package and wrap your previous "it"-block for the App component into a descriptive "describe"-block. In this case, the test suite is only for the App component.
+Теперь вы можете расширить тест компонента App с помощью своего первого снимками. Во-первых, импортируйте новую функциональность из node-пакета и поместите свой тестируемый код компонента App в блок «it», а его в свою очередь в блок «describe». В данном случае тестовый набор предназначен только для компонента App.
 
 {title="src/App.test.js",lang=javascript}
 ~~~~~~~~
@@ -395,7 +394,7 @@ import App from './App';
 describe('App', () => {
 
 # leanpub-end-insert
-  it('renders without crashing', () => {
+  it('отрисовывает без ошибки', () => {
     const div = document.createElement('div');
     ReactDOM.render(<App />, div);
     ReactDOM.unmountComponentAtNode(div);
@@ -406,7 +405,7 @@ describe('App', () => {
 # leanpub-end-insert
 ~~~~~~~~
 
-Now you can implement your first snapshot test by using a "test"-block.
+Теперь вы можете написать свой первый тест снимком с помощью блока «test».
 
 {title="src/App.test.js",lang=javascript}
 ~~~~~~~~
@@ -417,18 +416,18 @@ import App from './App';
 
 describe('App', () => {
 
-  it('renders without crashing', () => {
+  it('отрисовывает без ошибки', () => {
     const div = document.createElement('div');
     ReactDOM.render(<App />, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 
 # leanpub-start-insert
-  test('has a valid snapshot', () => {
+  test('есть корректный снимок', () => {
     const component = renderer.create(
       <App />
     );
-    let tree = component.toJSON();
+    const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });
 
@@ -436,11 +435,11 @@ describe('App', () => {
 });
 ~~~~~~~~
 
-Run your tests again and see how the tests either succeed or fail. They should succeed. Once you change the output of the render block in your App component, the snapshot test should fail. Then you can decide to update the snapshot or investigate in your App component.
+Запустите ваши тесты снова и посмотрите, какие из них были выполнены успешно или неудачно. Все они должны пройти. Если вы измените вывод блока отрисовки в компоненте App, тест снимками должен завершиться неудачно. Затем вы можете решить, принять обновление снимка или выяснить причину ошибки в компоненте App.
 
-Basically the `renderer.create()` function creates a snapshot of your App component. It renders it virtually and stores the DOM into a snapshot. Afterward, the snapshot is expected to match the previous snapshot from when you ran your snapshot tests the last time. This way, you can assure that your DOM stays the same and doesn't change anything by accident.
+В основном функция `renderer.create()` создаёт снимок вашего компонента App. Она отрисовывает компонент виртуально и сохраняет полученный DOM в снимок. После этого снимок, как ожидается, будет соответствовать предыдущему снимку с момента последнего запуска проверки снимков. Таким образом, вы можете утверждать, что ваш DOM остался таким же и ничего не поменялось по ошибке.
 
-Let's add more tests for our independent components. First, the Search component:
+Давайте добавим больше тестов для наших независимых компонентов. Во-первых, для компонента Search:
 
 {title="src/App.test.js",lang=javascript}
 ~~~~~~~~
@@ -456,17 +455,17 @@ import App, { Search } from './App';
 # leanpub-start-insert
 describe('Search', () => {
 
-  it('renders without crashing', () => {
+  it('отрисовывает без ошибки', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<Search>Search</Search>, div);
+    ReactDOM.render(<Search>Поиск</Search>, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 
-  test('has a valid snapshot', () => {
+  test('есть корректный снимок', () => {
     const component = renderer.create(
-      <Search>Search</Search>
+      <Search>Поиск</Search>
     );
-    let tree = component.toJSON();
+    const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });
 
@@ -474,9 +473,9 @@ describe('Search', () => {
 # leanpub-end-insert
 ~~~~~~~~
 
-The Search component has two tests similar to the App component. The first test simply renders the Search component to the DOM and verifies that there is no error during the rendering process. If there would be an error, the test would break even though there isn't any assertion (e.g. expect, match, equal) in the test block. The second snapshot test is used to store a snapshot of the rendered component and to run it against a previous snapshot. It fails when the snapshot has changed.
+У компонента Search два теста, аналогичных компоненту App. Первый тест просто отрисовывает компонент Search в DOM и проверяет, что во время процесса отрисовки не произошла ошибка. Если ошибка возникла, тест провалится, даже если в тестовом блоке нет никакого утверждения (например, `expect`, `match`, `equal`). Второй — тест снимком — используется для хранения снимка отрисованного компонента и сравнивает его с предыдущего снимком. Этот тест закончится неудачей, когда снимок изменится.
 
-Second, you can test the Button component whereas the same test rules as in the Search component apply.
+Во-вторых, вы можете протестировать компонент Button, так как применяются те же правила тестирования, что и в компоненте Search.
 
 {title="src/App.test.js",lang=javascript}
 ~~~~~~~~
@@ -490,17 +489,17 @@ import App, { Search, Button } from './App';
 # leanpub-start-insert
 describe('Button', () => {
 
-  it('renders without crashing', () => {
+  it('отрисовывает без ошибки', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<Button>Give Me More</Button>, div);
+    ReactDOM.render(<Button>Дай мне больше</Button>, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 
-  test('has a valid snapshot', () => {
+  test('есть корректный снимок', () => {
     const component = renderer.create(
-      <Button>Give Me More</Button>
+      <Button>Дай мне больше</Button>
     );
-    let tree = component.toJSON();
+    const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });
 
@@ -508,7 +507,7 @@ describe('Button', () => {
 # leanpub-end-insert
 ~~~~~~~~
 
-Last but not least, the Table component that you can pass a bunch of initial props to render it with a sample list.
+И последнее, но не менее важное: компоненту Table вы можете передать много первоначальных свойств, чтобы отрисовать с демонстрационном списком.
 
 {title="src/App.test.js",lang=javascript}
 ~~~~~~~~
@@ -529,16 +528,16 @@ describe('Table', () => {
     ],
   };
 
-  it('renders without crashing', () => {
+  it('отрисовывает без ошибки', () => {
     const div = document.createElement('div');
     ReactDOM.render(<Table { ...props } />, div);
   });
 
-  test('has a valid snapshot', () => {
+  test('есть корректный снимок', () => {
     const component = renderer.create(
       <Table { ...props } />
     );
-    let tree = component.toJSON();
+    const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });
 
@@ -546,27 +545,27 @@ describe('Table', () => {
 # leanpub-end-insert
 ~~~~~~~~
 
-Snapshot tests usually stay pretty basic. You only want to cover that the component doesn't change its output. Once it changes the output, you have to decide if you accept the changes. Otherwise you have to fix the component when the output is not the desired output.
+Тесты снимком обычно остаются довольно простыми. Вам нужно лишь заметить, что компонент не изменил свой отрисованный вывод. После изменения вывода вы должны решить, принимаете ли вы эти изменения или нет. В противном случае вам нужно исправить компонент, если его вывод отрисовки не такой, как ожидался.
 
-### Exercises:
+### Упражнения:
 
-* see how a snapshot test fails once you change your component's return value in the `render()` method
-  * either accept or deny the snapshot change
-* keep your snapshots tests up to date when the implementation of components change in next chapters
-* read more about [Jest in React](https://facebook.github.io/jest/docs/tutorial-react.html)
+* посмотрите, как тест снимком завершится неудачно после изменения возвращаемого значения компонента в методе `render()`
+  * и либо примите, либо отклоните изменение снимка
+* обновите свои снимки при обновлении компонентов в следующих главах
+* узнайте подробнее про [Jest в React](https://jestjs.io/docs/en/tutorial-react)
 
-## Unit Tests with Enzyme
+## Модульное тестирование с помощью Enzyme
 
-[Enzyme](https://github.com/airbnb/enzyme) is a testing utility by Airbnb to assert, manipulate and traverse your React components. You can use it to conduct unit tests to complement your snapshot tests in React.
+[Enzyme](https://github.com/airbnb/enzyme) — это утилита тестирования от Airbnb для проверки утверждений, манипулирования и навигации по компонентам React. Вы можете использовать её для проведения модульных тестов в дополнение к вашим снимкам в React.
 
-Let's see how you can use enzyme. First you have to install it since it doesn't come by default with *create-react-app*. It comes also with an extension to use it in React.
+Давайте посмотрим, как вы можете использовать Enzyme. Сначала нужно установить его, поскольку он не поставляется по умолчанию в *create-react-app*. У Enzyme также есть расширение для использования в React.
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
 npm install --save-dev enzyme react-addons-test-utils enzyme-adapter-react-16
 ~~~~~~~~
 
-Second, you need to include it in your test setup and initialize its Adapter for using it in React.
+Во-вторых, вам нужно подключить Enzyme и инициализировать его адаптер для использования в React.
 
 {title="src/App.test.js",lang=javascript}
 ~~~~~~~~
@@ -584,7 +583,7 @@ Enzyme.configure({ adapter: new Adapter() });
 # leanpub-end-insert
 ~~~~~~~~
 
-Now you can write your first unit test in the Table "describe"-block. You will use `shallow()` to render your component and assert that the Table has two items, because you pass it two list items. The assertion simply checks if the element has two elements with the class `table-row`.
+Теперь вы можете написать свой первый модульный тест для компонента Table в блоке «describe». Вы будете использовать `shallow()` для отрисовки вашего компонента и проверять, что у отрисованного компонента Table два элемента, так как ему было передано два элемента списка. Утверждение просто проверяет, есть у элемента таблицы два дочерних элемента с классом `table-row`.
 
 {title="src/App.test.js",lang=javascript}
 ~~~~~~~~
@@ -597,7 +596,7 @@ import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import App, { Search, Button, Table } from './App';
 
-...
+// ...
 
 describe('Table', () => {
 
@@ -623,39 +622,39 @@ describe('Table', () => {
 });
 ~~~~~~~~
 
-Shallow renders the component without its child components. That way, you can make the test very dedicated to one component.
+Функция `shallow` отрисовывает компонент без его дочерних компонентов. Таким образом, вы можете написать тест, проверяющий непосредственно сам компонент.
 
-Enzyme has overall three rendering mechanisms in its API. You already know `shallow()`, but there also exist `mount()` and `render()`. Both instantiate instances of the parent component and all child components. Additionally `mount()` gives you access to the component lifecycle methods. But when to use which render mechanism? Here some rules of thumb:
+У Enzyme есть три общих механизма отрисовки, доступные в API. Вы уже знаете `shallow()`, но также существуют `mount()` и `render()`. Они оба создают экземпляры родительского компонента и всех его дочерних компонентов. Кроме того `mount()` предоставляет вам доступ к методам жизненного цикла компонента. Но какой механизм отрисовки использовать? Существует следующие проверенные на практике правила:
 
-* Always begin with a shallow test
-* If `componentDidMount()` or `componentDidUpdate()` should be tested, use `mount()`
-* If you want to test component lifecycle and children behavior, use `mount()`
-* If you want to test a component's children rendering with less overhead than `mount()` and you are not interested in lifecycle methods, use `render()`
+* Всегда начинайте с поверхностного (shallow) теста
+* Если необходимо проверить `componentDidMount()` или `componentDidUpdate()`, используйте `mount()`
+* Если хотите протестировать жизненный цикл компонентов и поведение дочерних элементов, используйте `mount()`
+* Если хотите протестировать отрисовку дочерних элементов компонента с меньшими накладными расходами, чем `mount()`, и вам не интересны методы жизненного цикла, используйте `render()`
 
-You could continue to unit test your components. But make sure to keep the tests simple and maintainable. Otherwise you will have to refactor them once you change your components. That's why Facebook introduced snapshot tests with Jest in the first place.
+Вы можете продолжить тестирование своих компонентов. Но следите за тем, чтобы тесты былипростыми и удобными для дальнейшей поддержки. В противном случае вам придётся рефакторить их, как только вы измените свои компоненты. Именно поэтому Facebook в первую очередь представил инструмент для тестирования снимками Jest.
 
-### Exercises:
+### Упражнения:
 
-* write a unit test with Enzyme for your Button component
-* keep your unit tests up to date during the following chapters
-* read more about [enzyme and its rendering API](https://github.com/airbnb/enzyme)
+* написать модульный тест с использованием Enzyme для компонента Button
+* постоянно обновляйте свои модульные тесты в следующих главах
+* Узнайте больше о [Jest и о его API отрисовки](https://github.com/airbnb/enzyme)
 
-## Component Interface with PropTypes
+## Интерфейс компонента с помощью PropTypes
 
-You may know [TypeScript](https://www.typescriptlang.org/) or [Flow](https://flowtype.org/) to introduce a type interface to JavaScript. A typed language is less error prone, because the code gets validated based on its program text. Editors and other utilities can catch these errors before the program runs. It makes your program more robust.
+Возможно вы знаете [TypeScript](https://www.typescriptlang.org/) или [Flow](https://flowtype.org/) для того, чтобы ввести интерфейс типа к JavaScript. Типизированный язык менее подвержен ошибкам, поскольку код проверяется на основе его текста программы. Редакторы и другие утилиты могут поймать эти ошибки до запуска программы. Это делает вашу программу более надёжной.
 
-In the book, you will not introduce Flow or TypeScript, but another neat way to check your types in components. React comes with a built-in type checker to prevent bugs. You can use PropTypes to describe your component interface. All the props that get passed from a parent component to a child component get validated based on the PropTypes interface assigned to the child component.
+В книге мы не будем использовать Flow или TypeScript, а вместо этого представим ещё один аккуратный способ проверить свои типы в компонентах. React поставляется со встроенным инструментом проверки типов для предотвращения ошибок. Вы можете использовать PropTypes для описания интерфейса вашего компонента. Все свойства, которые передаются от родительского компонента к дочернему компоненту, проверяются на основе интерфейса PropTypes, назначенному дочернему компоненту.
 
-The chapter will show you how you can make all your components type safe with PropTypes. I will omit the changes for the following chapters, because they add unnecessary code refactorings. But you should keep and update them along the way to keep your components interface type safe.
+В разделе этой главы показывается, как вы можете сделать компоненты безопасно типизированными с помощью PropTypes. Я пропускаю данные изменения для следующих глав, потому что они добавляют ненужные улучшения кода. Но вы должны сохранить и обновить их, чтобы сохранить тип интерфейса вашего компонента безопасным.
 
-First, you have to install a separate package for React.
+Во-первых, вам нужно установить отдельный пакет для React.
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
 npm install prop-types
 ~~~~~~~~
 
-Now, you can import the PropTypes.
+Теперь вы можете импортировать PropTypes.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -666,7 +665,7 @@ import PropTypes from 'prop-types';
 # leanpub-end-insert
 ~~~~~~~~
 
-Let's start to assign a props interface to the components:
+Давайте установим типы для свойств в компонентах:
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -692,7 +691,7 @@ Button.propTypes = {
 # leanpub-end-insert
 ~~~~~~~~
 
-Basically that's it. You take every argument from the function signature and assign a PropType to it. The basic PropTypes for primitives and complex objects are:
+В принципе, вот и всё. Вы выбираете каждый аргумент из определения функции и присваиваете ему PropType. Основные PropTypes для примитивных типов данных и сложных объектов перечислены ниже:
 
 * PropTypes.array
 * PropTypes.bool
@@ -701,14 +700,14 @@ Basically that's it. You take every argument from the function signature and ass
 * PropTypes.object
 * PropTypes.string
 
-Additionally you have two more PropTypes to define a renderable fragment (node), e.g. a string, and a React element:
+Однако, у вас есть еще два PropTypes для определения отрисованного фрагмента (узла), например, строка и элемент React:
 
 * PropTypes.node
 * PropTypes.element
 
-You already used the `node` PropType for the Button component. Overall there are more PropType definitions that you can read up on in the official React documentation.
+Вы уже использовали PropType `node` для компонента Button. В целом есть больше определений PropType, про которые вы можете узнать в официальной документации React.
 
-At the moment all of the defined PropTypes for the Button are optional. The parameters can be null or undefined. But for several props you want to enforce that they are defined. You can make it a requirement that these props are passed to the component.
+На данный момент все определённые PropTypes для Button — необязательные. Параметры могут быть `null` или `undefined`. Но для нескольких свойств вы можете определить их обязательными. Вы можете установить требование, чтобы эти свойства были переданы компоненту.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -723,7 +722,7 @@ Button.propTypes = {
 };
 ~~~~~~~~
 
-The `className` is not required, because it can default to an empty string. Next you will define a PropType interface for the Table component:
+`className` не обязателен, поскольку по умолчанию может быть пустая строка. Далее вы определяете интерфейс PropType для компонента Table:
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -735,7 +734,7 @@ Table.propTypes = {
 # leanpub-end-insert
 ~~~~~~~~
 
-You can define the content of an array PropType more explicitly:
+Вы можете определить содержимое массива PropType более явно:
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -753,9 +752,9 @@ Table.propTypes = {
 };
 ~~~~~~~~
 
-Only the `objectID` is required, because you know that some of your code depends on it. The other properties are only displayed, thus they are not necessarily required. Moreover you cannot be sure that the Hacker News API has always a defined property for each object in the array.
+Требуется только `objectID`, потому что вы знаете, что от этого зависит какой-то ваш код. Другие свойства только отображаются, поэтому они не обязательны. Кроме того, вы не можете быть уверены, что API Hacker News всегда имеет определённое свойство для каждого объекта в массиве.
 
-That's it for PropTypes. But there is one more aspect. You can define default props in your component. Let's take again the Button component. The `className` property has an ES6 default parameter in the component signature.
+Это для PropTypes. Но есть ещё один аспект. Вы можете определить свойства по умолчанию в своём компоненте. Давайте снова вернёмся к компоненту Button. У свойства `className` есть значение по умолчанию в объявлении компонента.
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -767,7 +766,7 @@ const Button = ({
   ...
 ~~~~~~~~
 
-You could replace it with the internal React default prop:
+Вы можете заменить его внутренним свойством по умолчанию в React:
 
 {title="src/App.js",lang=javascript}
 ~~~~~~~~
@@ -793,27 +792,51 @@ Button.defaultProps = {
 # leanpub-end-insert
 ~~~~~~~~
 
-Same as the ES6 default parameter, the default prop ensures that the property is set to a default value when the parent component didn't specify it. The PropType type check happens after the default prop is evaluated.
+Так же, как и параметр по умолчанию в ES6, свойство по умолчанию гарантирует, что для свойства установлено значение по умолчанию, если родительский компонент не указал его. Проверка типа PropType происходит после вычисления свойства по умолчанию.
 
-If you run your tests again, you might see PropType errors for your components on your command line. It can happen because you didn't define all props for your components in the tests that are defined as required in your PropType definition. The tests themselves all pass correctly though. You can pass all required props to the components in your tests to avoid these errors.
+Если вы снова запустите свои тесты, вы увидите ошибки PropType по вашим компонентам в командной строке. Это может произойти, потому что вы не определили все свойства для своих компонентов в тестах, которые определены в соответствии с вашим определением PropType. Однако сами тесты проходят правильно. Вы можете передать все необходимые свойства компонентам в своих тестах, чтобы избежать этих ошибок.
 
-### Exercises:
+### Упражнения:
 
-* define the PropType interface for the Search component
-* add and update the PropType interfaces when you add and update components in the next chapters
-* read more about [React PropTypes](https://reactjs.org/docs/typechecking-with-proptypes.html)
+* определить интерфейс PropType для компонента Search
+* добавить и обновить интерфейсы PropType при добавлении и обновлении компонентов в последующих главах
+* узнать подробнее про [PropTypes в React] (https://reactjs.org/docs/typechecking-with-proptypes.html)
+
+## Отладка с помощью инструментов разработчика React
+ 
+В этом последнем разделе представлен полезный инструмент, обычно используемый для исследования и отладки React-приложений. [React Developer Tools](https://github.com/facebook/react-devtools) позволяет вам изучать иерархию, свойства и состояние React-компонентов. Он распространяется в виде расширения для браузера (для Chrome и Firefox) и как автономное приложение (которое работает с другими окружениями). После установки на сайтах, разработанных с помощью React, загорится значок расширения. На таких страницах вы увидите вкладку «React» в инструментах разработчика браузера.
+ 
+Давайте попробуем это расширение в вашем приложении Hacker News. В большинстве браузеров быстрый способ загрузить его в *инструменты разработчика* — щёлкнуть правой кнопкой мыши на странице, а затем нажать «Inspect». Сделайте это, когда ваши приложения загружены, затем нажмите вкладку «React». Вы увидите его иерархию элементов с корневым элементом `<App>` корневым элементом. Если вы раскроете его, вы найдете экземпляры ваших компонентов `<Search>`, `<Table>` и `<Button>`.
+ 
+Расширение показывает на боковой панели состояние компонента и свойства для выбранного элемента. Например, если вы нажмете на `<App>`, вы увидите, что у него нет свойств, но у него уже есть состояние. Очень простая методика отладки заключается в том, чтобы отслеживать изменение состояния приложения из-за взаимодействия с пользователем.
+ 
+Во-первых, вы можете проверить параметр «Highlight Updates» (обычно над деревом элементов). Во-вторых, вы можете ввести разную строку поиска в поле ввода приложения. Как вы увидите, только `searchTerm` в состоянии компонента будет изменен. Вы уже знаете, что это произойдет, но теперь вы можете увидеть, что он работает, как и планировалось.
+ 
+Наконец, вы можете нажать кнопку «Search». Состояние `searchKey` будет немедленно изменено для того же значения, что и `searchTerm`, и после этого объект ответа будет добавлен в `results` через несколько секунд. Асинхронный характер вашего кода теперь виден вашим глазам.
+ 
+И последнее, но не менее важное: если вы щёлкните правой кнопкой мыши по любому элементу, то выпадающее меню покажет вам несколько полезных опций. Например, вы можете скопировать свойство или имя элемента, найти соответствующий DOM-узел или перейти к исходному коду приложения в браузере. Этот последний параметр очень полезен для вставки точек останова и отладки ваших функций JavaScript.
+ 
+### Упражнения:
+ 
+* установите расширение [React Developer Tools](https://github.com/facebook/react-devtools) в своём любимом браузере
+  * запустите приложение клон Hacker News и изучите его с помощью расширения
+  * поэкспериментировать с изменениями состояния и свойства
+  * отследить за тем, что происходит при запуске асинхронного запроса
+  * выполнить несколько запросов, в том числе повторяющихся. Понаблюдайте за работой механизма кеширования
+* Узнайте больше о [как отлаживать ваши функции JavaScript в браузере](https://developers.google.com/web/tools/chrome-devtools/javascript/)
 
 {pagebreak}
 
-You have learned how to organize your code and how to test it! Let's recap the last chapters:
+Вы узнали, как организовать свой код и как его протестировать! Давайте повторим последние темы:
 
 * React
-  * PropTypes let you define type checks for components
-  * Jest allows you to write snapshot tests for your components
-  * Enzyme allows you to write unit tests for your components
+   * PropTypes позволяет вам определять проверки типов для компонентов
+   * Jest позволяет писать снимки для ваших компонентов
+   * Enzyme позволяет писать модульные тесты для ваших компонентов
+   * React Developer Tools — полезный инструмент для отладки
 * ES6
-  * import and export statements help you to organize your code
-* General
-  * code organization allows you to scale your application with best practices
+   * операции импорта и экспорта помогают организовать ваш код
+* Общее
+   * организация кода позволяет масштабировать ваше приложение с помощью лучших практик
 
-You can find the source code in the [official repository](https://github.com/the-road-to-learn-react/hackernews-client/tree/5.4).
+Исходный код можно найти в [официальном репозитории](https://github.com/the-road-to-learn-react/hackernews-client/tree/5.4).
