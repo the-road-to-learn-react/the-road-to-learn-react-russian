@@ -96,9 +96,9 @@ class App extends Component {
 ### Упражнения:
 
 * поэкспериментируйте с локальным состоянием
-  * определить больше данных в начальном состоянии в вашем конструкторе
-  * использовать состояние в методе `render()`
-* узнать подробнее о [конструкторе класса ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Classes#Constructor)
+  * определите больше данных в начальном состоянии в вашем конструкторе
+  * используйте состояние в методе `render()`
+* узнайте подробнее [конструктор класса в ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Classes#Constructor)
 
 ## Инициализация объектов ES6
 
@@ -179,7 +179,7 @@ const user = {
 ### Упражнения:
 
 * поэкспериментируйте с инициализацией объекта в ES6
-* узнать подробнее о [инициализации объектов в ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Object_initializer)
+* узнайте подробнее, как происходит [инициализация объектов в ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Object_initializer)
 
 ## Однонаправленный поток данных
 
@@ -348,7 +348,7 @@ onDismiss(id) {
 
 ### Упражнения:
 
-* узнать больше о [состоянии и жизненном цикле в React](https://ru.react.js.org/docs/state-and-lifecycle.html)
+* узнайте больше про [состояние и жизненный цикл в React](https://ru.react.js.org/docs/state-and-lifecycle.html)
 
 ## Привязки
 
@@ -531,7 +531,7 @@ class ExplainBindingsComponent extends Component {
 
 ### Упражнения:
 
-* попробуйте различные подходы к привязкам и выведите на консоль объект `this`, используя console.log.
+* попробуйте различные подходы к привязкам и выведите на консоль объект `this`, используя `console.log`.
 
 ## Обработчик событий
 
@@ -734,7 +734,7 @@ class App extends Component {
 
 ### Упражнения:
 
-* попробовать различные подходы использования функций в обработчике `onClick` вашей кнопки
+* попробуйте различные подходы использования функций в обработчике `onClick` вашей кнопки
 
 ## Взаимодействия с формами и событиями
 
@@ -1019,8 +1019,8 @@ class App extends Component {
 
 ### Упражнения:
 
-* узнать больше о [событиях React](https://ru.react.js.org/docs/handling-events.html)
-* узнать подробнее про [функции высшего порядка](https://ru.wikipedia.org/wiki/%D0%A4%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F_%D0%B2%D1%8B%D1%81%D1%88%D0%B5%D0%B3%D0%BE_%D0%BF%D0%BE%D1%80%D1%8F%D0%B4%D0%BA%D0%B0)
+* узнайте больше про [события React](https://ru.react.js.org/docs/handling-events.html)
+* узнать подробнее [функции высшего порядка](https://ru.wikipedia.org/wiki/%D0%A4%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F_%D0%B2%D1%8B%D1%81%D1%88%D0%B5%D0%B3%D0%BE_%D0%BF%D0%BE%D1%80%D1%8F%D0%B4%D0%BA%D0%B0)
 
 ## Деструктуризация ES6
 
@@ -1108,7 +1108,7 @@ const { searchTerm, list } = this.state;
 
 ### Упражнения:
 
-* прочитайте подробнее про [деструктуризацию в ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+* изучите подробнее [деструктуризацию в ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
 
 ## Контролируемые компоненты
 
@@ -1279,7 +1279,7 @@ class Table extends Component {
 
 ### Упражнения:
 
-* разобрать более подробно компоненты, которые вы могли бы разделить, как это было сделано с компонентами Search и Table
+* подумайте, какие компоненты, вы ещё могли бы разделить, как это было сделано с компонентами Search и Table
   * но не делайте это сейчас, иначе вы столкнётесь с конфликтами в следующих главах
 
 ## Компонуемые компоненты
@@ -1343,7 +1343,7 @@ class Search extends Component {
 
 ### Упражнения:
 
-* прочитать подробнее про [модель композиции React](https://ru.react.js.org/docs/composition-vs-inheritance.html)
+* прочитайте подробнее про [модель композиции React](https://ru.react.js.org/docs/composition-vs-inheritance.html)
 
 ## Повторно используемые компоненты
 
@@ -1522,8 +1522,8 @@ const Search = ({ value, onChange, children }) => {
 
 ### Упражнения:
 
-* преобразовать компоненты Table и Button в функциональные компоненты без состояния
-* прочитать подробнее про [классовые компоненты и функциональные компоненты без состояния](https://ru.react.js.org/docs/components-and-props.html)
+* преобразуйте компоненты Table и Button в функциональные компоненты без состояния
+* ознакомьтесь подробнее с [классовыми компонентами и функциональными компонентами без состояния](https://ru.react.js.org/docs/components-and-props.html)
 
 ## Стилизация компонентов
 

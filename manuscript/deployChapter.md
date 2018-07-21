@@ -22,8 +22,8 @@
 
 Перед деплоем приложения в Heroku необходимо выполнить два шага:
 
-* установить [CLI Heroku](https://devcenter.heroku.com/articles/heroku-cli)
-* создать [бесплатный аккаунт в Heroku](https://www.heroku.com/)
+* установите [CLI Heroku](https://devcenter.heroku.com/articles/heroku-cli)
+* зарегистрируйте [бесплатный аккаунт в Heroku](https://www.heroku.com/)
 
 Если у вас установлен Homebrew, вы можете установить CLI Heroku из командной строки:
 

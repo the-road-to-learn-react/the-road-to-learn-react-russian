@@ -275,8 +275,8 @@ class Table extends Component {
 
 ### Упражнения:
 
-* прочитайте подробнее про [поднятие состояние в React](https://ru.react.js.org/docs/lifting-state-up.html)
-* прочитайте больше про поднятие состояния в [изучении React перед использованием Redux](https://www.robinwieruch.de/learn-react-before-using-redux/)
+* прочитайте подробнее про [поднятие состояния в React](https://ru.react.js.org/docs/lifting-state-up.html)
+* прочитайте больше про поднятие состояния в [статье про изучение React перед использованием Redux](https://www.robinwieruch.de/learn-react-before-using-redux/)
 
 ## Пересмотр: setState()
 
@@ -463,7 +463,7 @@ Redux и MobX выходят за рамки данной книги. Когда
 
 ### Упражнения:
 
-* Узнайте больше о [внешнем управлении состоянием и о том, как его изучать](https://www.robinwieruch.de/redux-mobx-confusion/)
+* узнайте больше о [внешнем управлении состоянием и о том, как его изучать](https://www.robinwieruch.de/redux-mobx-confusion/)
 * ознакомьтесь с моей второй книгой про [управление состоянием в React](https://roadtoreact.com/)
 
 {pagebreak}

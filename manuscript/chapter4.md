@@ -123,8 +123,8 @@ export const lastname = 'Wieruch';
 
 ### Упражнения:
 
-* узнайте больше про [импорт в ES6](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
-* узнайте больше про [экспорт в ES6](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export)
+* ознакомьтесь подробнее с [импортом в ES6](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
+* ознакомьтесь подробнее с [экспортом в ES6](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export)
 
 ## Организация кода с помощью модулей в ES6
 
@@ -305,7 +305,7 @@ import SubmitButton from '../Buttons/SubmitButton';
 
 ### Упражнения:
 
-* займитесь рефакторингом файла *src/App.js*  на несколько модулей-компонентов, когда закончите книгу
+* займитесь рефакторингом файла *src/App.js*, разделив его на несколько модулей-компонентов, когда закончите книгу
 
 ## Тестирование снимками с помощью Jest
 
@@ -552,7 +552,7 @@ describe('Table', () => {
 * посмотрите, как тест снимком завершится неудачно после изменения возвращаемого значения компонента в методе `render()`
   * и либо примите, либо отклоните изменение снимка
 * обновите свои снимки при обновлении компонентов в следующих главах
-* узнайте подробнее про [Jest в React](https://jestjs.io/docs/en/tutorial-react)
+* узнайте подробнее про использование [Jest в React](https://jestjs.io/docs/en/tutorial-react)
 
 ## Модульное тестирование с помощью Enzyme
 
@@ -635,9 +635,9 @@ describe('Table', () => {
 
 ### Упражнения:
 
-* написать модульный тест с использованием Enzyme для компонента Button
-* постоянно обновляйте свои модульные тесты в следующих главах
-* Узнайте больше о [Jest и о его API отрисовки](https://github.com/airbnb/enzyme)
+* напишите модульный тест с использованием Enzyme для компонента Button
+* постоянно выполняйте и актуализируйте при необходимости свои модульные тесты в следующих главах
+* узнайте больше про [Jest и о его API отрисовки](https://github.com/airbnb/enzyme)
 
 ## Интерфейс компонента с помощью PropTypes
 
@@ -798,9 +798,9 @@ Button.defaultProps = {
 
 ### Упражнения:
 
-* определить интерфейс PropType для компонента Search
-* добавить и обновить интерфейсы PropType при добавлении и обновлении компонентов в последующих главах
-* узнать подробнее про [PropTypes в React](https://ru.react.js.org/docs/typechecking-with-proptypes.html)
+* определите интерфейс PropType для компонента Search
+* добавьте и обновите интерфейсы PropType при добавлении и обновлении компонентов в последующих главах
+* узнайте больше про [PropTypes в React](https://ru.react.js.org/docs/typechecking-with-proptypes.html)
 
 ## Отладка с помощью инструментов разработчика React
  
@@ -819,11 +819,11 @@ Button.defaultProps = {
 ### Упражнения:
  
 * установите расширение [React Developer Tools](https://github.com/facebook/react-devtools) в своём любимом браузере
-  * запустите приложение клон Hacker News и изучите его с помощью расширения
-  * поэкспериментировать с изменениями состояния и свойства
-  * отследить за тем, что происходит при запуске асинхронного запроса
-  * выполнить несколько запросов, в том числе повторяющихся. Понаблюдайте за работой механизма кеширования
-* Узнайте больше о [как отлаживать ваши функции JavaScript в браузере](https://developers.google.com/web/tools/chrome-devtools/javascript/)
+  * запустите приложение-клон Hacker News и изучите его с помощью расширения
+  * поэкспериментируйте с изменениями состояния и свойств
+  * следите за тем, что происходит при запуске асинхронного запроса
+  * выполните несколько запросов, в том числе повторяющихся. Понаблюдайте за работой механизма кеширования
+* Узнайте больше о том, [как отлаживать ваши функции JavaScript в браузере](https://developers.google.com/web/tools/chrome-devtools/javascript/)
 
 {pagebreak}
 
