@@ -155,7 +155,7 @@ const Search = ({
 ### Упражнения
 
 * узнать подробнее про [использование атрибута `ref` в React](https://www.robinwieruch.de/react-ref-attribute-dom-node/)
-* узнать подробнее в целом про [атрибут `ref` в React](https://reactjs.org/docs/refs-and-the-dom.html)
+* узнать подробнее в целом про [атрибут `ref` в React](https://ru.react.js.org/docs/refs-and-the-dom.html)
 
 ## Загрузка ...
 

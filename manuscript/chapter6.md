@@ -275,7 +275,7 @@ class Table extends Component {
 
 ### Упражнения:
 
-* прочитайте подробнее про [поднятие состояние в React](https://reactjs.org/docs/lifting-state-up.html)
+* прочитайте подробнее про [поднятие состояние в React](https://ru.react.js.org/docs/lifting-state-up.html)
 * прочитайте больше про поднятие состояния в [изучении React перед использованием Redux](https://www.robinwieruch.de/learn-react-before-using-redux/)
 
 ## Пересмотр: setState()
