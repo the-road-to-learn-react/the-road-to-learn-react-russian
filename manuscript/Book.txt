@@ -1,6 +1,7 @@
 {frontmatter}
 
 foreword.md
+contributor.md
 
 {mainmatter}
 
