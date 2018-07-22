@@ -282,14 +282,14 @@ class Table extends Component {
 
 До сих пор вы использовали React `setState()` для управления состоянием вашего внутреннего компонента. Вы можете передать объект функции, в которой вы можете частично обновить внутреннее состояние.
 
-{title="Code Playground",lang="javascript"}
+{title="Код",lang="javascript"}
 ~~~~~~~~
 this.setState({ foo: bar });
 ~~~~~~~~
 
 Но `setState()` принимает не только объект. Второй вариант использования этого метода включает передачу функции для обновления состояния.
 
-{title="Code Playground",lang="javascript"}
+{title="Код",lang="javascript"}
 ~~~~~~~~
 this.setState((prevState, props) => {
   ...
@@ -300,7 +300,7 @@ this.setState((prevState, props) => {
 
 Но почему это вызывает баги при использовании объекта вместо функции, когда обновление зависит от предыдущего состояния или свойства? Метод React `setState()` — асинхронный. React группирует вызовы `setState()` и выполняет их рано или поздно. Может случиться так, что предыдущее состояние или свойство изменились между тем, когда вы будете использовать его в вызове `setState()`.
 
-{title="Code Playground",lang="javascript"}
+{title="Код",lang="javascript"}
 ~~~~~~~~
 const { fooCount } = this.state;
 const { barCount } = this.props;
@@ -311,7 +311,7 @@ this.setState({ count: fooCount + barCount });
 
 С помощью функционального подхода функция в `setState()` — колбэк, который работает с состоянием и свойствами во время выполнения колбэк-функции. Даже при том, что `setState()` является асинхронным, с функцией он принимает состояние и свойства в момент его выполнения.
 
-{title="Code Playground",lang="javascript"}
+{title="Код",lang="javascript"}
 ~~~~~~~~
 this.setState((prevState, props) => {
   const { fooCount } = prevState;

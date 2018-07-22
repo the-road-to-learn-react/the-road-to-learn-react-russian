@@ -27,7 +27,7 @@
 
 Если у вас установлен Homebrew, вы можете установить CLI Heroku из командной строки:
 
-{title="Command Line",lang="text"}
+{title="Командная строка",lang="text"}
 ~~~~~~~~
 brew update
 brew install heroku-toolbelt
@@ -35,7 +35,7 @@ brew install heroku-toolbelt
 
 Теперь можно воспользоваться git и CLI Heroku для деплоя вашего приложения.
 
-{title="Command Line",lang="text"}
+{title="Командная строка",lang="text"}
 ~~~~~~~~
 git init
 heroku create -b https://github.com/mars/create-react-app-buildpack.git

@@ -104,7 +104,7 @@ class App extends Component {
 
 В JavaScript ES6 вы можете использовать сокращённый синтаксис для более короткой инициализации свойств объектов. Представьте себе следующую инициализацию объекта:
 
-{title="Code Playground",lang="javascript"}
+{title="Код",lang="javascript"}
 ~~~~~~~~
 const name = 'Robin';
 
@@ -115,7 +115,7 @@ const user = {
 
 Когда имя свойства в объекте совпадает с именем переменной, вы можете использовать следующее:
 
-{title="Code Playground",lang="javascript"}
+{title="Код",lang="javascript"}
 ~~~~~~~~
 const name = 'Robin';
 
@@ -126,7 +126,7 @@ const user = {
 
 В вашем приложении вы можете сделать то же самое. Имя переменной списка и имя свойства состояния используют одинаковое имя.
 
-{title="Code Playground",lang="javascript"}
+{title="Код",lang="javascript"}
 ~~~~~~~~
 // ES5
 this.state = {
@@ -141,7 +141,7 @@ this.state = {
 
 Другим классным помощником являются сокращённые имена методов. В JavaScript ES6 вы можете определять методы в объекте в более лаконичной форме.
 
-{title="Code Playground",lang="javascript"}
+{title="Код",lang="javascript"}
 ~~~~~~~~
 // ES5
 var userService = {
@@ -160,7 +160,7 @@ const userService = {
 
 И последнее, но не менее важное: вы можете использовать вычисляемые имена свойств в JavaScript ES6.
 
-{title="Code Playground",lang="javascript"}
+{title="Код",lang="javascript"}
 ~~~~~~~~
 // ES5
 var user = {
@@ -373,7 +373,7 @@ class App extends Component {
 
 Зачем вам это делать в первую очередь? Этап привязки необходим, потому что методы класса автоматически не привязывают `this` к экземпляру класса. Давайте продемонстрируем это с помощью следующего ES6-класса компонента.
 
-{title="Code Playground",lang=javascript}
+{title="Код",lang=javascript}
 ~~~~~~~~
 class ExplainBindingsComponent extends Component {
   onClickMe() {
@@ -397,7 +397,7 @@ class ExplainBindingsComponent extends Component {
 
 В следующем классе компонента метод класса правильно привязан в конструкторе класса.
 
-{title="Code Playground",lang=javascript}
+{title="Код",lang=javascript}
 ~~~~~~~~
 class ExplainBindingsComponent extends Component {
 # leanpub-start-insert
@@ -429,7 +429,7 @@ class ExplainBindingsComponent extends Component {
 
 Привязка метода класса может также произойти в другом месте. Например, это может быть в методе `render()`.
 
-{title="Code Playground",lang=javascript}
+{title="Код",lang=javascript}
 ~~~~~~~~
 class ExplainBindingsComponent extends Component {
   onClickMe() {
@@ -455,7 +455,7 @@ class ExplainBindingsComponent extends Component {
 
 И ещё кое-что, что люди иногда придумывают — определение бизнес-логики методов класса в конструкторе.
 
-{title="Code Playground",lang=javascript}
+{title="Код",lang=javascript}
 ~~~~~~~~
 class ExplainBindingsComponent extends Component {
   constructor() {
@@ -483,7 +483,7 @@ class ExplainBindingsComponent extends Component {
 
 Вы также не должны делать этого, потому что со временем эти методы будут загромождать конструктор. Конструктор должен служить для создания экземпляра класса со всеми его свойствами. Вот именно по этой причине методы следует определять вне конструктора.
 
-{title="Code Playground",lang=javascript}
+{title="Код",lang=javascript}
 ~~~~~~~~
 class ExplainBindingsComponent extends Component {
   constructor() {
@@ -507,7 +507,7 @@ class ExplainBindingsComponent extends Component {
 
 И последнее, но немаловажное, о чём стоит упомянуть — методы класса могут автоматически привязываться, без явной привязки с использованием стрелочных функций в JavaScript ES6.
 
-{title="Code Playground",lang=javascript}
+{title="Код",lang=javascript}
 ~~~~~~~~
 class ExplainBindingsComponent extends Component {
   onClickMe = () => {
@@ -960,7 +960,7 @@ class App extends Component {
 
 Осталось только упомянуть: мы немного сжульничали, использовав встроенную функцию JavaScript `includes`. Это функция из ES6. Как она будет выглядеть в JavaScript ES5? Вы можете использовать функцию `indexOf()` для получения индекса элемента в списке. Если элемент находится в списке, `indexOf()` вернёт его индекс в массиве.
 
-{title="Code Playground",lang="javascript"}
+{title="Код",lang="javascript"}
 ~~~~~~~~
 // ES5
 string.indexOf(pattern) !== -1
@@ -971,7 +971,7 @@ string.includes(pattern)
 
 Ещё один элегантный рефакторинг можно сделать с помощью стрелочных функций ES6. Это сделает функцию более лаконичной:
 
-{title="Code Playground",lang="javascript"}
+{title="Код",lang="javascript"}
 ~~~~~~~~
 // ES5
 function isSearched(searchTerm) {
@@ -1026,7 +1026,7 @@ class App extends Component {
 
 В JavaScript ES6 есть способ упросить доступ к свойствам объектов и массивов. Он называется деструктуризацией (destructuring). Сравните следующий фрагмент код в JavaScript ES5 и ES6.
 
-{title="Code Playground",lang="javascript"}
+{title="Код",lang="javascript"}
 ~~~~~~~~
 const user = {
   firstname: 'Robin',
@@ -1049,7 +1049,7 @@ console.log(firstname + ' ' + lastname);
 
 Тогда как в JavaScript ES5 каждый раз требуется новая строка для получения значения свойства объекта, в JavaScript ES6 это можно сделать в одну строку. Передовая практика для читабельности — использование несколько строк при деструктуризации нескольких свойств объекта.
 
-{title="Code Playground",lang="javascript"}
+{title="Код",lang="javascript"}
 ~~~~~~~~
 const {
   firstname,
@@ -1059,7 +1059,7 @@ const {
 
 То же самое относится и к массивами: их то же можно деструктуризировать. Опять же, благодаря использованию нескольких строк код останется читабельным и лёгким для понимания.
 
-{title="Code Playground",lang="javascript"}
+{title="Код",lang="javascript"}
 ~~~~~~~~
 const users = ['Robin', 'Andrew', 'Dan'];
 const [
@@ -1094,7 +1094,7 @@ console.log(userOne, userTwo, userThree);
 
 Далее показаны различия использования ES5 и ES6 на одном и том же примере:
 
-{title="Code Playground",lang="javascript"}
+{title="Код",lang="javascript"}
 ~~~~~~~~
 // ES5
 var searchTerm = this.state.searchTerm;
@@ -1498,7 +1498,7 @@ const Search = ({ value, onChange, children }) =>
 
 Последний шаг был особенно полезен для обеспечения того, что только свойства передаются как входные данные, а JSX возвращается в качестве вывода. Между ними нет ничего. Тем не менее, вы можете *что-то сделать* между ними, используя тело блока в вашей стрелочной функции.
 
-{title="Code Playground",lang=javascript}
+{title="Код",lang=javascript}
 ~~~~~~~~
 const Search = ({ value, onChange, children }) => {
 
@@ -1763,7 +1763,7 @@ const Table = ({ list, pattern, onDismiss }) =>
 
 Так, стиль добавлен. Вы можете определить объекты со стилем вне элементов для большей чистоты кода.
 
-{title="Code Playground",lang="javascript"}
+{title="Код",lang="javascript"}
 ~~~~~~~~
 const largeColumn = {
   width: '40%',
