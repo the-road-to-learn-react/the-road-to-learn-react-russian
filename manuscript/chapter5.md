@@ -154,8 +154,8 @@ const Search = ({
 
 ### Упражнения
 
-* узнать подробнее про [использование атрибута `ref` в React](https://www.robinwieruch.de/react-ref-attribute-dom-node/)
-* узнать подробнее в целом про [атрибут `ref` в React](https://ru.react.js.org/docs/refs-and-the-dom.html)
+* узнайте подробнее про [использование атрибута ref в React](https://www.robinwieruch.de/react-ref-attribute-dom-node/)
+* узнайте подробнее в целом про [атрибут ref в React](https://ru.react.js.org/docs/refs-and-the-dom.html)
 
 ## Загрузка ...
 
@@ -280,7 +280,7 @@ class App extends Component {
 
 ### Упражнения:
 
-* использовать библиотеку, такую как [Font Awesome](https://fontawesome.io/), чтобы показать иконку загрузки вместо надписи "Загрузка ..."
+* используйте библиотеку, такую как [Font Awesome](https://fontawesome.io/), чтобы показать иконку загрузки вместо надписи "Загрузка ..."
 
 ## Компоненты высшего порядка
 
@@ -431,7 +431,7 @@ class App extends Component {
 
 ### Упражнения:
 
-* прочитайте [лёгкое введение в компоненты высшего порядка](https://www.robinwieruch.de/gentle-introduction-higher-order-components/)
+* прочитайте [лёгкое введение в компоненты высшего порядка (HOC)](https://www.robinwieruch.de/gentle-introduction-higher-order-components/)
 * поэкспериментируйте с HOC, который вы создали
 * подумайте о случае использования, где другой HOC будет иметь смысл
   * реализуйте такой HOC, если в этом есть необходимость
@@ -978,9 +978,9 @@ describe('Table', () => {
 
 ### Упражнения:
 
-* используйте библиотеку, такую как [Font Awesome](https://fontawesome.io/), чтобы указать на применяемую (обратную) сортировку
+* используйте библиотеку, такую как [Font Awesome](https://fontawesome.io/), чтобы указать на применяемую (прямую или обратную) сортировку
   * это может быть иконка стрелки вверх или стрелки вниз рядом с каждым заголовком в компоненте Sort
-* узнайте больше про [библиотеку classnames](https://github.com/JedWatson/classnames)
+* узнайте подробнее про [библиотеку classnames](https://github.com/JedWatson/classnames)
 
 {pagebreak}
 

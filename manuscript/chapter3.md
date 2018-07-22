@@ -64,9 +64,9 @@
 
 ### Упражнения:
 
-* узнать подробнее про [методы жизненного цикла в React](https://ru.react.js.org/docs/react-component.html)
-* узнать подробнее о [состоянии, связанном с методами жизненного цикла в React](https://ru.react.js.org/docs/state-and-lifecycle.html)
-* узнать подробнее про [обработку ошибок в компонентах](https://reactjs.org/blog/2017/07/26/error-handling-in-react-16.html)
+* узнайте подробнее [методы жизненного цикла в React](https://ru.react.js.org/docs/react-component.html)
+* узнайте подробнее о [состоянии, связанном с методами жизненного цикла в React](https://ru.react.js.org/docs/state-and-lifecycle.html)
+* узнайте подробнее про [обработку ошибок в компонентах](https://reactjs.org/blog/2017/07/26/error-handling-in-react-16.html)
 
 ## Получение данных
 
@@ -203,9 +203,9 @@ class App extends Component {
 
 ### Упражнения:
 
-* узнать подробнее про [строковые шаблоны ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Template_literals)
-* узнать подробнее про [нативный API fetch](https://developer.mozilla.org/ru/docs/Web/API/Fetch_API)
-* узнать подробнее про [получение данных в React](https://www.robinwieruch.de/react-fetching-data/)
+* узнайте подробнее [строковые шаблоны ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Template_literals)
+* узнайте подробнее [нативный API fetch](https://developer.mozilla.org/ru/docs/Web/API/Fetch_API)
+* узнайте подробнее [получение данных в React](https://www.robinwieruch.de/react-fetching-data/)
 
 ## Оператор расширения ES6
 
@@ -330,8 +330,8 @@ onDismiss(id) {
 
 ### Упражнения:
 
-* узнайте подробнее про [ES6 Object.assign()](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)
-* узнайте подробнее про  [Оператора расширения массива ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Spread_operator)
+* узнайте получше [Object.assign() из ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)
+* узнайте подробнее [оператор расширения массива ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Spread_operator)
   * оператор расширения объектов кратко упоминался уже
 
 ## Отрисовка по условию
@@ -410,7 +410,7 @@ console.log(result);
 
 ### Упражнения:
 
-* узнайте подробнее про [различные способы условной отрисовки](https://www.robinwieruch.de/conditional-rendering-react/)
+* ознакомьтесь подробнее с [различными способами условной отрисовки](https://www.robinwieruch.de/conditional-rendering-react/)
 * узнайте больше про [отрисовку по условию в React](https://ru.react.js.org/docs/conditional-rendering.html)
 
 ## Поиск на стороне клиента и на стороне сервера
@@ -628,7 +628,7 @@ onSearchSubmit(event) {
 
 ### Упражнения:
 
-* узнайте больше про [синтетические события в React](https://ru.react.js.org/docs/events.html)
+* узнайте больше [синтетические события в React](https://ru.react.js.org/docs/events.html)
 * поэкспериментируйте с [API Hacker News](https://hn.algolia.com/api)
 
 ## Получение данных с разбивкой на страницы
@@ -789,7 +789,7 @@ fetchSearchTopStories(searchTerm, page = 0) {
 
 ### Упражнения:
 
-* узнайте больше про [параметры по умолчанию из ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Functions/Default_parameters)
+* узнайте больше [параметры по умолчанию из ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Functions/Default_parameters)
 * поэкспериментируйте с [параметрами API Hacker News](https://hn.algolia.com/api)
 
 ## Кеш клиента
