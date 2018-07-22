@@ -203,9 +203,9 @@ class App extends Component {
 
 ### Упражнения:
 
-* узнать подробнее [строковые шаблоны ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Template_literals)
-* узнать подробнее [нативный API fetch](https://developer.mozilla.org/ru/docs/Web/API/Fetch_API)
-* узнать подробнее [получение данных в React](https://www.robinwieruch.de/react-fetching-data/)
+* узнайте подробнее [строковые шаблоны ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Template_literals)
+* узнайте подробнее [нативный API fetch](https://developer.mozilla.org/ru/docs/Web/API/Fetch_API)
+* узнайте подробнее [получение данных в React](https://www.robinwieruch.de/react-fetching-data/)
 
 ## Оператор расширения ES6
 

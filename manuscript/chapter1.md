@@ -399,8 +399,8 @@ export default App;
 
 ### Упражнения:
 
-* узнайте больше о [выражении в ES6 const](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/const)
-* узнайте больше о [выражении в ES6 let](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/let)
+* узнайте больше о [выражении const в ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/const)
+* узнайте больше о [выражении let в ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/let)
 * узнайте подробнее про неизменяемые структуры данных
   * почему они вообще имеют смысл в программировании
   * почему они используются в React и его экосистеме
