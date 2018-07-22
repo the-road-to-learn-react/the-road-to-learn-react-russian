@@ -50,9 +50,9 @@ console.log(person.firstname);
 
 {title="Code Playground: file2.js",lang="javascript"}
 ~~~~~~~~
-import { firstname as foo } from './file1.js';
+import { firstname as username } from './file1.js';
 
-console.log(foo);
+console.log(username);
 // выведет: Robin
 ~~~~~~~~
 
@@ -100,6 +100,8 @@ export {
 
 export default person;
 ~~~~~~~~
+
+Затем импортируйте импорт по умолчанию, а также экспорт по имени в другой файл.
 
 {title="Code Playground: file2.js",lang="javascript"}
 ~~~~~~~~
