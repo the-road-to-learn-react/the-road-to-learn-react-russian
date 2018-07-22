@@ -175,7 +175,7 @@ cd hackernews
 
 Теперь вы можете открыть приложение в своём редакторе. Будет представлена следующая структура папок или её вариация, в зависимости от версии *create-react-app*:
 
-{title="Folder Structure",lang="text"}
+{title="Структура каталогов",lang="text"}
 ~~~~~~~~
 hackernews/
   README.md
@@ -260,7 +260,7 @@ class App extends Component {
           <h1 className="App-title">Добро пожаловать в React</h1>
         </header>
         <p className="App-intro">
-          Для начала отредактируйте <code>src/App.js</code> и сохраните для перезагрузки.
+          Для начала отредактируйте <code>src/App.js</code> и сохраните его для перезагрузки.
         </p>
       </div>
     );

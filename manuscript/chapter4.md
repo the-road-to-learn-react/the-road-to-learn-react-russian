@@ -125,8 +125,8 @@ export const lastname = 'Wieruch';
 
 ### Упражнения:
 
-* ознакомьтесь подробнее с [импортом в ES6](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
-* ознакомьтесь подробнее с [экспортом в ES6](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export)
+* ознакомьтесь подробнее с [импортом в ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/import)
+* ознакомьтесь подробнее с [экспортом в ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/export)
 
 ## Организация кода с помощью модулей в ES6
 
