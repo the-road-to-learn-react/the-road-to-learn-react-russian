@@ -758,6 +758,7 @@ class App extends Component {
 ### Упражнения:
 
 * узнайте получше [классы в ES6](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Classes)
+* убедитесь, что знаете хорошо [основы JavaScript перед тем как перейти к изучению React](https://www.robinwieruch.de/javascript-fundamentals-react-requirements/)
 
 {pagebreak}
 
