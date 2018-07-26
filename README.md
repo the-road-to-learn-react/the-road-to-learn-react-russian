@@ -4,6 +4,16 @@
 
 Официальный репозиторий [Путь к изучению React (The Road to learn React)](https://www.robinwieruch.de/the-road-to-learn-react/). Кроме того, здесь вы можете найти [исходный код](https://github.com/the-road-to-learn-react/hackernews-client) и [полный курс](https://roadtoreact.com/). Если вы хотите оставить отзыв, вы можете сделать это на [Amazon](https://www.amazon.com/dp/B077HJFCQX?tag=21moves-20) или [Goodreads](https://www.goodreads.com/book/show/37503118-the-road-to-learn-react). Эта книга также размещена на [Leanpub](https://leanpub.com/the-road-to-learn-react).
 
+# Переводы книги на Leanpub
+
+Книга «Путь к изучению React» также доступна на нескольких языках. Спасибо всем переводчикам за их потрясающую работу!
+
+* 🇨🇳 [Китайский упрощённый](https://leanpub.com/the-road-to-learn-react-chinese)
+* 🇫🇷 [Французский](https://leanpub.com/the-road-to-learn-react-french)
+* 🇰🇷 [Корейский](https://leanpub.com/the-road-to-learn-react-korean)
+* 🇧🇷 [Португальский](https://leanpub.com/the-road-to-learn-react-portuguese)
+* 🇷🇺 [Русский](https://leanpub.com/the-road-to-learn-react-russian)
+
 ## Обновление, помощь и поддержка
 
 * Получайте обновления книги по [электронной почте](https://www.getrevue.co/profile/rwieruch) или в [Twitter](https://twitter.com/rwieruch)
