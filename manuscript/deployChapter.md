@@ -47,6 +47,6 @@ heroku open
 
 Вот и всё. Надеюсь, ваше приложение запущено и работает. При возникновении проблем можно ознакомиться со следующими ресурсами:
 
-* [Основы Git and GitHub](https://www.robinwieruch.de/git-essential-commands/)
+* [Основы Git и GitHub](https://www.robinwieruch.de/git-essential-commands/)
 * [Деплой React-приложения без какой-либо конфигурации](https://blog.heroku.com/deploying-react-with-zero-configuration)
 * [Пакет для сборки приложения, созданного с помощью create-react-app, на Heroku](https://github.com/mars/create-react-app-buildpack)
