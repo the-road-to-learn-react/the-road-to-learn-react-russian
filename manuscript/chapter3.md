@@ -64,8 +64,8 @@
 
 ### Упражнения:
 
-* узнайте подробнее [методы жизненного цикла в React](https://ru.react.js.org/docs/react-component.html)
-* узнайте подробнее о [состоянии, связанном с методами жизненного цикла в React](https://ru.react.js.org/docs/state-and-lifecycle.html)
+* узнайте подробнее [методы жизненного цикла в React](https://ru.reactjs.org/docs/react-component.html)
+* узнайте подробнее о [состоянии, связанном с методами жизненного цикла в React](https://ru.reactjs.org/docs/state-and-lifecycle.html)
 * узнайте подробнее про [обработку ошибок в компонентах](https://reactjs.org/blog/2017/07/26/error-handling-in-react-16.html)
 
 ## Получение данных
@@ -411,7 +411,7 @@ console.log(result);
 ### Упражнения:
 
 * ознакомьтесь подробнее с [различными способами условной отрисовки](https://www.robinwieruch.de/conditional-rendering-react/)
-* узнайте больше про [отрисовку по условию в React](https://ru.react.js.org/docs/conditional-rendering.html)
+* узнайте больше про [отрисовку по условию в React](https://ru.reactjs.org/docs/conditional-rendering.html)
 
 ## Поиск на стороне клиента и на стороне сервера
 
@@ -628,7 +628,7 @@ onSearchSubmit(event) {
 
 ### Упражнения:
 
-* узнайте больше [синтетические события в React](https://ru.react.js.org/docs/events.html)
+* узнайте больше [синтетические события в React](https://ru.reactjs.org/docs/events.html)
 * поэкспериментируйте с [API Hacker News](https://hn.algolia.com/api)
 
 ## Получение данных с разбивкой на страницы

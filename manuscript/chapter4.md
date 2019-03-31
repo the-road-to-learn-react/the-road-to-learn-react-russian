@@ -802,7 +802,7 @@ Button.defaultProps = {
 
 * определите интерфейс PropType для компонента Search
 * добавьте и обновите интерфейсы PropType при добавлении и обновлении компонентов в последующих главах
-* узнайте больше про [PropTypes в React](https://ru.react.js.org/docs/typechecking-with-proptypes.html)
+* узнайте больше про [PropTypes в React](https://ru.reactjs.org/docs/typechecking-with-proptypes.html)
 
 ## Отладка с помощью инструментов разработчика React
  
